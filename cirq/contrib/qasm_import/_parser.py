@@ -14,6 +14,7 @@
 import operator
 from typing import List, Any, Union, Iterable, Callable, Dict, Optional
 
+import numpy as np
 import sympy
 from ply import yacc
 
@@ -90,7 +91,9 @@ class QasmParser(object):
                       args: List[List[cirq.Qid]],
                       lineno: int = 0) -> Iterable[cirq.GateOperation]:
             self.validate_params('U', params, 3, lineno)
-            return operation([params[2], params[0], params[1]], args, lineno)
+            return operation([float(params[2])/np.pi,
+                              float(params[0])/np.pi,
+                              float(params[1])/np.pi], args, lineno)
 
         return call_gate
 
@@ -188,6 +191,12 @@ class QasmParser(object):
 
     tokens = QasmLexer.tokens
     start = 'start'
+
+    precedence = (
+        ('left', '+', '-'),
+        ('left', '*', '/'),
+        ('right', '^'),
+    )
 
     def p_start(self, p):
         """start : qasm"""
