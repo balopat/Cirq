@@ -370,6 +370,39 @@ def test_u3_gate():
     cirq.Simulator().run(parsed_qasm.circuit)
 
 
+def test_u2_gate():
+    qasm = """
+     OPENQASM 2.0;
+     include "qelib1.inc";
+     qreg q[2];
+     u2(2 * pi, pi / 2.0) q[0];
+     u2(2 * pi, pi / 2.0) q;
+"""
+    parser = QasmParser(qasm)
+
+    q0 = cirq.NamedQubit('q_0')
+    q1 = cirq.NamedQubit('q_1')
+
+    expected_circuit = Circuit()
+    expected_circuit.append(
+        QasmUGate(1.0/2.0, 1.0/2.0, 2.0)(q0))
+
+    expected_circuit.append(
+        cirq.Moment([
+            QasmUGate(1.0/2.0, 1.0/2.0, 2.0)(q0),
+            QasmUGate(1.0/2.0, 1.0/2.0, 2.0)(q1)
+        ]))
+
+    parsed_qasm = parser.parse()
+
+    assert parsed_qasm.supportedFormat is True
+    assert parsed_qasm.qelib1Include is True
+
+    ct.assert_same_circuits(parsed_qasm.circuit, expected_circuit)
+    assert parsed_qasm.qregs == {'q': 2}
+    cirq.Simulator().run(parsed_qasm.circuit)
+
+
 @pytest.mark.parametrize('expr', [
     '.333 + 4',
     '1.0 * 2',
