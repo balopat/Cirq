@@ -11,9 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import math
 import operator
 from typing import List, Any, Union, Iterable, Callable, Dict, Optional
 
+import numpy
 import sympy
 from ply import yacc
 
@@ -90,7 +92,9 @@ class QasmParser(object):
                       args: List[List[cirq.Qid]],
                       lineno: int = 0) -> Iterable[cirq.GateOperation]:
             self.validate_params('U', params, 3, lineno)
-            return operation([params[2], params[0], params[1]], args, lineno)
+            return operation([float(params[2])/math.pi,
+                              float(params[0])/math.pi,
+                              float(params[1])/math.pi], args, lineno)
 
         return call_gate
 
@@ -188,6 +192,12 @@ class QasmParser(object):
 
     tokens = QasmLexer.tokens
     start = 'start'
+
+    precedence = (
+        ('left', '+', '-'),
+        ('left', '*', '/'),
+        ('left', '^'),
+    )
 
     def p_start(self, p):
         """start : qasm"""
