@@ -381,11 +381,11 @@ def test_u3_gate():
     '1.2E+05 * (3 + 2)',
     '123123.2132312 * cos(pi)',
     '123123.2132312 * sin(2 * pi)',
-    '3 + 4 * 2',
-    '3 * 4 + 2',
-    '3 * 4 ^ 2',
-    '3 * 4 ^ 2',
-    '3 - 4 ^ 2',
+    '3 - 4 * 2',  # precedence of *
+    '3 * 4 + 2',  # precedence of *
+    '3 * 4 ^ 2',  # precedence of ^
+    '3 - 4 ^ 2',  # precedence of ^
+    '3^2^(-2)',   # right associativity of ^
     '(-1) * pi',
     '(+1) * pi',
     '-3 * 5 + 2',
