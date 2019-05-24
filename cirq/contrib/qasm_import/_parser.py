@@ -97,6 +97,19 @@ class QasmParser(object):
 
         return call_gate
 
+    def u2_gate(self):
+        operation = self.make_gate('u2', QasmUGate, num_args=1, num_params=3)
+
+        def call_gate(params: List[sympy.Number],
+                      args: List[List[cirq.Qid]],
+                      lineno: int = 0) -> Iterable[cirq.GateOperation]:
+            self.validate_params('u2', params, 2, lineno)
+            return operation([float(params[1])/np.pi,
+                              0.5,
+                              float(params[0])/np.pi], args, lineno)
+
+        return call_gate
+
     def id_gate(self,
                 params: List[sympy.Number],
                 args: List[List[cirq.Qid]],
@@ -113,6 +126,8 @@ class QasmParser(object):
         self.standard_gates = {
             'u3':
             self.u_gate(),
+            'u2':
+            self.u2_gate(),
             'x':
             self.make_gate('x', cirq.X, num_params=0, num_args=1),
             'y':
