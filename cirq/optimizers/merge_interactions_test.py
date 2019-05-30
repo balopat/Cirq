@@ -66,6 +66,43 @@ def test_clears_paired_cnot():
         expected=cirq.Circuit())
 
 
+def test_clears_paired_swap_made_of_cnots():
+    a, b = cirq.LineQubit.range(2)
+    assert_optimizes(
+        before=cirq.Circuit([
+            cirq.Moment([cirq.CNOT(a, b)]),
+            cirq.Moment([cirq.CNOT(b, a)]),
+            cirq.Moment([cirq.CNOT(a, b)]),
+            cirq.Moment([cirq.CNOT(a, b)]),
+            cirq.Moment([cirq.CNOT(b, a)]),
+            cirq.Moment([cirq.CNOT(a, b)]),
+        ]),
+        expected=cirq.Circuit())
+
+
+def test_clears_mix_of_swaps_made_of_cnots_with_cnots():
+    a, b = cirq.LineQubit.range(2)
+    assert_optimizes(
+        before=cirq.Circuit([
+            cirq.Moment([cirq.CNOT(a, b)]),
+            cirq.Moment([cirq.CNOT(b, a)]),
+            cirq.Moment([cirq.CNOT(a, b)]),
+
+            cirq.Moment([cirq.CNOT(a, b)]),
+            cirq.Moment([cirq.CNOT(b, a)]),
+            cirq.Moment([cirq.CNOT(b, a)]),
+            cirq.Moment([cirq.CNOT(b, a)]),
+
+            cirq.Moment([cirq.CNOT(a, b)]),
+            cirq.Moment([cirq.CNOT(b, a)]),
+            cirq.Moment([cirq.CNOT(a, b)]),
+        ]),
+        expected=cirq.Circuit([
+            cirq.Moment([cirq.CNOT(b, a)]),
+            cirq.Moment([cirq.CNOT(a, b)]),
+        ]))
+
+
 def test_ignores_czs_separated_by_parameterized():
     a, b = cirq.LineQubit.range(2)
     assert_optimizes(
