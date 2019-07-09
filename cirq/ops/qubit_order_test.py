@@ -103,7 +103,7 @@ def test_qubit_order_or_list():
     assert implied_by_list.order_for([]) == (b,)
 
     implied_by_generator = cirq.QubitOrder.as_qubit_order(
-        cirq.NamedQubit(e.name + '!') for e in [b])
+        cirq.NamedQubit(e._name + '!') for e in [b])
     assert implied_by_generator.order_for([]) == (cirq.NamedQubit('b!'),)
     assert implied_by_generator.order_for([]) == (cirq.NamedQubit('b!'),)
 
