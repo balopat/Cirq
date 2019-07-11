@@ -62,11 +62,16 @@ class PauliInteractionGate(eigen_gate.EigenGate,
         self.invert0 = invert0
         self.pauli1 = pauli1
         self.invert1 = invert1
-
-    def _value_equality_values_(self):
-        return (self.pauli0, self.invert0,
+        self._eq_vals = (self.pauli0, self.invert0,
                 self.pauli1, self.invert1,
                 self._canonical_exponent)
+        self._pre_hash = hash(self._eq_vals)
+
+    def _value_equality_values_(self):
+        return self._eq_vals
+
+    def __hash__(self):
+        return self._pre_hash
 
     def qubit_index_to_equivalence_group_key(self, index: int) -> int:
         if self.pauli0 == self.pauli1 and self.invert0 == self.invert1:

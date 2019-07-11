@@ -45,6 +45,8 @@ class PauliString(raw_types.Operation):
             qubit_pauli_map = {}
         self._qubit_pauli_map = dict(qubit_pauli_map)
         self._coefficient = complex(coefficient)
+        self._val_eq = None
+        self._eq_hash = None
 
     @staticmethod
     def from_single(qubit: raw_types.Qid,
@@ -57,12 +59,26 @@ class PauliString(raw_types.Operation):
         return self._coefficient
 
     def _value_equality_values_(self):
-        if len(self._qubit_pauli_map) == 1 and self.coefficient == 1:
-            q, p = list(self._qubit_pauli_map.items())[0]
-            return gate_operation.GateOperation(p,
-                                                [q])._value_equality_values_()
-        return (frozenset(self._qubit_pauli_map.items()),
+        if not self._val_eq:
+            if len(self._qubit_pauli_map) == 1 and self.coefficient == 1:
+                q, p = list(self._qubit_pauli_map.items())[0]
+                self._val_eq =  gate_operation.GateOperation(p,
+                                                             [q])._value_equality_values_()
+            else:
+                self._val_eq = (frozenset(self._qubit_pauli_map.items()),
                 self._coefficient)
+        return self._val_eq
+
+    def __hash__(self):
+        if not self._eq_hash:
+            self._eq_hash = hash((self._value_equality_values_cls_(),
+                                  self._value_equality_values_()))
+        return self._eq_hash
+
+
+    def _reset_eq(self):
+        self._eq_hash = None
+        self._val_eq = None
 
     def _value_equality_values_cls_(self):
         if len(self._qubit_pauli_map) == 1 and self.coefficient == 1:

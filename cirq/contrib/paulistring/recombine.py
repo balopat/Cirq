@@ -23,12 +23,21 @@ from cirq.contrib.paulistring.pauli_string_dag import (
     pauli_string_dag_from_circuit)
 
 
+memo = {}
+
+def _pass_op(op1, op2):
+    if (op1, op2) not in memo:
+        memo[(op1, op2)] = op1.pass_operations_over([op2], after_to_before=True)
+    return memo[(op1, op2)]
+
+
 def _possible_string_placements(
         possible_nodes: Iterable[Any],
         output_ops: Sequence[ops.Operation],
         key: Callable[[Any], ops.PauliStringPhasor] = lambda node: node.val,
 ) -> Iterator[Tuple[ops.PauliStringPhasor, int, circuits.
                     Unique[ops.PauliStringPhasor]]]:
+
     for possible_node in possible_nodes:
         string_op = key(possible_node)
         # Try moving the Pauli string through, stop at measurements
@@ -48,8 +57,8 @@ def _possible_string_placements(
                                              ops.CZPowGate))):
                 # This is as far through as this Pauli string can move
                 break
-            string_op = string_op.pass_operations_over([out_op],
-                                                       after_to_before=True)
+            string_op = _pass_op(string_op, out_op)
+
             yield string_op, i+1, possible_node
 
         if len(string_op.pauli_string) == 1:
