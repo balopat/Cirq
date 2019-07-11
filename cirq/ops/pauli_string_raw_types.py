@@ -27,6 +27,7 @@ class PauliStringGateOperation(raw_types.Operation, metaclass=abc.ABCMeta):
 
     def __init__(self, pauli_string: ps.PauliString) -> None:
         self.pauli_string = pauli_string
+        self._qubits = tuple(self.pauli_string)
 
     def validate_args(self, qubits: Sequence[raw_types.Qid]) -> None:
         if len(qubits) != len(self.pauli_string):
@@ -50,7 +51,7 @@ class PauliStringGateOperation(raw_types.Operation, metaclass=abc.ABCMeta):
 
     @property
     def qubits(self) -> Tuple[raw_types.Qid, ...]:
-        return tuple(self.pauli_string)
+        return self._qubits
 
     def _pauli_string_diagram_info(
             self,

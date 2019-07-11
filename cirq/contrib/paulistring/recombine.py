@@ -24,11 +24,21 @@ from cirq.contrib.paulistring.pauli_string_dag import (
 
 
 memo = {}
+cache_hits = 0
+cache_miss = 0
+seq = 0
+
 
 def _pass_op(op1, op2):
-    if (op1, op2) not in memo:
-        memo[(op1, op2)] = op1.pass_operations_over([op2], after_to_before=True)
-    return memo[(op1, op2)]
+    global cache_miss
+    global cache_hits
+    key = (id(op1), id(op2))
+    if key not in memo:
+        cache_miss += 1
+        memo[key] = op1.pass_operations_over([op2], after_to_before=True)
+    else:
+        cache_hits += 1
+    return memo[key]
 
 
 def _possible_string_placements(

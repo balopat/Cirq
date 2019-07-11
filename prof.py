@@ -1,6 +1,7 @@
 import sys
 
 from cirq.contrib import paulistring
+from cirq.contrib.paulistring import recombine
 from cirq.contrib.qasm_import import QasmCircuitParser
 
 import logging
@@ -20,6 +21,8 @@ c = QasmCircuitParser(qasm).parse()
 
 logger.info("parsed qasm file: {} ops".format(len(list(c.all_operations()))))
 
-c2 = paulistring.optimize.optimized_circuit(c, repeat=1, merge_interactions=False)
+c2 = paulistring.optimize.optimized_circuit(c) #, repeat=1, merge_interactions=False)
 
 logger.info("optimized circuit: {} ops".format(len(list(c2.all_operations()))))
+
+print("cache hits: {}, misses: {}".format(recombine.cache_hits, recombine.cache_miss))

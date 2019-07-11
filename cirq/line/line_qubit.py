@@ -23,6 +23,7 @@ class LineQubit(ops.Qid):
 
     def __init__(self, x: int) -> None:
         """Initializes a line qubit at the given x coordinate."""
+        super().__init__()
         self.x = x
 
     def _comparison_key(self):

@@ -25,6 +25,7 @@ class NamedQubit(raw_types.Qid):
     """
 
     def __init__(self, name: str) -> None:
+        super().__init__()
         self._name = name
         self._comp_key = _pad_digits(name)
 

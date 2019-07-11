@@ -27,6 +27,7 @@ class GridQubit(ops.Qid):
     """
 
     def __init__(self, row: int, col: int):
+        super().__init__()
         self.row = row
         self.col = col
 

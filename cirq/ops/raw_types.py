@@ -41,6 +41,9 @@ class Qid(metaclass=abc.ABCMeta):
     comparison, and hashing methods via `_comparison_key`.
     """
 
+    def __init__(self):
+        self.__hash_value = None
+
     @abc.abstractmethod
     def _comparison_key(self) -> Any:
         """Returns a value used to sort and compare this qubit with others.
@@ -54,7 +57,9 @@ class Qid(metaclass=abc.ABCMeta):
         return type(self).__name__, repr(type(self)), self._comparison_key()
 
     def __hash__(self):
-        return hash((Qid, self._comparison_key()))
+        if not self.__hash_value:
+            self.__hash_value = hash((Qid, self._comparison_key()))
+        return self.__hash_value
 
     def __eq__(self, other):
         if not isinstance(other, Qid):
