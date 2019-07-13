@@ -41,16 +41,18 @@ def optimized_circuit(circuit: circuits.Circuit,
         circuit3 = clifford_optimized_circuit(
                         circuit2,
                         atol=atol)
-        if (len(circuit3) >= start_len and
-                _cz_count(circuit3) >= start_cz_count):
+        if (len(circuit3) == start_len
+            and _cz_count(circuit3) == start_cz_count):
             return circuit3
         circuit = circuit3
     return circuit
 
 
-def _optimized_ops(ops: Sequence[ops.Operation]) -> ops.OP_TREE:
+def _optimized_ops(ops: Sequence[ops.Operation],
+                   atol: float = 1e-8,
+                   repeat: int = 10) -> ops.OP_TREE:
     c = circuits.Circuit.from_ops(ops)
-    c_opt = optimized_circuit(c, repeat=1, merge_interactions=False)
+    c_opt = optimized_circuit(c, atol, repeat, merge_interactions=False)
     return c_opt.all_operations()
 
 
