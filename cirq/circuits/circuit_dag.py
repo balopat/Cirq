@@ -20,8 +20,8 @@ import networkx
 from cirq import ops, devices
 from cirq.circuits import circuit
 
-
 T = TypeVar('T')
+
 
 @functools.total_ordering
 class Unique(Generic[T]):
@@ -34,6 +34,7 @@ class Unique(Generic[T]):
     in one moment of a Circuit and X(q0) in another moment of the Circuit are
     wrapped by Unique(X(q0)) so they are distinct nodes in the graph.
     """
+
     def __init__(self, val: T) -> None:
         self.val = val
 
@@ -67,11 +68,10 @@ class CircuitDag(networkx.DiGraph):
     disjoint_qubits = staticmethod(_disjoint_qubits)
 
     def __init__(self,
-                 can_reorder: Callable[[ops.Operation, ops.Operation],
-                                       bool] = _disjoint_qubits,
+                 can_reorder: Callable[[ops.Operation, ops.
+                                        Operation], bool] = _disjoint_qubits,
                  incoming_graph_data: Any = None,
-                 device: devices.Device = devices.UnconstrainedDevice
-                 ) -> None:
+                 device: devices.Device = devices.UnconstrainedDevice) -> None:
         """Initializes a CircuitDag.
 
         Args:
@@ -96,19 +96,19 @@ class CircuitDag(networkx.DiGraph):
 
     @staticmethod
     def from_circuit(circuit: circuit.Circuit,
-                     can_reorder: Callable[[ops.Operation, ops.Operation],
-                                           bool] = _disjoint_qubits
-                     ) -> 'CircuitDag':
+                     can_reorder: Callable[[ops.Operation, ops.
+                                            Operation], bool] = _disjoint_qubits
+                    ) -> 'CircuitDag':
         return CircuitDag.from_ops(circuit.all_operations(),
                                    can_reorder=can_reorder,
                                    device=circuit.device)
 
     @staticmethod
     def from_ops(*operations: ops.OP_TREE,
-                 can_reorder: Callable[[ops.Operation, ops.Operation],
-                                       bool] = _disjoint_qubits,
+                 can_reorder: Callable[[ops.Operation, ops.
+                                        Operation], bool] = _disjoint_qubits,
                  device: devices.Device = devices.UnconstrainedDevice
-                 ) -> 'CircuitDag':
+                ) -> 'CircuitDag':
         dag = CircuitDag(can_reorder=can_reorder, device=device)
         for op in ops.flatten_op_tree(operations):
             dag.append(cast(ops.Operation, op))
@@ -130,8 +130,10 @@ class CircuitDag(networkx.DiGraph):
             attr['val'] = node.val
         for node, attr in g2.nodes(data=True):
             attr['val'] = node.val
+
         def node_match(attr1: Dict[Any, Any], attr2: Dict[Any, Any]) -> bool:
             return attr1['val'] == attr2['val']
+
         return networkx.is_isomorphic(g1, g2, node_match=node_match)
 
     def __ne__(self, other):
@@ -145,7 +147,7 @@ class CircuitDag(networkx.DiGraph):
         g = self.copy()
 
         def get_root_node(some_node: Unique[ops.Operation]
-                          ) -> Unique[ops.Operation]:
+                         ) -> Unique[ops.Operation]:
             pred = g.pred
             while pred[some_node]:
                 some_node = next(iter(pred[some_node]))
@@ -155,11 +157,11 @@ class CircuitDag(networkx.DiGraph):
             return get_root_node(next(iter(g.nodes())))
 
         def get_next_node(succ: networkx.classes.coreviews.AtlasView
-                          ) -> Unique[ops.Operation]:
+                         ) -> Unique[ops.Operation]:
             if succ:
                 return get_root_node(next(iter(succ)))
-            else:
-                return get_first_node()
+
+            return get_first_node()
 
         node = get_first_node()
         while True:
@@ -175,8 +177,11 @@ class CircuitDag(networkx.DiGraph):
     def all_operations(self) -> Iterator[ops.Operation]:
         return (node.val for node in self.ordered_nodes())
 
+    def all_qubits(self):
+        return frozenset(q for node in self.nodes for q in node.val.qubits)
+
     def to_circuit(self) -> circuit.Circuit:
         return circuit.Circuit.from_ops(
-                    self.all_operations(),
-                    strategy=circuit.InsertStrategy.EARLIEST,
-                    device=self.device)
+            self.all_operations(),
+            strategy=circuit.InsertStrategy.EARLIEST,
+            device=self.device)

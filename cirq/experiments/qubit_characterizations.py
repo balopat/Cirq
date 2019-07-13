@@ -6,14 +6,13 @@ import sympy
 
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # type: ignore
-from cirq import circuits, devices, ops, protocols, sim, study
+from cirq import circuits, devices, ops, protocols, study, work
 
-Cliffords = NamedTuple('Cliffords',
-                       [('c1_in_xy', List[List[ops.Gate]]),
-                        ('c1_in_xz', List[List[ops.Gate]]),
-                        ('s1', List[List[ops.Gate]]),
-                        ('s1_x', List[List[ops.Gate]]),
-                        ('s1_y', List[List[ops.Gate]])])
+Cliffords = NamedTuple('Cliffords', [('c1_in_xy', List[List[ops.Gate]]),
+                                     ('c1_in_xz', List[List[ops.Gate]]),
+                                     ('s1', List[List[ops.Gate]]),
+                                     ('s1_x', List[List[ops.Gate]]),
+                                     ('s1_y', List[List[ops.Gate]])])
 
 
 class RabiResult:
@@ -37,8 +36,10 @@ class RabiResult:
         angle and the second item being the corresponding excited state
         probability.
         """
-        return [(angle, prob) for angle, prob in zip(self._rabi_angles,
-                                                     self._excited_state_probs)]
+        return [
+            (angle, prob)
+            for angle, prob in zip(self._rabi_angles, self._excited_state_probs)
+        ]
 
     def plot(self, **plot_kwargs: Any) -> None:
         """Plots excited state probability vs the Rabi angle (angle of rotation
@@ -50,8 +51,11 @@ class RabiResult:
         fig = plt.figure()
         ax = plt.gca()
         ax.set_ylim([0, 1])
-        plt.plot(self._rabi_angles, self._excited_state_probs, 'ro-',
-                 figure=fig, **plot_kwargs)
+        plt.plot(self._rabi_angles,
+                 self._excited_state_probs,
+                 'ro-',
+                 figure=fig,
+                 **plot_kwargs)
         plt.xlabel(r"Rabi Angle (Radian)", figure=fig)
         plt.ylabel('Excited State Probability', figure=fig)
         fig.show()
@@ -78,8 +82,8 @@ class RandomizedBenchMarkResult:
         number of Cliffords and the second item being the corresponding average
         ground state probability.
         """
-        return [(num, prob) for num, prob in zip(self._num_cfds_seq,
-                                                 self._gnd_state_probs)]
+        return [(num, prob)
+                for num, prob in zip(self._num_cfds_seq, self._gnd_state_probs)]
 
     def plot(self, **plot_kwargs: Any) -> None:
         """Plots the average ground state probability vs the number of
@@ -92,8 +96,11 @@ class RandomizedBenchMarkResult:
         ax = plt.gca()
         ax.set_ylim([0, 1])
 
-        plt.plot(self._num_cfds_seq, self._gnd_state_probs, 'ro-',
-                 figure=fig, **plot_kwargs)
+        plt.plot(self._num_cfds_seq,
+                 self._gnd_state_probs,
+                 'ro-',
+                 figure=fig,
+                 **plot_kwargs)
         plt.xlabel(r"Number of Cliffords", figure=fig)
         plt.ylabel('Ground State Probability', figure=fig)
         fig.show()
@@ -124,7 +131,7 @@ class TomographyResult:
         fig.show()
 
 
-def rabi_oscillations(sampler: sim.Sampler,
+def rabi_oscillations(sampler: work.Sampler,
                       qubit: devices.GridQubit,
                       max_angle: float = 2 * np.pi,
                       *,
@@ -149,9 +156,11 @@ def rabi_oscillations(sampler: sim.Sampler,
         A RabiResult object that stores and plots the result.
     """
     theta = sympy.Symbol('theta')
-    circuit = circuits.Circuit.from_ops(ops.X(qubit) ** theta)
+    circuit = circuits.Circuit.from_ops(ops.X(qubit)**theta)
     circuit.append(ops.measure(qubit, key='z'))
-    sweep = study.Linspace(key='theta', start=0.0, stop=max_angle / np.pi,
+    sweep = study.Linspace(key='theta',
+                           start=0.0,
+                           stop=max_angle / np.pi,
                            length=num_points)
     results = sampler.run_sweep(circuit, params=sweep, repetitions=repetitions)
     angles = np.linspace(0.0, max_angle, num_points)
@@ -163,7 +172,7 @@ def rabi_oscillations(sampler: sim.Sampler,
 
 
 def single_qubit_randomized_benchmarking(
-        sampler: sim.Sampler,
+        sampler: work.Sampler,
         qubit: devices.GridQubit,
         use_xy_basis: bool = True,
         *,
@@ -206,13 +215,12 @@ def single_qubit_randomized_benchmarking(
 
     cliffords = _single_qubit_cliffords()
     c1 = cliffords.c1_in_xy if use_xy_basis else cliffords.c1_in_xz
-    cfd_mats = np.array([_gate_seq_to_mats(gates) for gates in c1])
 
     gnd_probs = []
     for num_cfds in num_clifford_range:
         excited_probs_l = []
         for _ in range(num_circuits):
-            circuit = _random_single_q_clifford(qubit, num_cfds, c1, cfd_mats)
+            circuit = _random_single_q_clifford(qubit, num_cfds, c1)
             circuit.append(ops.measure(qubit, key='z'))
             results = sampler.run(circuit, repetitions=repetitions)
             excited_probs_l.append(np.mean(results.measurements['z']))
@@ -222,7 +230,7 @@ def single_qubit_randomized_benchmarking(
 
 
 def two_qubit_randomized_benchmarking(
-        sampler: sim.Sampler,
+        sampler: work.Sampler,
         first_qubit: devices.GridQubit,
         second_qubit: devices.GridQubit,
         *,
@@ -263,14 +271,13 @@ def two_qubit_randomized_benchmarking(
         A RandomizedBenchMarkResult object that stores and plots the result.
     """
     cliffords = _single_qubit_cliffords()
-    cfd_matrices = _two_qubit_clifford_matrices(first_qubit, second_qubit,
-                                                cliffords)
+
     gnd_probs = []
     for num_cfds in num_clifford_range:
         gnd_probs_l = []
         for _ in range(num_circuits):
             circuit = _random_two_q_clifford(first_qubit, second_qubit,
-                                             num_cfds, cfd_matrices, cliffords)
+                                             num_cfds, cliffords)
             circuit.append(ops.measure(first_qubit, second_qubit, key='z'))
             results = sampler.run(circuit, repetitions=repetitions)
             gnds = [(not r[0] and not r[1]) for r in results.measurements['z']]
@@ -280,7 +287,7 @@ def two_qubit_randomized_benchmarking(
     return RandomizedBenchMarkResult(num_clifford_range, gnd_probs)
 
 
-def single_qubit_state_tomography(sampler: sim.Sampler,
+def single_qubit_state_tomography(sampler: work.Sampler,
                                   qubit: devices.GridQubit,
                                   circuit: circuits.Circuit,
                                   repetitions: int = 1000) -> TomographyResult:
@@ -308,12 +315,14 @@ def single_qubit_state_tomography(sampler: sim.Sampler,
     rho_11 = np.mean(results.measurements['z'])
     rho_00 = 1.0 - rho_11
 
-    circuit_x = circuits.Circuit.from_ops(circuit, ops.X(qubit) ** 0.5,
+    circuit_x = circuits.Circuit.from_ops(circuit,
+                                          ops.X(qubit)**0.5,
                                           ops.measure(qubit, key='z'))
     results = sampler.run(circuit_x, repetitions=repetitions)
     rho_01_im = np.mean(results.measurements['z']) - 0.5
 
-    circuit_y = circuits.Circuit.from_ops(circuit, ops.Y(qubit) ** -0.5,
+    circuit_y = circuits.Circuit.from_ops(circuit,
+                                          ops.Y(qubit)**-0.5,
                                           ops.measure(qubit, key='z'))
     results = sampler.run(circuit_y, repetitions=repetitions)
     rho_01_re = 0.5 - np.mean(results.measurements['z'])
@@ -326,7 +335,7 @@ def single_qubit_state_tomography(sampler: sim.Sampler,
     return TomographyResult(rho)
 
 
-def two_qubit_state_tomography(sampler: sim.Sampler,
+def two_qubit_state_tomography(sampler: work.Sampler,
                                first_qubit: devices.GridQubit,
                                second_qubit: devices.GridQubit,
                                circuit: circuits.Circuit,
@@ -358,7 +367,7 @@ def two_qubit_state_tomography(sampler: sim.Sampler,
 
     And if a Y/2 rotation is applied to the first qubit and a X/2 rotation
     is applied to the second qubit before measurement, the measurement
-    operators are (I -/+ sigma_x) \bigotimes (I +/- sigma_y). The probabilites
+    operators are (I -/+ sigma_x) \bigotimes (I +/- sigma_y). The probabilities
     obtained instead contribute to the following linear equations:
 
     c_02 - c_10 - c_12 = 4*P_00 - 1
@@ -404,17 +413,17 @@ def two_qubit_state_tomography(sampler: sim.Sampler,
         prob_list = [results_hist[0], results_hist[1], results_hist[2]]
         return np.asarray(prob_list) / repetitions
 
-    sigma_0 = np.eye(2) / 2.0
-    sigma_1 = np.array([[0.0, 1.0], [1.0, 0.0]]) / 2.0
-    sigma_2 = np.array([[0.0, -1.0j], [1.0j, 0.0]]) / 2.0
-    sigma_3 = np.array([[1.0, 0.0], [0.0, -1.0]]) / 2.0
+    sigma_0 = np.eye(2) * 0.5
+    sigma_1 = np.array([[0.0, 1.0], [1.0, 0.0]]) * 0.5
+    sigma_2 = np.array([[0.0, -1.0j], [1.0j, 0.0]]) * 0.5
+    sigma_3 = np.array([[1.0, 0.0], [0.0, -1.0]]) * 0.5
     sigmas = [sigma_0, sigma_1, sigma_2, sigma_3]
 
     # Stores all 27 measured probabilities (P_00, P_01, P_10 after 9
     # different basis rotations).
     probs = np.array([])
 
-    rots = [ops.X ** 0, ops.X ** 0.5, ops.Y ** 0.5]
+    rots = [ops.X**0, ops.X**0.5, ops.Y**0.5]
 
     # Represents the coefficients in front of the c_ij's (-1, 0 or 1) in the
     # system of 27 linear equations.
@@ -427,10 +436,10 @@ def two_qubit_state_tomography(sampler: sim.Sampler,
     for i, rot_1 in enumerate(rots):
         for j, rot_2 in enumerate(rots):
             m_idx, indices, signs = _indices_after_basis_rot(i, j)
-            mat[m_idx: (m_idx + 3), indices] = s * np.tile(signs, (3, 1))
+            mat[m_idx:(m_idx + 3), indices] = s * np.tile(signs, (3, 1))
             test_circuit = circuit + circuits.Circuit.from_ops(
-                rot_1(second_qubit))
-            test_circuit.append(rot_2(first_qubit))
+                rot_1(first_qubit))
+            test_circuit.append(rot_2(second_qubit))
             probs = np.concatenate((probs, _measurement(test_circuit)))
 
     c, _, _, _ = np.linalg.lstsq(mat, 4.0 * probs - 1.0, rcond=-1)
@@ -445,62 +454,39 @@ def two_qubit_state_tomography(sampler: sim.Sampler,
     return TomographyResult(rho)
 
 
-def _indices_after_basis_rot(i: int, j: int) -> Tuple[int, Sequence[int],
-                                                      Sequence[int]]:
+def _indices_after_basis_rot(i: int, j: int
+                            ) -> Tuple[int, Sequence[int], Sequence[int]]:
     mat_idx = 3 * (3 * i + j)
     q_0_i = 3 - i
     q_1_j = 3 - j
     indices = [q_1_j - 1, 4 * q_0_i - 1, 4 * q_0_i + q_1_j - 1]
-    signs = [(-1)**(j == 2), (-1)**(i == 2), (-1)**(i == 2 + j == 2)]
+    signs = [(-1)**(j == 2), (-1)**(i == 2), (-1)**((i == 2) + (j == 2))]
     return mat_idx, indices, signs
 
 
-def _two_qubit_clifford_matrices(q_0: devices.GridQubit, q_1: devices.GridQubit,
-                                 cliffords: Cliffords) -> np.ndarray:
-    mats = []
-
-    # Total number of different gates in the two-qubit Clifford group.
-    clifford_group_size = 11520
-
-    for i in range(clifford_group_size):
-        circuit = circuits.Circuit.from_ops(
-            _two_qubit_clifford(q_0, q_1, i, cliffords))
-        mats.append(protocols.unitary(circuit))
-    return np.array(mats)
-
-
 def _random_single_q_clifford(qubit: devices.GridQubit, num_cfds: int,
-                              cfds: Sequence[Sequence[ops.Gate]],
-                              cfd_matrices: np.ndarray) -> circuits.Circuit:
+                              cfds: Sequence[Sequence[ops.Gate]]
+                             ) -> circuits.Circuit:
     clifford_group_size = 24
     gate_ids = list(np.random.choice(clifford_group_size, num_cfds))
     gate_sequence = []  # type: List[ops.Gate]
     for gate_id in gate_ids:
         gate_sequence.extend(cfds[gate_id])
-    idx = _find_inv_matrix(_gate_seq_to_mats(gate_sequence), cfd_matrices)
-    gate_sequence.extend(cfds[idx])
+    gate_sequence.extend(protocols.inverse(gate_sequence))
     circuit = circuits.Circuit.from_ops(gate(qubit) for gate in gate_sequence)
     return circuit
 
 
 def _random_two_q_clifford(q_0: devices.GridQubit, q_1: devices.GridQubit,
-                           num_cfds: int, cfd_matrices: np.ndarray,
+                           num_cfds: int,
                            cliffords: Cliffords) -> circuits.Circuit:
     clifford_group_size = 11520
     idx_list = list(np.random.choice(clifford_group_size, num_cfds))
     circuit = circuits.Circuit()
     for idx in idx_list:
         circuit.append(_two_qubit_clifford(q_0, q_1, idx, cliffords))
-    inv_idx = _find_inv_matrix(protocols.unitary(circuit), cfd_matrices)
-    circuit.append(_two_qubit_clifford(q_0, q_1, inv_idx, cliffords))
+    circuit.append(protocols.inverse(circuit))
     return circuit
-
-
-def _find_inv_matrix(mat: np.ndarray, mat_sequence: np.ndarray) -> int:
-    mat_prod = np.einsum('ij,...jk->...ik', mat, mat_sequence)
-    diag_sums = list(np.absolute(np.einsum('...ii->...', mat_prod)))
-    idx = diag_sums.index(max(diag_sums))
-    return idx
 
 
 def _matrix_bar_plot(mat: np.ndarray,
@@ -522,7 +508,13 @@ def _matrix_bar_plot(mat: np.ndarray,
     ax1 = fig.add_subplot(plt_position, projection='3d')  # type: Axes3D
 
     dz = mat.flatten()
-    ax1.bar3d(x_indices, y_indices, z_indices, dx, dy, dz, color='#ff0080',
+    ax1.bar3d(x_indices,
+              y_indices,
+              z_indices,
+              dx,
+              dy,
+              dz,
+              color='#ff0080',
               alpha=1.0)
 
     ax1.set_zlabel(z_label)
@@ -561,13 +553,6 @@ def _plot_density_matrix(mat: np.ndarray) -> plt.Figure:
                      'Density Matrix (Imaginary Part)',
                      ylim=(-1, 1))
     return fig
-
-
-def _gate_seq_to_mats(gate_seq: Sequence[ops.Gate]) -> np.ndarray:
-    mat_rep = protocols.unitary(gate_seq[0])
-    for gate in gate_seq[1:]:
-        mat_rep = np.dot(protocols.unitary(gate), mat_rep)
-    return mat_rep
 
 
 def _two_qubit_clifford(q_0: devices.GridQubit, q_1: devices.GridQubit,
@@ -619,19 +604,19 @@ def _two_qubit_clifford(q_0: devices.GridQubit, q_1: devices.GridQubit,
     s1_y = cliffords.s1_y
 
     idx_0 = int(idx / 480)
-    idx_1 = int((idx % 480) / 20)
+    idx_1 = int((idx % 480) * 0.05)
     idx_2 = idx - idx_0 * 480 - idx_1 * 20
     yield _single_qubit_gates(c1[idx_0], q_0)
     yield _single_qubit_gates(c1[idx_1], q_1)
     if idx_2 == 1:
         yield ops.CZ(q_0, q_1)
-        yield ops.Y(q_0) ** -0.5
-        yield ops.Y(q_1) ** 0.5
+        yield ops.Y(q_0)**-0.5
+        yield ops.Y(q_1)**0.5
         yield ops.CZ(q_0, q_1)
-        yield ops.Y(q_0) ** 0.5
-        yield ops.Y(q_1) ** -0.5
+        yield ops.Y(q_0)**0.5
+        yield ops.Y(q_1)**-0.5
         yield ops.CZ(q_0, q_1)
-        yield ops.Y(q_1) ** 0.5
+        yield ops.Y(q_1)**0.5
     elif 2 <= idx_2 <= 10:
         yield ops.CZ(q_0, q_1)
         idx_3 = int((idx_2 - 2) / 3)
@@ -640,8 +625,8 @@ def _two_qubit_clifford(q_0: devices.GridQubit, q_1: devices.GridQubit,
         yield _single_qubit_gates(s1_y[idx_4], q_1)
     elif idx_2 >= 11:
         yield ops.CZ(q_0, q_1)
-        yield ops.Y(q_0) ** 0.5
-        yield ops.X(q_1) ** -0.5
+        yield ops.Y(q_0)**0.5
+        yield ops.X(q_1)**-0.5
         yield ops.CZ(q_0, q_1)
         idx_3 = int((idx_2 - 11) / 3)
         idx_4 = (idx_2 - 11) % 3
@@ -660,29 +645,29 @@ def _single_qubit_cliffords() -> Cliffords:
     c1_in_xz = []  # type: List[List[ops.Gate]]
 
     for phi_0, phi_1 in itertools.product([1.0, 0.5, -0.5], [0.0, 0.5, -0.5]):
-        c1_in_xy.append([ops.X ** phi_0, ops.Y ** phi_1])
-        c1_in_xy.append([ops.Y ** phi_0, ops.X ** phi_1])
-        c1_in_xz.append([ops.X ** phi_0, ops.Z ** phi_1])
-        c1_in_xz.append([ops.Z ** phi_0, ops.X ** phi_1])
+        c1_in_xy.append([ops.X**phi_0, ops.Y**phi_1])
+        c1_in_xy.append([ops.Y**phi_0, ops.X**phi_1])
+        c1_in_xz.append([ops.X**phi_0, ops.Z**phi_1])
+        c1_in_xz.append([ops.Z**phi_0, ops.X**phi_1])
 
-    c1_in_xy.append([ops.X ** 0.0])
+    c1_in_xy.append([ops.X**0.0])
     c1_in_xy.append([ops.Y, ops.X])
 
     phi_xy = [[-0.5, 0.5, 0.5], [-0.5, -0.5, 0.5], [0.5, 0.5, 0.5],
               [-0.5, 0.5, -0.5]]
     for phi in phi_xy:
-        c1_in_xy.append([ops.X ** phi[0], ops.Y ** phi[1], ops.X ** phi[2]])
+        c1_in_xy.append([ops.X**phi[0], ops.Y**phi[1], ops.X**phi[2]])
 
     phi_xz = [[0.5, 0.5, -0.5], [0.5, -0.5, -0.5], [-0.5, -0.5, -0.5],
               [-0.5, 0.5, -0.5]]
     for phi in phi_xz:
-        c1_in_xz.append([ops.X ** phi[0], ops.Z ** phi[1], ops.X ** phi[2]])
+        c1_in_xz.append([ops.X**phi[0], ops.Z**phi[1], ops.X**phi[2]])
 
-    s1 = [[ops.X ** 0.0], [ops.Y ** 0.5, ops.X ** 0.5],
-          [ops.X ** -0.5, ops.Y ** -0.5]]  # type: List[List[ops.Gate]]
-    s1_x = [[ops.X ** 0.5], [ops.X ** 0.5, ops.Y ** 0.5, ops.X ** 0.5],
-            [ops.Y ** -0.5]]  # type: List[List[ops.Gate]]
-    s1_y = [[ops.Y ** 0.5], [ops.X ** -0.5, ops.Y ** -0.5, ops.X ** 0.5],
-            [ops.Y, ops.X ** 0.5]]  # type: List[List[ops.Gate]]
+    s1 = [[ops.X**0.0], [ops.Y**0.5, ops.X**0.5],
+          [ops.X**-0.5, ops.Y**-0.5]]  # type: List[List[ops.Gate]]
+    s1_x = [[ops.X**0.5], [ops.X**0.5, ops.Y**0.5, ops.X**0.5],
+            [ops.Y**-0.5]]  # type: List[List[ops.Gate]]
+    s1_y = [[ops.Y**0.5], [ops.X**-0.5, ops.Y**-0.5, ops.X**0.5],
+            [ops.Y, ops.X**0.5]]  # type: List[List[ops.Gate]]
 
     return Cliffords(c1_in_xy, c1_in_xz, s1, s1_x, s1_y)

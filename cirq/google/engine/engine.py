@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Classes for running against Google's Quantum Cloud Service.
 
 As an example, to run a circuit against the xmon simulator on the cloud,
@@ -96,13 +95,12 @@ class JobConfig:
         self.gcs_results = gcs_results
 
     def copy(self):
-        return JobConfig(
-            project_id=self.project_id,
-            program_id=self.program_id,
-            job_id=self.job_id,
-            gcs_prefix=self.gcs_prefix,
-            gcs_program=self.gcs_program,
-            gcs_results=self.gcs_results)
+        return JobConfig(project_id=self.project_id,
+                         program_id=self.program_id,
+                         job_id=self.job_id,
+                         gcs_prefix=self.gcs_prefix,
+                         gcs_program=self.gcs_program,
+                         gcs_results=self.gcs_results)
 
     def __repr__(self):
         return ('JobConfig(project_id={!r}, '
@@ -110,12 +108,9 @@ class JobConfig:
                 'job_id={!r}, '
                 'gcs_prefix={!r}, '
                 'gcs_program={!r}, '
-                'gcs_results={!r})').format(self.project_id,
-                                             self.program_id,
-                                             self.job_id,
-                                             self.gcs_prefix,
-                                             self.gcs_program,
-                                             self.gcs_results)
+                'gcs_results={!r})').format(self.project_id, self.program_id,
+                                            self.job_id, self.gcs_prefix,
+                                            self.gcs_program, self.gcs_results)
 
 
 class Engine:
@@ -149,8 +144,7 @@ class Engine:
                  default_project_id: Optional[str] = None,
                  discovery_url: Optional[str] = None,
                  default_gcs_prefix: Optional[str] = None,
-                 **kwargs
-                 ) -> None:
+                 **kwargs) -> None:
         """Engine service client.
 
         Args:
@@ -176,9 +170,9 @@ class Engine:
         self.default_gcs_prefix = default_gcs_prefix
 
         discovery_service_url = (
-            self.discovery_url if self.api_key is None else (
-                "%s&key=%s" % (self.discovery_url, urllib.parse.quote_plus(
-                               self.api_key))))
+            self.discovery_url if self.api_key is None else
+            ("%s&key=%s" %
+             (self.discovery_url, urllib.parse.quote_plus(self.api_key))))
         self.service = discovery.build(
             self.api,
             self.version,
@@ -224,22 +218,18 @@ class Engine:
             job_config.project_id = self.default_project_id
             return
 
-        raise ValueError(
-            "Need a cloud project id. "
-            "This engine has default_project_id=None and "
-            "the given JobConfig has project_id=None. "
-            "One or the other must be set.")
+        raise ValueError("Need a cloud project id. "
+                         "This engine has default_project_id=None and "
+                         "the given JobConfig has project_id=None. "
+                         "One or the other must be set.")
 
     def _infer_gcs_prefix(self, job_config: JobConfig) -> None:
         if job_config.project_id is None:
             raise ValueError("Must infer project_id before gcs_prefix.")
         project_id = cast(str, job_config.project_id)
 
-        gcs_prefix = (
-            job_config.gcs_prefix or
-            self.default_gcs_prefix or
-            'gs://gqe-' + project_id[project_id.rfind(':') + 1:]
-        )
+        gcs_prefix = (job_config.gcs_prefix or self.default_gcs_prefix or
+                      'gs://gqe-' + project_id[project_id.rfind(':') + 1:])
         if gcs_prefix and not gcs_prefix.endswith('/'):
             gcs_prefix += '/'
 
@@ -269,8 +259,7 @@ class Engine:
 
         if job_config.gcs_program is None:
             job_config.gcs_program = '{}programs/{}/{}'.format(
-                job_config.gcs_prefix,
-                job_config.program_id,
+                job_config.gcs_prefix, job_config.program_id,
                 job_config.program_id)
 
     def _infer_gcs_results(self, job_config: JobConfig) -> None:
@@ -279,14 +268,11 @@ class Engine:
 
         if job_config.gcs_results is None:
             job_config.gcs_results = '{}programs/{}/jobs/{}'.format(
-                job_config.gcs_prefix,
-                job_config.program_id,
-                job_config.job_id)
+                job_config.gcs_prefix, job_config.program_id, job_config.job_id)
 
     def implied_job_config(self, job_config: Optional[JobConfig]) -> JobConfig:
         implied_job_config = (JobConfig()
-                              if job_config is None
-                              else job_config.copy())
+                              if job_config is None else job_config.copy())
 
         # Note: inference order is important. Later ones may need earlier ones.
         self._infer_project_id(implied_job_config)
@@ -298,9 +284,8 @@ class Engine:
 
         return implied_job_config
 
-    def program_as_schedule(self,
-                            program: Union[circuits.Circuit,
-                                           Schedule]) -> Schedule:
+    def program_as_schedule(self, program: Union[circuits.Circuit, Schedule]
+                           ) -> Schedule:
         if isinstance(program, circuits.Circuit):
             device = program.device
             circuit_copy = program.copy()
@@ -309,11 +294,10 @@ class Engine:
             device.validate_circuit(circuit_copy)
             return moment_by_moment_schedule(device, circuit_copy)
 
-        elif isinstance(program, Schedule):
+        if isinstance(program, Schedule):
             return program
 
-        else:
-            raise TypeError('Unexpected program type.')
+        raise TypeError('Unexpected program type.')
 
     def run_sweep(
             self,
@@ -357,18 +341,24 @@ class Engine:
         program_dict = {}  # type: Dict[str, Any]
 
         program_dict['parameter_sweeps'] = [
-            sweep_to_proto_dict(sweep, repetitions) for
-            sweep in sweeps]
-        program_dict['operations'] = [op for op in
-                                      schedule_to_proto_dicts(schedule)]
-        code = {
-            '@type': 'type.googleapis.com/cirq.api.google.v1.Program'}
+            sweep_to_proto_dict(sweep, repetitions) for sweep in sweeps
+        ]
+        program_dict['operations'] = [
+            op for op in schedule_to_proto_dicts(schedule)
+        ]
+        code = {'@type': 'type.googleapis.com/cirq.api.google.v1.Program'}
         code.update(program_dict)
         request = {
-            'name': 'projects/%s/programs/%s' % (job_config.project_id,
-                                                 job_config.program_id,),
-            'gcs_code_location': {'uri': job_config.gcs_program},
-            'code': code,
+            'name':
+            'projects/%s/programs/%s' % (
+                job_config.project_id,
+                job_config.program_id,
+            ),
+            'gcs_code_location': {
+                'uri': job_config.gcs_program
+            },
+            'code':
+            code,
         }
         response = self.service.projects().programs().create(
             parent='projects/%s' % job_config.project_id,
@@ -450,11 +440,11 @@ class Engine:
                 measurements = unpack_results(data, sweep_repetitions,
                                               key_sizes)
 
-                trial_results.append(TrialResult(
-                    params=ParamResolver(
+                trial_results.append(
+                    TrialResult(params=ParamResolver(
                         result.get('params', {}).get('assignments', {})),
-                    repetitions=sweep_repetitions,
-                    measurements=measurements))
+                                repetitions=sweep_repetitions,
+                                measurements=measurements))
         return trial_results
 
     def cancel_job(self, job_resource_name: str):
@@ -466,16 +456,20 @@ class Engine:
             job_resource_name: A string of the form
                 `projects/project_id/programs/program_id/jobs/job_id`.
         """
-        self.service.projects().programs().jobs().cancel(
-            name=job_resource_name, body={}).execute()
+        self.service.projects().programs().jobs().cancel(name=job_resource_name,
+                                                         body={}).execute()
 
     def _set_program_labels(self, program_resource_name: str,
                             labels: Dict[str, str], fingerprint: str):
-        self.service.projects().programs().patch(
-            name=program_resource_name,
-            body={'name': program_resource_name, 'labels': labels,
-                  'labelFingerprint': fingerprint},
-            updateMask='labels').execute()
+        self.service.projects().programs().patch(name=program_resource_name,
+                                                 body={
+                                                     'name':
+                                                     program_resource_name,
+                                                     'labels': labels,
+                                                     'labelFingerprint':
+                                                     fingerprint
+                                                 },
+                                                 updateMask='labels').execute()
 
     def set_program_labels(self, program_resource_name: str,
                            labels: Dict[str, str]):
@@ -510,8 +504,11 @@ class Engine:
                         fingerprint: str):
         self.service.projects().programs().jobs().patch(
             name=job_resource_name,
-            body={'name': job_resource_name, 'labels': labels,
-                  'labelFingerprint': fingerprint},
+            body={
+                'name': job_resource_name,
+                'labels': labels,
+                'labelFingerprint': fingerprint
+            },
             updateMask='labels').execute()
 
     def set_job_labels(self, job_resource_name: str, labels: Dict[str, str]):
@@ -551,9 +548,7 @@ class EngineJob:
       job_resource_name: The full resource name of the engine job.
     """
 
-    def __init__(self,
-                 job_config: JobConfig,
-                 job: Dict,
+    def __init__(self, job_config: JobConfig, job: Dict,
                  engine: Engine) -> None:
         """A job submitted to the engine.
 
@@ -593,10 +588,9 @@ class EngineJob:
                 job = self._update_job()
             if job['executionStatus']['state'] != 'SUCCESS':
                 raise RuntimeError(
-                    'Job %s did not succeed. It is in state %s.' % (
-                        job['name'], job['executionStatus']['state']))
-            self._results = self._engine.get_job_results(
-                self.job_resource_name)
+                    'Job %s did not succeed. It is in state %s.' %
+                    (job['name'], job['executionStatus']['state']))
+            self._results = self._engine.get_job_results(self.job_resource_name)
         return self._results
 
     def __iter__(self):
@@ -606,21 +600,22 @@ class EngineJob:
 def _sweepable_to_sweeps(sweepable: Sweepable) -> List[Sweep]:
     if isinstance(sweepable, ParamResolver):
         return [_resolver_to_sweep(sweepable)]
-    elif isinstance(sweepable, Sweep):
+    if isinstance(sweepable, Sweep):
         return [sweepable]
-    elif isinstance(sweepable, Iterable):
+    if isinstance(sweepable, Iterable):
         iterable = cast(Iterable, sweepable)
         if isinstance(next(iter(iterable)), Sweep):
             sweeps = iterable
             return list(sweeps)
-        else:
-            resolvers = iterable
-            return [_resolver_to_sweep(p) for p in resolvers]
-    else:
-        raise TypeError('Unexpected Sweepable.')  # coverage: ignore
+
+        resolvers = iterable
+        return [_resolver_to_sweep(p) for p in resolvers]
+
+    raise TypeError('Unexpected Sweepable.')  # coverage: ignore
 
 
 def _resolver_to_sweep(resolver: ParamResolver) -> Sweep:
-    return Zip(*[Points(key, [value]) for key, value in
-                 resolver.param_dict.items()]) if len(
-        resolver.param_dict) else UnitSweep
+    return Zip(
+        *[Points(key, [value])
+          for key, value in resolver.param_dict.items()]) if len(
+              resolver.param_dict) else UnitSweep

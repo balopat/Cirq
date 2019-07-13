@@ -22,8 +22,8 @@ import cirq.contrib.acquaintance as cca
 
 
 def test_swap_permutation_gate():
-    no_decomp = lambda op: (isinstance(op, cirq.GateOperation) and
-                            op.gate == cirq.SWAP)
+    no_decomp = lambda op: (isinstance(op, cirq.GateOperation) and op.gate ==
+                            cirq.SWAP)
     a, b = cirq.NamedQubit('a'), cirq.NamedQubit('b')
     expander = cirq.ExpandComposite(no_decomp=no_decomp)
     gate = cca.SwapPermutationGate()
@@ -32,9 +32,8 @@ def test_swap_permutation_gate():
     expander(circuit)
     assert tuple(circuit.all_operations()) == (cirq.SWAP(a, b),)
 
-
-    no_decomp = lambda op: (isinstance(op, cirq.GateOperation) and
-                            op.gate == cirq.CZ)
+    no_decomp = lambda op: (isinstance(op, cirq.GateOperation) and op.gate ==
+                            cirq.CZ)
     expander = cirq.ExpandComposite(no_decomp=no_decomp)
     circuit = cirq.Circuit.from_ops(cca.SwapPermutationGate(cirq.CZ)(a, b))
     expander(circuit)
@@ -46,11 +45,11 @@ def test_validate_permutation_errors():
     validate_permutation({})
 
     with pytest.raises(IndexError,
-            message='key and value sets must be the same.'):
+                       message='key and value sets must be the same.'):
         validate_permutation({0: 2, 1: 3})
 
     with pytest.raises(IndexError,
-            message='keys of the permutation must be non-negative.'):
+                       message='keys of the permutation must be non-negative.'):
         validate_permutation({-1: 0, 0: -1})
 
     with pytest.raises(IndexError, message='key is out of bounds.'):
@@ -82,23 +81,40 @@ def test_update_mapping():
     assert mapping == {a: 1, b: 2, c: 0}
 
 
-@pytest.mark.parametrize('n_elements,n_permuted',
-    ((n_elements, random.randint(0, n_elements)) for
-     n_elements in (random.randint(5, 20) for _ in range(20))))
+def test_get_logical_operations():
+    a, b, c, d = qubits = cirq.LineQubit.range(4)
+    mapping = dict(zip(qubits, qubits))
+    operations = [
+        cirq.ZZ(a, b),
+        cca.SwapPermutationGate()(b, c),
+        cirq.SWAP(a, b),
+        cca.SwapPermutationGate()(c, d),
+        cca.SwapPermutationGate()(b, c),
+        cirq.ZZ(a, b)
+    ]
+    assert list(cca.get_logical_operations(operations, mapping)) == [
+        cirq.ZZ(a, b), cirq.SWAP(a, c),
+        cirq.ZZ(a, d)
+    ]
+
+
+@pytest.mark.parametrize(
+    'n_elements,n_permuted',
+    ((n_elements, random.randint(0, n_elements))
+     for n_elements in (random.randint(5, 20) for _ in range(20))))
 def test_linear_permutation_gate(n_elements, n_permuted):
     qubits = cirq.LineQubit.range(n_elements)
     elements = tuple(range(n_elements))
     elements_to_permute = random.sample(elements, n_permuted)
     permuted_elements = random.sample(elements_to_permute, n_permuted)
-    permutation = {e: p for e, p in
-                   zip(elements_to_permute, permuted_elements)}
+    permutation = {e: p for e, p in zip(elements_to_permute, permuted_elements)}
     cca.PermutationGate.validate_permutation(permutation, n_elements)
     gate = cca.LinearPermutationGate(n_elements, permutation)
     ct.assert_equivalent_repr(gate)
     assert gate.permutation() == permutation
     mapping = dict(zip(qubits, elements))
-    for swap in cirq.flatten_op_tree(cirq.decompose_once_with_qubits(
-            gate, qubits)):
+    for swap in cirq.flatten_op_tree(
+            cirq.decompose_once_with_qubits(gate, qubits)):
         assert isinstance(swap, cirq.GateOperation)
         swap.gate.update_mapping(mapping, swap.qubits)
     for i in range(n_elements):
@@ -108,21 +124,21 @@ def test_linear_permutation_gate(n_elements, n_permuted):
 
 def random_equal_permutations(n_perms, n_items, prob):
     indices_to_permute = [i for i in range(n_items) if random.random() <= prob]
-    permuted_indices = random.sample(
-            indices_to_permute, len(indices_to_permute))
+    permuted_indices = random.sample(indices_to_permute,
+                                     len(indices_to_permute))
     base_permutation = dict(zip(indices_to_permute, permuted_indices))
     fixed_indices = [i for i in range(n_items) if i not in base_permutation]
     permutations = []
     for _ in range(n_perms):
         permutation = base_permutation.copy()
         permutation.update(
-                {i: i for i in fixed_indices if random.random() <= prob})
+            {i: i for i in fixed_indices if random.random() <= prob})
         permutations.append(permutation)
     return permutations
 
 
-def random_permutation_equality_groups(
-        n_groups, n_perms_per_group, n_items, prob):
+def random_permutation_equality_groups(n_groups, n_perms_per_group, n_items,
+                                       prob):
     fingerprints = set()
     for _ in range(n_groups):
         perms = random_equal_permutations(n_perms_per_group, n_items, prob)
@@ -134,7 +150,7 @@ def random_permutation_equality_groups(
 
 
 @pytest.mark.parametrize('permutation_sets',
-    [random_permutation_equality_groups(5, 3, 10, 0.5)])
+                         [random_permutation_equality_groups(5, 3, 10, 0.5)])
 def test_linear_permutation_gate_equality(permutation_sets):
     swap_gates = [cirq.SWAP, cirq.CNOT]
     equals_tester = ct.EqualsTester()

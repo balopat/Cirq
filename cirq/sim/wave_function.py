@@ -33,10 +33,16 @@ class StateVectorMixin():
     """
 
     # Reason for 'type: ignore': https://github.com/python/mypy/issues/5887
-    def __init__(self, qubit_map: Optional[Dict[ops.Qid, int]] = None,
-        *args, **kwargs):
+    def __init__(self,
+                 qubit_map: Optional[Dict[ops.Qid, int]] = None,
+                 *args,
+                 **kwargs):
         super().__init__(*args, **kwargs)  # type: ignore
-        self.qubit_map = qubit_map or {}
+        self._qubit_map = qubit_map or {}
+
+    @property
+    def qubit_map(self):
+        return self._qubit_map
 
     @abc.abstractmethod
     def state_vector(self) -> np.ndarray:
@@ -112,8 +118,7 @@ class StateVectorMixin():
         """
         return density_matrix_from_state_vector(
             self.state_vector(),
-            [self.qubit_map[q] for q in qubits] if qubits is not None else None
-        )
+            [self.qubit_map[q] for q in qubits] if qubits is not None else None)
 
     def bloch_vector_of(self, qubit: ops.Qid) -> np.ndarray:
         """Returns the bloch vector of a qubit in the state.
@@ -163,17 +168,16 @@ def bloch_vector_from_state_vector(state: Sequence, index: int) -> np.ndarray:
     """
     rho = density_matrix_from_state_vector(state, [index])
     v = np.zeros(3, dtype=np.float32)
-    v[0] = 2*np.real(rho[0][1])
-    v[1] = 2*np.imag(rho[1][0])
+    v[0] = 2 * np.real(rho[0][1])
+    v[1] = 2 * np.imag(rho[1][0])
     v[2] = np.real(rho[0][0] - rho[1][1])
 
     return v
 
 
-def density_matrix_from_state_vector(
-    state: Sequence,
-    indices: Iterable[int] = None
-) -> np.ndarray:
+def density_matrix_from_state_vector(state: Sequence,
+                                     indices: Iterable[int] = None
+                                    ) -> np.ndarray:
     r"""Returns the density matrix of the wavefunction.
 
     Calculate the density matrix for the system on the given qubit
@@ -222,19 +226,19 @@ def density_matrix_from_state_vector(
     indices = list(indices)
     _validate_indices(n_qubits, indices)
 
-    state = np.asarray(state).reshape((2,)*n_qubits)
+    state = np.asarray(state).reshape((2,) * n_qubits)
 
     sum_inds = np.array(range(n_qubits))
     sum_inds[indices] += n_qubits
 
     rho = np.einsum(state, list(range(n_qubits)), np.conj(state),
-        sum_inds.tolist(), indices + sum_inds[indices].tolist())
+                    sum_inds.tolist(), indices + sum_inds[indices].tolist())
     new_shape = 2**len(indices)
 
     return rho.reshape((new_shape, new_shape))
 
 
-def dirac_notation(state: Sequence, decimals: int=2) -> str:
+def dirac_notation(state: Sequence, decimals: int = 2) -> str:
     """Returns the wavefunction as a string in Dirac notation.
 
     For example:
@@ -252,14 +256,17 @@ def dirac_notation(state: Sequence, decimals: int=2) -> str:
         A pretty string consisting of a sum of computational basis kets
         and non-zero floats of the specified accuracy.
     """
-    perm_list = ["".join(seq) for seq in itertools.product(
-        "01", repeat=int(len(state)).bit_length() - 1)]
+    perm_list = [
+        "".join(seq)
+        for seq in itertools.product("01",
+                                     repeat=int(len(state)).bit_length() - 1)
+    ]
     components = []
     ket = "|{}⟩"
     for x in range(len(perm_list)):
         format_str = "({:." + str(decimals) + "g})"
-        val = (round(state[x].real, decimals)
-               + 1j * round(state[x].imag, decimals))
+        val = (round(state[x].real, decimals) +
+               1j * round(state[x].imag, decimals))
 
         if round(val.real, decimals) == 0 and round(val.imag, decimals) != 0:
             val = val.imag
@@ -308,22 +315,22 @@ def to_valid_state_vector(state_rep: Union[int, np.ndarray],
         ValueError if the state is not valid.
     """
     if isinstance(state_rep, np.ndarray):
-        if len(state_rep) != 2 ** num_qubits:
-            raise ValueError(
-                'initial state was of size {} '
-                'but expected state for {} qubits'.format(
-                    len(state_rep), num_qubits))
+        if len(state_rep) != 2**num_qubits:
+            raise ValueError('initial state was of size {} '
+                             'but expected state for {} qubits'.format(
+                                 len(state_rep), num_qubits))
         state = state_rep
     elif isinstance(state_rep, int):
         if state_rep < 0:
             raise ValueError('initial_state must be positive')
-        elif state_rep >= 2 ** num_qubits:
+        elif state_rep >= 2**num_qubits:
             raise ValueError(
                 'initial state was {} but expected state for {} qubits'.format(
                     state_rep, num_qubits))
         else:
-            state = np.zeros(2**num_qubits, dtype=dtype)
-            state[state_rep] = 1.0
+            state = linalg.one_hot(shape=2**num_qubits,
+                                   dtype=dtype,
+                                   index=state_rep)
     else:
         raise TypeError('initial_state was not of type int or ndarray')
     validate_normalized_state(state, num_qubits, dtype)
@@ -342,14 +349,14 @@ def validate_normalized_state(state: np.ndarray,
         raise ValueError(
             'State has invalid dtype. Expected {} but was {}'.format(
                 dtype, state.dtype))
-    norm = np.sum(np.abs(state) ** 2)
+    norm = np.sum(np.abs(state)**2)
     if not np.isclose(norm, 1):
         raise ValueError('State is not normalized instead had norm %s' % norm)
 
 
 def sample_state_vector(state: np.ndarray,
                         indices: List[int],
-                        repetitions: int=1) -> np.ndarray:
+                        repetitions: int = 1) -> np.ndarray:
     """Samples repeatedly from measurements in the computational basis.
 
     Note that this does not modify the passed in state.
@@ -377,8 +384,9 @@ def sample_state_vector(state: np.ndarray,
             of qubits corresponding to the state.
     """
     if repetitions < 0:
-        raise ValueError('Number of repetitions cannot be negative. Was {}'
-                         .format(repetitions))
+        raise ValueError(
+            'Number of repetitions cannot be negative. Was {}'.format(
+                repetitions))
     num_qubits = _validate_num_qubits(state)
     _validate_indices(num_qubits, indices)
 
@@ -393,14 +401,15 @@ def sample_state_vector(state: np.ndarray,
     # choosing from a list of tuples or list of lists.
     result = np.random.choice(len(probs), size=repetitions, p=probs)
     # Convert to bools and rearrange to match repetition being the outer list.
-    return np.transpose([(1 & (result >> i)).astype(np.bool) for i in
-                         range(len(indices))])
+    return np.transpose([
+        (1 & (result >> i)).astype(np.bool) for i in range(len(indices))
+    ])
 
 
-def measure_state_vector(
-        state: np.ndarray,
-        indices: List[int],
-        out: np.ndarray = None) -> Tuple[List[bool], np.ndarray]:
+def measure_state_vector(state: np.ndarray,
+                         indices: List[int],
+                         out: np.ndarray = None
+                        ) -> Tuple[List[bool], np.ndarray]:
     """Performs a measurement of the state in the computational basis.
 
     This does not modify `state` unless the optional `out` is `state`.
@@ -482,12 +491,12 @@ def _probs(state: np.ndarray, indices: List[int],
 
     # Calculate the probabilities for measuring the particular results.
     probs = [
-        np.linalg.norm(
-                tensor[linalg.slice_for_qubits_equal_to(indices, b)]) ** 2
-        for b in range(2 ** len(indices))]
+        np.linalg.norm(tensor[linalg.slice_for_qubits_equal_to(indices, b)])**2
+        for b in range(2**len(indices))
+    ]
 
     # To deal with rounding issues, ensure that the probabilities sum to 1.
-    probs /= sum(probs) # type: ignore
+    probs /= sum(probs)  # type: ignore
     return probs
 
 

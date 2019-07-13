@@ -11,10 +11,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Basic types defining qubits, gates, and operations."""
 
-from typing import Any, Callable, Sequence, Tuple, TYPE_CHECKING, TypeVar, Union
+from typing import Any, Callable, Sequence, Tuple, TYPE_CHECKING, Union
 
 import abc
 
@@ -41,9 +40,6 @@ class Qid(metaclass=abc.ABCMeta):
     comparison, and hashing methods via `_comparison_key`.
     """
 
-    def __init__(self):
-        self.__hash_value = None
-
     @abc.abstractmethod
     def _comparison_key(self) -> Any:
         """Returns a value used to sort and compare this qubit with others.
@@ -57,9 +53,7 @@ class Qid(metaclass=abc.ABCMeta):
         return type(self).__name__, repr(type(self)), self._comparison_key()
 
     def __hash__(self):
-        if not self.__hash_value:
-            self.__hash_value = hash((Qid, self._comparison_key()))
-        return self.__hash_value
+        return hash((Qid, self._comparison_key()))
 
     def __eq__(self, other):
         if not isinstance(other, Qid):
@@ -127,19 +121,14 @@ class Gate(metaclass=abc.ABCMeta):
                     repr(self)))
 
         if len(qubits) != self.num_qubits():
-            raise ValueError(
-                'Wrong number of qubits for <{!r}>. '
-                'Expected {} qubits but got <{!r}>.'.format(
-                    self,
-                    self.num_qubits(),
-                    qubits))
+            raise ValueError('Wrong number of qubits for <{!r}>. '
+                             'Expected {} qubits but got <{!r}>.'.format(
+                                 self, self.num_qubits(), qubits))
 
-        if any([not isinstance(qubit, Qid)
-                for qubit in qubits]):
-            raise ValueError(
-                    'Gate was called with type different than Qid.')
+        if any([not isinstance(qubit, Qid) for qubit in qubits]):
+            raise ValueError('Gate was called with type different than Qid.')
 
-    def on(self, *qubits: Qid) -> 'gate_operation.GateOperation':
+    def on(self, *qubits: Qid) -> 'Operation':
         """Returns an application of this gate to the given qubits.
 
         Args:
@@ -150,25 +139,24 @@ class Gate(metaclass=abc.ABCMeta):
         return gate_operation.GateOperation(self, list(qubits))
 
     def wrap_in_linear_combination(
-            self,
-            coefficient: Union[complex, float, int]=1
-            ) -> 'linear_combinations.LinearCombinationOfGates':
+            self, coefficient: Union[complex, float, int] = 1
+    ) -> 'linear_combinations.LinearCombinationOfGates':
         from cirq.ops import linear_combinations
         return linear_combinations.LinearCombinationOfGates({self: coefficient})
 
-    def __add__(self,
-                other: Union['Gate',
-                             'linear_combinations.LinearCombinationOfGates']
-                ) -> 'linear_combinations.LinearCombinationOfGates':
+    def __add__(
+            self,
+            other: Union['Gate', 'linear_combinations.LinearCombinationOfGates']
+    ) -> 'linear_combinations.LinearCombinationOfGates':
         if isinstance(other, Gate):
             return (self.wrap_in_linear_combination() +
                     other.wrap_in_linear_combination())
         return self.wrap_in_linear_combination() + other
 
-    def __sub__(self,
-                other: Union['Gate',
-                             'linear_combinations.LinearCombinationOfGates']
-                ) -> 'linear_combinations.LinearCombinationOfGates':
+    def __sub__(
+            self,
+            other: Union['Gate', 'linear_combinations.LinearCombinationOfGates']
+    ) -> 'linear_combinations.LinearCombinationOfGates':
         if isinstance(other, Gate):
             return (self.wrap_in_linear_combination() -
                     other.wrap_in_linear_combination())
@@ -178,15 +166,15 @@ class Gate(metaclass=abc.ABCMeta):
         return self.wrap_in_linear_combination(coefficient=-1)
 
     def __mul__(self, other: Union[complex, float, int]
-                ) -> 'linear_combinations.LinearCombinationOfGates':
+               ) -> 'linear_combinations.LinearCombinationOfGates':
         return self.wrap_in_linear_combination(coefficient=other)
 
     def __rmul__(self, other: Union[complex, float, int]
-                 ) -> 'linear_combinations.LinearCombinationOfGates':
+                ) -> 'linear_combinations.LinearCombinationOfGates':
         return self.wrap_in_linear_combination(coefficient=other)
 
     def __truediv__(self, other: Union[complex, float, int]
-                    ) -> 'linear_combinations.LinearCombinationOfGates':
+                   ) -> 'linear_combinations.LinearCombinationOfGates':
         return self.wrap_in_linear_combination(coefficient=1 / other)
 
     def __pow__(self, power):
@@ -223,17 +211,14 @@ class Gate(metaclass=abc.ABCMeta):
         """
         # Avoids circular import.
         from cirq.ops import ControlledGate
-        return ControlledGate(
-            self, control_qubits,
-            len(control_qubits) if control_qubits is not None else 1)
+        if len(control_qubits) == 0:
+            return self
+        return ControlledGate(self, control_qubits, len(control_qubits))
 
     @abc.abstractmethod
     def num_qubits(self) -> int:
         """The number of qubits this gate acts on."""
         raise NotImplementedError()
-
-
-TSelf_Operation = TypeVar('TSelf_Operation', bound='Operation')
 
 
 class Operation(metaclass=abc.ABCMeta):
@@ -248,11 +233,10 @@ class Operation(metaclass=abc.ABCMeta):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def with_qubits(self: TSelf_Operation, *new_qubits: Qid) -> TSelf_Operation:
+    def with_qubits(self, *new_qubits: Qid) -> 'Operation':
         pass
 
-    def transform_qubits(self: TSelf_Operation,
-                         func: Callable[[Qid], Qid]) -> TSelf_Operation:
+    def transform_qubits(self, func: Callable[[Qid], Qid]) -> 'Operation':
         """Returns the same operation, but with different qubits.
 
         Args:
@@ -296,8 +280,8 @@ class _InverseCompositeGate(Gate):
         return NotImplemented
 
     def _decompose_(self, qubits):
-        return inverse.inverse(decompose.decompose_once_with_qubits(
-            self._original, qubits))
+        return inverse.inverse(
+            decompose.decompose_once_with_qubits(self._original, qubits))
 
     def _value_equality_values_(self):
         return self._original

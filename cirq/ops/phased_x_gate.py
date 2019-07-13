@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """An `XPowGate` conjugated by `ZPowGate`s."""
 from typing import Union, Sequence, Tuple, Optional, cast
 
@@ -19,46 +18,16 @@ import math
 import numpy as np
 import sympy
 
+import cirq
 from cirq import value, protocols
 from cirq._compat import proper_repr
-from cirq.ops import gate_features, raw_types, op_tree
+from cirq.ops import gate_features, raw_types, op_tree, common_gates
 from cirq.type_workarounds import NotImplementedType
 
-# Note: avoiding 'from/as' because it creates a circular dependency in python 2.
-import cirq.ops.common_gates
 
-
-@value.value_equality
+@value.value_equality(manual_cls=True)
 class PhasedXPowGate(gate_features.SingleQubitGate):
     """A gate equivalent to the circuit ───Z^-p───X^t───Z^p───."""
-
-    def __new__(cls,
-                *,
-                phase_exponent: Union[float, sympy.Symbol],
-                exponent: Union[float, sympy.Symbol] = 1.0,
-                global_shift: float = 0.0):
-        """Substitutes a raw X or raw Y if possible.
-
-        Args:
-            phase_exponent: The exponent on the Z gates conjugating the X gate.
-            exponent: The exponent on the X gate conjugated by Zs.
-            global_shift: How much to shift the operation's eigenvalues at
-                exponent=1.
-        """
-        p = value.canonicalize_half_turns(phase_exponent)
-        if p == 0:
-            return cirq.ops.common_gates.XPowGate(exponent=exponent,
-                                                  global_shift=global_shift)
-        if p == 0.5:
-            return cirq.ops.common_gates.YPowGate(exponent=exponent,
-                                                  global_shift=global_shift)
-        if p == 1 and not isinstance(exponent, sympy.Symbol):
-            return cirq.ops.common_gates.XPowGate(exponent=-exponent,
-                                                  global_shift=global_shift)
-        if p == -0.5 and not isinstance(exponent, sympy.Symbol):
-            return cirq.ops.common_gates.YPowGate(exponent=-exponent,
-                                                  global_shift=global_shift)
-        return super().__new__(cls)
 
     def __init__(self,
                  *,
@@ -76,8 +45,7 @@ class PhasedXPowGate(gate_features.SingleQubitGate):
         self._exponent = exponent
         self._global_shift = global_shift
 
-    def _qasm_(self,
-               args: protocols.QasmArgs,
+    def _qasm_(self, args: protocols.QasmArgs,
                qubits: Tuple[raw_types.Qid, ...]) -> Optional[str]:
         if cirq.is_parameterized(self):
             return None
@@ -97,11 +65,10 @@ class PhasedXPowGate(gate_features.SingleQubitGate):
                                p - 0.5, -p + 0.5, qubits[0])
 
         return args.format(
-            'u3({0:half_turns}, {1:half_turns}, {2:half_turns}) {3};\n',
-            -e, p + 0.5, -p - 0.5, qubits[0])
+            'u3({0:half_turns}, {1:half_turns}, {2:half_turns}) {3};\n', -e,
+            p + 0.5, -p - 0.5, qubits[0])
 
-    def _decompose_(self, qubits: Sequence[raw_types.Qid]
-                          ) -> op_tree.OP_TREE:
+    def _decompose_(self, qubits: Sequence[raw_types.Qid]) -> op_tree.OP_TREE:
         assert len(qubits) == 1
         q = qubits[0]
         z = cirq.Z(q)**self._phase_exponent
@@ -148,33 +115,36 @@ class PhasedXPowGate(gate_features.SingleQubitGate):
         angle = np.pi * self._exponent / 2
         phase = 1j**(2 * self._exponent * (self._global_shift + 0.5))
         return value.LinearDict({
-            'I': phase * np.cos(angle),
-            'X': -1j * phase * np.sin(angle) * np.cos(2 * phase_angle),
-            'Y': -1j * phase * np.sin(angle) * np.sin(2 * phase_angle),
+            'I':
+            phase * np.cos(angle),
+            'X':
+            -1j * phase * np.sin(angle) * np.cos(2 * phase_angle),
+            'Y':
+            -1j * phase * np.sin(angle) * np.sin(2 * phase_angle),
         })
 
     def _is_parameterized_(self) -> bool:
         """See `cirq.SupportsParameterization`."""
-        return (isinstance(self._exponent, sympy.Symbol) or
-                isinstance(self._phase_exponent, sympy.Symbol))
+        return (protocols.is_parameterized(self._exponent) or
+                protocols.is_parameterized(self._phase_exponent))
 
     def _resolve_parameters_(self, param_resolver) -> 'PhasedXPowGate':
         """See `cirq.SupportsParameterization`."""
-        return PhasedXPowGate(
-            phase_exponent=param_resolver.value_of(self._phase_exponent),
-            exponent=param_resolver.value_of(self._exponent),
-            global_shift=self._global_shift)
+        return PhasedXPowGate(phase_exponent=param_resolver.value_of(
+            self._phase_exponent),
+                              exponent=param_resolver.value_of(self._exponent),
+                              global_shift=self._global_shift)
 
     def _phase_by_(self, phase_turns, qubit_index):
         """See `cirq.SupportsPhase`."""
         assert qubit_index == 0
-        return PhasedXPowGate(
-            exponent=self._exponent,
-            phase_exponent=self._phase_exponent + phase_turns * 2,
-            global_shift=self._global_shift)
+        return PhasedXPowGate(exponent=self._exponent,
+                              phase_exponent=self._phase_exponent +
+                              phase_turns * 2,
+                              global_shift=self._global_shift)
 
     def _circuit_diagram_info_(self, args: protocols.CircuitDiagramInfoArgs
-                               ) -> protocols.CircuitDiagramInfo:
+                              ) -> protocols.CircuitDiagramInfo:
         """See `cirq.SupportsCircuitDiagramInfo`."""
 
         if (isinstance(self.phase_exponent, sympy.Symbol) or
@@ -203,7 +173,7 @@ class PhasedXPowGate(gate_features.SingleQubitGate):
 
     def _period(self):
         exponents = [self._global_shift, 1 + self._global_shift]
-        real_periods = [abs(2/e) for e in exponents if e != 0]
+        real_periods = [abs(2 / e) for e in exponents if e != 0]
         int_periods = [int(np.round(e)) for e in real_periods]
         if any(i != r for i, r in zip(real_periods, int_periods)):
             return None
@@ -216,8 +186,23 @@ class PhasedXPowGate(gate_features.SingleQubitGate):
         period = self._period()
         if not period or isinstance(self._exponent, sympy.Symbol):
             return self._exponent
-        else:
-            return self._exponent % period
+
+        return self._exponent % period
+
+    def _value_equality_values_cls_(self):
+        if self.phase_exponent == 0:
+            return common_gates.XPowGate
+        if self.phase_exponent == 0.5:
+            return common_gates.YPowGate
+        return PhasedXPowGate
 
     def _value_equality_values_(self):
+        if self.phase_exponent == 0:
+            return common_gates.XPowGate(
+                exponent=self._exponent,
+                global_shift=self._global_shift)._value_equality_values_()
+        if self.phase_exponent == 0.5:
+            return common_gates.YPowGate(
+                exponent=self._exponent,
+                global_shift=self._global_shift)._value_equality_values_()
         return self.phase_exponent, self._canonical_exponent, self._global_shift

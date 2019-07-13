@@ -23,7 +23,6 @@ import tempfile
 
 from dev_tools import env_tools, all_checks, check
 
-
 REPO_ORGANIZATION = 'quantumlib'
 REPO_NAME = 'cirq'
 
@@ -35,7 +34,7 @@ def report_pending(env, checks, out_still_pending: Set[check.Check]):
 
 
 def topologically_sorted_checks_with_deps(checks: Iterable[check.Check]
-                                          ) -> List[check.Check]:
+                                         ) -> List[check.Check]:
     result = []
     seen = set()  # type: Set[check.Check]
 
@@ -59,15 +58,13 @@ def topologically_sorted_checks_with_deps(checks: Iterable[check.Check]
 def parse_args():
     args = sys.argv
     verbose = '--verbose' in args
-    only = [e.split('--only=')[1]
-            for e in args
-            if e.startswith('--only=')]
+    only = [e.split('--only=')[1] for e in args if e.startswith('--only=')]
     checks = all_checks.ALL_CHECKS
     if only:
         checks = [e for e in checks if e.command_line_switch() in only]
         if len(checks) != len(only):
             print('Bad --only argument. Allowed values {!r}.'.format(
-                      [e.command_line_switch() for e in all_checks.ALL_CHECKS]),
+                [e.command_line_switch() for e in all_checks.ALL_CHECKS]),
                   file=sys.stderr)
             sys.exit(1)
     checks = topologically_sorted_checks_with_deps(checks)
@@ -95,18 +92,16 @@ def main():
                 name=REPO_NAME,
                 access_token=access_token),
             pull_request_number=pull_request_number,
-            commit_ids_known_callback=lambda e:
-                report_pending(e, checks, currently_pending),
+            commit_ids_known_callback=lambda e: report_pending(
+                e, checks, currently_pending),
             verbose=verbose)
-
-        env2 = None
 
         check_results = []
         failures = set()
         for c in checks:
             # Run the check.
             print()
-            result = c.pick_env_and_run_and_report(env, env2, verbose, failures)
+            result = c.pick_env_and_run_and_report(env, verbose, failures)
 
             # Record results.
             check_results.append(result)
@@ -120,8 +115,7 @@ def main():
         shutil.rmtree(test_dir_2, ignore_errors=True)
         for c in currently_pending:
             if env is not None:
-                env.report_status_to_github('error',
-                                            'Unexpected error.',
+                env.report_status_to_github('error', 'Unexpected error.',
                                             c.context())
 
     print()

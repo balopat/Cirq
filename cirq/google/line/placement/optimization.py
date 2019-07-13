@@ -38,8 +38,8 @@ def _accept(random_sample: float, cost_diff: float,
     exponent = -cost_diff / temp
     if exponent >= 0.0:
         return True, 1.0
-    else:
-        probability = math.exp(exponent)
+
+    probability = math.exp(exponent)
     return probability > random_sample, probability
 
 
@@ -52,8 +52,7 @@ def anneal_minimize(
         temp_final: float = 1e-6,
         cooling_factor: float = 0.99,
         repeat: int = 100,
-        trace_func: Callable[
-            [T, float, float, float, bool], None] = None) -> T:
+        trace_func: Callable[[T, float, float, float, bool], None] = None) -> T:
     """Minimize solution using Simulated Annealing meta-heuristic.
 
     Args:
@@ -114,8 +113,7 @@ def anneal_minimize(
                 best_cost = cand_cost
 
             accepted, probability = _accept(random_sample(),
-                                            cand_cost - sol_cost,
-                                            temp)
+                                            cand_cost - sol_cost, temp)
             if accepted:
                 sol = cand
                 sol_cost = cand_cost

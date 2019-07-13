@@ -35,8 +35,7 @@ class GreedySequenceSearch:
     method.
     """
 
-    def __init__(self,
-                 device: 'cirq.google.XmonDevice',
+    def __init__(self, device: 'cirq.google.XmonDevice',
                  start: GridQubit) -> None:
         """Greedy sequence search constructor.
 
@@ -176,9 +175,10 @@ class GreedySequenceSearch:
             return path
 
         other = {p: q, q: p}
-        parents = {p: dict(), q: dict()} \
-            # type: Dict[GridQubit, Dict[GridQubit, GridQubit]]
-
+        parents = {
+            p: dict(),
+            q: dict()
+        }  # type: Dict[GridQubit, Dict[GridQubit, GridQubit]]
         visited = {p: set(), q: set()}  # type: Dict[GridQubit, Set[GridQubit]]
 
         queue = collections.deque([(p, p), (q, q)])
@@ -195,7 +195,7 @@ class GreedySequenceSearch:
                     if s == q:
                         path.reverse()
                     return path
-                elif n_adj not in used and n_adj not in visited[s]:
+                if n_adj not in used and n_adj not in visited[s]:
                     # Append n_adj to the end of queue of qubit s.
                     queue.append((n_adj, s))
                     visited[s].add(n_adj)
@@ -203,8 +203,8 @@ class GreedySequenceSearch:
 
         return None
 
-    def _neighbors_of_excluding(self, qubit: GridQubit, used: Set[GridQubit]
-                                ) -> List[GridQubit]:
+    def _neighbors_of_excluding(self, qubit: GridQubit,
+                                used: Set[GridQubit]) -> List[GridQubit]:
         return [n for n in self._c_adj[qubit] if n not in used]
 
 
@@ -223,11 +223,9 @@ class _PickFewestNeighbors(GreedySequenceSearch):
         neighbors = self._neighbors_of_excluding(qubit, used)
         if not neighbors:
             return None
-        return min(
-            neighbors,
-            key=lambda n:
-                len(self._neighbors_of_excluding(n, used)) or
-                float('inf'))  # Avoid dead ends with no neighbors at all.
+        return min(neighbors,
+                   key=lambda n: len(self._neighbors_of_excluding(n, used)) or
+                   float('inf'))  # Avoid dead ends with no neighbors at all.
 
 
 class _PickLargestArea(GreedySequenceSearch):
@@ -299,8 +297,7 @@ class GreedySequenceSearchStrategy(place_strategy.LinePlacementStrategy):
         """
         self.algorithm = algorithm
 
-    def place_line(self,
-                   device: 'cirq.google.XmonDevice',
+    def place_line(self, device: 'cirq.google.XmonDevice',
                    length: int) -> GridQubitLineTuple:
         """Runs line sequence search.
 
@@ -336,8 +333,8 @@ class GreedySequenceSearchStrategy(place_strategy.LinePlacementStrategy):
 
         algos = greedy_search.get(self.algorithm)
         if algos is None:
-            raise ValueError(
-                "Unknown greedy search algorithm %s" % self.algorithm)
+            raise ValueError("Unknown greedy search algorithm %s" %
+                             self.algorithm)
 
         for algorithm in algos:
             sequences.append(algorithm.get_or_search())

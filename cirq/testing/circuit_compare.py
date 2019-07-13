@@ -29,18 +29,14 @@ if TYPE_CHECKING:
 def highlight_text_differences(actual: str, expected: str) -> str:
     diff = ""
     for actual_line, desired_line in itertools.zip_longest(
-            actual.splitlines(), expected.splitlines(),
-            fillvalue=""):
-        diff += "".join(a if a == b else "█"
-                        for a, b in itertools.zip_longest(
-                            actual_line, desired_line, fillvalue="")) + "\n"
+            actual.splitlines(), expected.splitlines(), fillvalue=""):
+        diff += "".join(a if a == b else "█" for a, b in itertools.zip_longest(
+            actual_line, desired_line, fillvalue="")) + "\n"
     return diff
 
 
-def _measurement_subspaces(
-        measured_qubits: Iterable[ops.Qid],
-        n_qubits: int
-) -> Sequence[Sequence[int]]:
+def _measurement_subspaces(measured_qubits: Iterable[ops.Qid],
+                           n_qubits: int) -> Sequence[Sequence[int]]:
     """Computes subspaces associated with projective measurement.
 
     The function computes a partitioning of the computational basis such
@@ -93,8 +89,7 @@ def _measurement_subspaces(
 
 
 def assert_circuits_with_terminal_measurements_are_equivalent(
-        actual: circuits.Circuit,
-        reference: circuits.Circuit,
+        actual: circuits.Circuit, reference: circuits.Circuit,
         atol: float) -> None:
     """Determines if two circuits have equivalent effects.
 
@@ -115,23 +110,22 @@ def assert_circuits_with_terminal_measurements_are_equivalent(
         reference: A circuit with the correct function.
         atol: Absolute error tolerance.
     """
-    measured_qubits_actual = {qubit
-                              for op in actual.all_operations()
-                              if protocols.is_measurement(op)
-                              for qubit in op.qubits}
-    measured_qubits_reference = {qubit
-                                 for op in reference.all_operations()
-                                 if protocols.is_measurement(op)
-                                 for qubit in op.qubits}
+    measured_qubits_actual = {
+        qubit for op in actual.all_operations() if protocols.is_measurement(op)
+        for qubit in op.qubits
+    }
+    measured_qubits_reference = {
+        qubit for op in reference.all_operations()
+        if protocols.is_measurement(op) for qubit in op.qubits
+    }
     assert actual.are_all_measurements_terminal()
     assert reference.are_all_measurements_terminal()
     assert measured_qubits_actual == measured_qubits_reference
 
     all_qubits = actual.all_qubits().union(reference.all_qubits())
 
-    matrix_actual = actual.to_unitary_matrix(
-        qubits_that_should_be_present=all_qubits)
-    matrix_reference = reference.to_unitary_matrix(
+    matrix_actual = actual.unitary(qubits_that_should_be_present=all_qubits)
+    matrix_reference = reference.unitary(
         qubits_that_should_be_present=all_qubits)
 
     n_qubits = len(all_qubits)
@@ -166,19 +160,20 @@ def assert_circuits_with_terminal_measurements_are_equivalent(
         block_actual = matrix_actual[subspace, :]
         block_reference = matrix_reference[subspace, :]
         assert linalg.allclose_up_to_global_phase(
-                block_actual, block_reference, atol=atol), (
-                        "Circuit's effect differs from the reference circuit.\n"
-                        '\n'
-                        'Diagram of actual circuit:\n'
-                        '{}\n'
-                        '\n'
-                        'Diagram of reference circuit with desired function:\n'
-                        '{}\n'.format(actual, reference))
+            block_actual, block_reference, atol=atol), (
+                "Circuit's effect differs from the reference circuit.\n"
+                '\n'
+                'Diagram of actual circuit:\n'
+                '{}\n'
+                '\n'
+                'Diagram of reference circuit with desired function:\n'
+                '{}\n'.format(actual, reference))
 
 
-def assert_same_circuits(actual: circuits.Circuit,
-                         expected: circuits.Circuit,
-                         ) -> None:
+def assert_same_circuits(
+        actual: circuits.Circuit,
+        expected: circuits.Circuit,
+) -> None:
     """Asserts that two circuits are identical, with a descriptive error.
 
     Args:
@@ -201,11 +196,9 @@ def assert_same_circuits(actual: circuits.Circuit,
         "{!r}\n"
         "\n"
         "Full repr of expected circuit:\n"
-        "{!r}\n").format(actual,
-                         expected,
+        "{!r}\n").format(actual, expected,
                          _first_differing_moment_index(actual, expected),
-                         actual,
-                         expected)
+                         actual, expected)
 
 
 def _first_differing_moment_index(circuit1: circuits.Circuit,
@@ -216,10 +209,8 @@ def _first_differing_moment_index(circuit1: circuits.Circuit,
     return None  # coverage: ignore
 
 
-def assert_has_diagram(
-        actual: circuits.Circuit,
-        desired: str,
-        **kwargs) -> None:
+def assert_has_diagram(actual: circuits.Circuit, desired: str,
+                       **kwargs) -> None:
     """Determines if a given circuit has the desired text diagram.
 
     Args:
@@ -240,17 +231,15 @@ def assert_has_diagram(
         '{}\n'
         '\n'
         'Highlighted differences:\n'
-        '{}\n'.format(actual_diagram, desired_diagram,
-                      highlight_text_differences(actual_diagram,
-                                                 desired_diagram))
-    )
+        '{}\n'.format(
+            actual_diagram, desired_diagram,
+            highlight_text_differences(actual_diagram, desired_diagram)))
 
 
-def assert_has_consistent_apply_unitary(
-        val: Any,
-        *,
-        qubit_count: Optional[int] = None,
-        atol: float=1e-8) -> None:
+def assert_has_consistent_apply_unitary(val: Any,
+                                        *,
+                                        qubit_count: Optional[int] = None,
+                                        atol: float = 1e-8) -> None:
     """Tests whether a value's _apply_unitary_ is correct.
 
     Contrasts the effects of the value's `_apply_unitary_` with the
@@ -275,8 +264,7 @@ def assert_has_consistent_apply_unitary(
     qubit_counts = [e for e in qubit_counts if e is not None]
     if not qubit_counts:
         raise NotImplementedError(
-            'Failed to infer qubit count of <{!r}>. Specify it.'.format(
-                val))
+            'Failed to infer qubit count of <{!r}>. Specify it.'.format(val))
     assert len(set(qubit_counts)) == 1, (
         'Inconsistent qubit counts from different methods: {}'.format(
             qubit_counts))
@@ -285,10 +273,10 @@ def assert_has_consistent_apply_unitary(
     eye = np.eye(2 << n, dtype=np.complex128).reshape((2,) * (2 * n + 2))
     actual = protocols.apply_unitary(
         unitary_value=val,
-        args=protocols.ApplyUnitaryArgs(
-            target_tensor=eye,
-            available_buffer=np.ones_like(eye) * float('nan'),
-            axes=list(range(1, n + 1))),
+        args=protocols.ApplyUnitaryArgs(target_tensor=eye,
+                                        available_buffer=np.ones_like(eye) *
+                                        float('nan'),
+                                        axes=list(range(1, n + 1))),
         default=None)
 
     # If you don't have a unitary, you shouldn't be able to apply a unitary.
@@ -299,10 +287,9 @@ def assert_has_consistent_apply_unitary(
 
     # If you applied a unitary, it should match the one you say you have.
     if actual is not None:
-        np.testing.assert_allclose(
-            actual.reshape(2 << n, 2 << n),
-            expected,
-            atol=atol)
+        np.testing.assert_allclose(actual.reshape(2 << n, 2 << n),
+                                   expected,
+                                   atol=atol)
 
 
 def assert_eigen_gate_has_consistent_apply_unitary(
@@ -331,9 +318,9 @@ def assert_eigen_gate_has_consistent_apply_unitary(
     """
     for exponent in exponents:
         for shift in global_shifts:
-            assert_has_consistent_apply_unitary(
-                eigen_gate_type(exponent=exponent, global_shift=shift),
-                qubit_count=qubit_count)
+            assert_has_consistent_apply_unitary(eigen_gate_type(
+                exponent=exponent, global_shift=shift),
+                                                qubit_count=qubit_count)
 
 
 def assert_has_consistent_apply_unitary_for_various_exponents(
@@ -361,9 +348,7 @@ def assert_has_consistent_apply_unitary_for_various_exponents(
     for exponent in exponents:
         gate = protocols.pow(val, exponent, default=None)
         if gate is not None:
-            assert_has_consistent_apply_unitary(
-                gate,
-                qubit_count=qubit_count)
+            assert_has_consistent_apply_unitary(gate, qubit_count=qubit_count)
 
 
 def _infer_qubit_count(val: Any) -> Optional[int]:

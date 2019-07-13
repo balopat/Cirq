@@ -17,6 +17,7 @@ from typing import Iterable, List, TYPE_CHECKING, Union, cast
 
 from sortedcontainers import SortedListWithKey
 
+from cirq import protocols
 from cirq.circuits import Circuit
 from cirq.circuits.insert_strategy import InsertStrategy
 from cirq.devices import Device
@@ -45,9 +46,9 @@ class Schedule:
     """
 
     def __init__(self,
-            device: Device,
-            scheduled_operations: Iterable[ScheduledOperation] = ()
-            ) -> None:
+                 device: Device,
+                 scheduled_operations: Iterable[ScheduledOperation] = ()
+                ) -> None:
         """Initializes a new schedule.
 
         Args:
@@ -113,11 +114,12 @@ class Schedule:
                 return True
             return not qubits.isdisjoint(op.operation.qubits)
 
-        potential_matches = self.scheduled_operations.irange_key(earliest_time,
-                                                                 end_time)
-        return [op
-                for op in potential_matches
-                if overlaps_interval(op) and overlaps_qubits(op)]
+        potential_matches = self.scheduled_operations.irange_key(
+            earliest_time, end_time)
+        return [
+            op for op in potential_matches
+            if overlaps_interval(op) and overlaps_qubits(op)
+        ]
 
     def __getitem__(self, item: Union[Timestamp, slice]):
         """Finds operations overlapping a given time or time slice.
@@ -138,7 +140,7 @@ class Schedule:
         return self.query(time=item, include_query_end_time=True)
 
     def operations_happening_at_same_time_as(
-        self, scheduled_operation: ScheduledOperation
+            self, scheduled_operation: ScheduledOperation
     ) -> List[ScheduledOperation]:
         """Finds operations happening at the same time as the given operation.
 
@@ -148,9 +150,8 @@ class Schedule:
         Returns:
             Scheduled operations that overlap with the given operation.
         """
-        overlaps = self.query(
-            time=scheduled_operation.time,
-            duration=scheduled_operation.duration)
+        overlaps = self.query(time=scheduled_operation.time,
+                              duration=scheduled_operation.duration)
         return [e for e in overlaps if e != scheduled_operation]
 
     def include(self, scheduled_operation: ScheduledOperation):
@@ -203,6 +204,14 @@ class Schedule:
                                strategy=InsertStrategy.NEW_THEN_INLINE)
                 time = so.time
             else:
-                circuit.append(so.operation,
-                               strategy=InsertStrategy.INLINE)
+                circuit.append(so.operation, strategy=InsertStrategy.INLINE)
         return circuit
+
+    def _has_unitary_(self):
+        return protocols.has_unitary(self.to_circuit())
+
+    def _unitary_(self):
+        return protocols.unitary(self.to_circuit())
+
+    def _apply_unitary_(self, args):
+        return protocols.apply_unitary(self.to_circuit(), args)

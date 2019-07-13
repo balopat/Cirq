@@ -61,7 +61,7 @@ def test_with_qubits_and_transform_qubits():
     negline = cirq.LineQubit.range(0, -3, -1)
     assert op.with_qubits(*line) == cirq.ParallelGateOperation(g, line)
     assert op.transform_qubits(lambda e: cirq.LineQubit(-e.x)
-                               ) == cirq.ParallelGateOperation(g, negline)
+                              ) == cirq.ParallelGateOperation(g, negline)
 
 
 def test_decompose():
@@ -79,8 +79,8 @@ def test_extrapolate():
 
     op = cirq.ParallelGateOperation(cirq.Y, [q])
     assert op**0.5 == cirq.ParallelGateOperation(cirq.Y**0.5, [q])
-    assert cirq.inverse(op) == op**-1 == cirq.ParallelGateOperation(cirq.Y**-1,
-                                                                    [q])
+    assert cirq.inverse(op) == op**-1 == cirq.ParallelGateOperation(
+        cirq.Y**-1, [q])
 
 
 def test_parameterizable_effect():
@@ -104,10 +104,10 @@ def test_unitary():
     assert cirq.unitary(p, None) is None
     np.testing.assert_allclose(cirq.unitary(q),
                                np.array(
-                                   [[0. + 0.j, 0. + 0.j, 0. + 0.j, 0. + 0.j],
-                                    [0. + 0.j, 1. + 0.j, 1. + 0.j, 0. + 0.j],
-                                    [0. + 0.j, 1. + 0.j, 1. + 0.j, 0. + 0.j],
-                                    [0. + 0.j, 0. + 0.j, 0. + 0.j, 0. + 0.j]]),
+                                   [[0. + 0.j, 0. + 0.j, 0. + 0.j, 1. + 0.j],
+                                    [0. + 0.j, 0. + 0.j, 1. + 0.j, 0. + 0.j],
+                                    [0. + 0.j, 1. + 0.j, 0. + 0.j, 0. + 0.j],
+                                    [1. + 0.j, 0. + 0.j, 0. + 0.j, 0. + 0.j]]),
                                atol=1e-8)
 
 
@@ -115,7 +115,7 @@ def test_not_implemented_diagram():
     a = cirq.NamedQubit('a')
     g = cirq.SingleQubitGate()
     c = cirq.Circuit()
-    c.append(cirq.ParallelGateOperation(g,[a]))
+    c.append(cirq.ParallelGateOperation(g, [a]))
     assert 'cirq.ops.gate_features.SingleQubitGate' in str(c)
 
 
@@ -131,24 +131,15 @@ def test_str():
     assert str(cirq.ParallelGateOperation(cirq.X, (a, b))) == 'X(0, 1)'
 
 
-def test_phase():
-    g1 = cirq.SingleQubitGate()
-    g2 = cirq.S
-    g3 = cirq.phase_by(g2, 1, 0)
-    qreg = cirq.LineQubit.range(2)
-    op1 = cirq.ParallelGateOperation(g1, qreg)
-    op2 = cirq.ParallelGateOperation(g2, qreg)
-    assert cirq.phase_by(op2, 1, 0) == cirq.ParallelGateOperation(g3, qreg)
-    with pytest.raises(TypeError):
-        cirq.phase_by(op1, 1, 0)
-
-
 def test_equivalent_circuit():
     qreg = cirq.LineQubit.range(4)
     oldc = cirq.Circuit()
     newc = cirq.Circuit()
-    gates = [cirq.XPowGate()**(1/2), cirq.YPowGate()**(1/3),
-             cirq.ZPowGate()**-1]
+    gates = [
+        cirq.XPowGate()**(1 / 2),
+        cirq.YPowGate()**(1 / 3),
+        cirq.ZPowGate()**-1
+    ]
 
     for gate in gates:
         for qubit in qreg:
@@ -158,3 +149,14 @@ def test_equivalent_circuit():
     cirq.testing.assert_has_diagram(newc, oldc.to_text_diagram())
     cirq.testing.assert_circuits_with_terminal_measurements_are_equivalent(
         oldc, newc, atol=1e-6)
+
+
+@pytest.mark.parametrize('gate, qubits', (
+    (cirq.X, (cirq.NamedQubit('q'),)),
+    (cirq.Y, cirq.LineQubit.range(2)),
+    (cirq.Z, cirq.LineQubit.range(3)),
+    (cirq.H, cirq.LineQubit.range(4)),
+))
+def test_parallel_gate_operation_is_consistent(gate, qubits):
+    op = cirq.ParallelGateOperation(gate, qubits)
+    cirq.testing.assert_implements_consistent_protocols(op)

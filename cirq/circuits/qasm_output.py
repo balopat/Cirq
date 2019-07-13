@@ -11,13 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Utility classes for representing QASM."""
 
-from typing import Set  # pylint: disable=unused-import
-from typing import (
-    Callable, Dict, Optional, Sequence, Tuple, Union
-)
+from typing import Set, Any  # pylint: disable=unused-import
+from typing import (Callable, Dict, Optional, Sequence, Tuple, Union)
 
 import re
 import numpy as np
@@ -25,18 +22,19 @@ import numpy as np
 from cirq import ops, linalg, protocols, value
 
 
+@value.value_equality(unhashable=True, approximate=True)
 class QasmUGate(ops.SingleQubitGate):
 
-    def __init__(self, lmda, theta, phi) -> None:
+    def __init__(self, theta, phi, lmda) -> None:
         """A QASM gate representing any single qubit unitary with a series of
         three rotations, Z, Y, and Z.
 
         The angles are normalized to the range [0, 2) half_turns.
 
         Args:
-            lmda: Half turns to rotate about Z (applied first).
-            theta: Half turns to rotate about Y.
+            theta: Half turns to rotate about Y (applied second).
             phi: Half turns to rotate about Z (applied last).
+            lmda: Half turns to rotate about Z (applied first).
         """
         self.lmda = lmda % 2
         self.theta = theta % 2
@@ -46,11 +44,13 @@ class QasmUGate(ops.SingleQubitGate):
     def from_matrix(mat: np.array) -> 'QasmUGate':
         pre_phase, rotation, post_phase = (
             linalg.deconstruct_single_qubit_matrix_into_angles(mat))
-        return QasmUGate(pre_phase / np.pi, rotation / np.pi,
-                         post_phase / np.pi)
+        return QasmUGate(
+            rotation / np.pi,
+            post_phase / np.pi,
+            pre_phase / np.pi,
+        )
 
-    def _qasm_(self,
-               qubits: Tuple[ops.Qid, ...],
+    def _qasm_(self, qubits: Tuple[ops.Qid, ...],
                args: protocols.QasmArgs) -> str:
         args.validate_version('2.0')
         return args.format(
@@ -58,8 +58,8 @@ class QasmUGate(ops.SingleQubitGate):
             self.theta, self.phi, self.lmda, qubits[0])
 
     def __repr__(self) -> str:
-        return 'cirq.QasmUGate({}, {}, {})'.format(self.lmda, self.theta,
-                                                   self.phi)
+        return 'cirq.QasmUGate({}, {}, {})'.format(self.theta, self.phi,
+                                                   self.lmda)
 
     def _unitary_(self) -> np.ndarray:
         # Source: https://arxiv.org/abs/1707.03429 (equation 2)
@@ -70,18 +70,13 @@ class QasmUGate(ops.SingleQubitGate):
         ]
         return linalg.dot(*map(protocols.unitary, operations))
 
-    def __eq__(self, other):
-        return isinstance(other, QasmUGate) and \
-               other.lmda == self.lmda and \
-               other.theta == self.theta and \
-               other.phi == self.phi
-
-    def __hash__(self):
-        return hash((self.lmda, self.theta, self.phi))
+    def _value_equality_values_(self):
+        return self.lmda, self.theta, self.phi
 
 
 @value.value_equality
 class QasmTwoQubitGate(ops.TwoQubitGate):
+
     def __init__(self, kak: linalg.KakDecomposition) -> None:
         """A two qubit gate represented in QASM by the KAK decomposition.
 
@@ -160,15 +155,13 @@ class QasmOutput:
         meas_key_id_map, meas_comments = self._generate_measurement_ids()
         self.meas_comments = meas_comments
         qubit_id_map = self._generate_qubit_ids()
-        self.args = protocols.QasmArgs(
-            precision=precision,
-            version=version,
-            qubit_id_map=qubit_id_map,
-            meas_key_id_map=meas_key_id_map)
+        self.args = protocols.QasmArgs(precision=precision,
+                                       version=version,
+                                       qubit_id_map=qubit_id_map,
+                                       meas_key_id_map=meas_key_id_map)
 
-    def _generate_measurement_ids(self
-                                  ) -> Tuple[Dict[str, str],
-                                             Dict[str, Optional[str]]]:
+    def _generate_measurement_ids(
+            self) -> Tuple[Dict[str, str], Dict[str, Optional[str]]]:
         # Pick an id for the creg that will store each measurement
         meas_key_id_map = {}  # type: Dict[str, str]
         meas_comments = {}  # type: Dict[str, Optional[str]]
@@ -197,6 +190,7 @@ class QasmOutput:
     def save(self, path: Union[str, bytes, int]) -> None:
         """Write QASM output to a file specified by path."""
         with open(path, 'w') as f:
+
             def write(s: str) -> None:
                 f.write(s)
 
@@ -240,7 +234,8 @@ class QasmOutput:
         # Register definitions
         # Qubit registers
         output('// Qubits: [{}]\n'.format(', '.join(map(str, self.qubits))))
-        output('qreg q[{}];\n'.format(len(self.qubits)))
+        if len(self.qubits) > 0:
+            output('qreg q[{}];\n'.format(len(self.qubits)))
         # Classical registers
         # Pick an id for the creg that will store each measurement
         already_output_keys = set()  # type: Set[str]
@@ -261,10 +256,10 @@ class QasmOutput:
         # Operations
         self._write_operations(self.operations, output, output_line_gap)
 
-    def _write_operations(self,
-                          op_tree: ops.OP_TREE,
+    def _write_operations(self, op_tree: ops.OP_TREE,
                           output: Callable[[str], None],
                           output_line_gap: Callable[[int], None]) -> None:
+
         def keep(op: ops.Operation) -> bool:
             return protocols.qasm(op, args=self.args, default=None) is not None
 
@@ -285,11 +280,10 @@ class QasmOutput:
                 'Cannot output operation as QASM: {!r}'.format(bad_op))
 
         for main_op in ops.flatten_op_tree(op_tree):
-            decomposed = protocols.decompose(
-                main_op,
-                keep=keep,
-                fallback_decomposer=fallback,
-                on_stuck_raise=on_stuck)
+            decomposed = protocols.decompose(main_op,
+                                             keep=keep,
+                                             fallback_decomposer=fallback,
+                                             on_stuck_raise=on_stuck)
 
             should_annotate = decomposed != [main_op]
             if should_annotate:

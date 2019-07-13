@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Abstract classes for simulations which keep track of wave functions."""
 
 import abc
@@ -33,11 +32,11 @@ class SimulatesIntermediateWaveFunction(simulator.SimulatesIntermediateState,
 
     @abc.abstractmethod
     def _simulator_iterator(
-        self,
-        circuit: circuits.Circuit,
-        param_resolver: study.ParamResolver,
-        qubit_order: ops.QubitOrderOrList,
-        initial_state: np.ndarray,
+            self,
+            circuit: circuits.Circuit,
+            param_resolver: study.ParamResolver,
+            qubit_order: ops.QubitOrderOrList,
+            initial_state: np.ndarray,
     ) -> Iterator:
         """Iterator over WaveFunctionStepResult from Moments of a Circuit.
 
@@ -68,11 +67,11 @@ class SimulatesIntermediateWaveFunction(simulator.SimulatesIntermediateState,
             final_simulator_state=final_simulator_state)
 
     def compute_displays(
-        self,
-        program: Union[circuits.Circuit, schedules.Schedule],
-        param_resolver: study.ParamResolver = study.ParamResolver({}),
-        qubit_order: ops.QubitOrderOrList = ops.QubitOrder.DEFAULT,
-        initial_state: Union[int, np.ndarray] = 0,
+            self,
+            program: Union[circuits.Circuit, schedules.Schedule],
+            param_resolver: study.ParamResolver = study.ParamResolver({}),
+            qubit_order: ops.QubitOrderOrList = ops.QubitOrder.DEFAULT,
+            initial_state: Union[int, np.ndarray] = 0,
     ) -> study.ComputeDisplaysResult:
         """Computes displays in the supplied Circuit or Schedule.
 
@@ -90,15 +89,15 @@ class SimulatesIntermediateWaveFunction(simulator.SimulatesIntermediateState,
         Returns:
             ComputeDisplaysResult for the simulation.
         """
-        return self.compute_displays_sweep(
-            program, [param_resolver], qubit_order, initial_state)[0]
+        return self.compute_displays_sweep(program, [param_resolver],
+                                           qubit_order, initial_state)[0]
 
     def compute_displays_sweep(
-        self,
-        program: Union[circuits.Circuit, schedules.Schedule],
-        params: Optional[study.Sweepable] = None,
-        qubit_order: ops.QubitOrderOrList = ops.QubitOrder.DEFAULT,
-        initial_state: Union[int, np.ndarray] = 0,
+            self,
+            program: Union[circuits.Circuit, schedules.Schedule],
+            params: Optional[study.Sweepable] = None,
+            qubit_order: ops.QubitOrderOrList = ops.QubitOrder.DEFAULT,
+            initial_state: Union[int, np.ndarray] = 0,
     ) -> List[study.ComputeDisplaysResult]:
         """Computes displays in the supplied Circuit or Schedule.
 
@@ -121,8 +120,8 @@ class SimulatesIntermediateWaveFunction(simulator.SimulatesIntermediateState,
             List of ComputeDisplaysResults for this run, one for each
             possible parameter resolver.
         """
-        circuit = (program if isinstance(program, circuits.Circuit)
-                   else program.to_circuit())
+        circuit = (program if isinstance(program, circuits.Circuit) else
+                   program.to_circuit())
         param_resolvers = study.to_resolvers(params or study.ParamResolver({}))
         qubit_order = ops.QubitOrder.as_qubit_order(qubit_order)
         qubits = qubit_order.order_for(circuit.all_qubits())
@@ -133,68 +132,61 @@ class SimulatesIntermediateWaveFunction(simulator.SimulatesIntermediateState,
 
             # Compute the displays in the first Moment
             moment = circuit[0]
-            state = wave_function.to_valid_state_vector(
-                initial_state, num_qubits=len(qubits))
+            state = wave_function.to_valid_state_vector(initial_state,
+                                                        num_qubits=len(qubits))
             qubit_map = {q: i for i, q in enumerate(qubits)}
             _enter_moment_display_values_into_dictionary(
                 display_values, moment, state, qubit_order, qubit_map)
 
             # Compute the displays in the rest of the Moments
             all_step_results = self.simulate_moment_steps(
-                circuit,
-                param_resolver,
-                qubit_order,
-                initial_state)
+                circuit, param_resolver, qubit_order, initial_state)
             for step_result, moment in zip(all_step_results, circuit[1:]):
                 _enter_moment_display_values_into_dictionary(
-                    display_values,
-                    moment,
-                    step_result.state_vector(),
-                    qubit_order,
-                    step_result.qubit_map)
+                    display_values, moment, step_result.state_vector(),
+                    qubit_order, step_result.qubit_map)
 
-            compute_displays_results.append(study.ComputeDisplaysResult(
-                params=param_resolver,
-                display_values=display_values))
+            compute_displays_results.append(
+                study.ComputeDisplaysResult(params=param_resolver,
+                                            display_values=display_values))
 
         return compute_displays_results
 
 
-def _enter_moment_display_values_into_dictionary(
-    display_values: Dict,
-    moment: ops.Moment,
-    state: np.ndarray,
-    qubit_order: ops.QubitOrder,
-    qubit_map: Dict[ops.Qid, int]):
+def _enter_moment_display_values_into_dictionary(display_values: Dict,
+                                                 moment: ops.Moment,
+                                                 state: np.ndarray,
+                                                 qubit_order: ops.QubitOrder,
+                                                 qubit_map: Dict[ops.Qid, int]):
     for op in moment:
         if isinstance(op, ops.WaveFunctionDisplay):
-            display_values[op.key] = (
-                op.value_derived_from_wavefunction(state, qubit_map))
+            display_values[op.key] = (op.value_derived_from_wavefunction(
+                state, qubit_map))
         elif isinstance(op, ops.SamplesDisplay):
             display_values[op.key] = _compute_samples_display_value(
                 op, state, qubit_order, qubit_map)
 
 
 def _compute_samples_display_value(display: ops.SamplesDisplay,
-    state: np.ndarray,
-    qubit_order: ops.QubitOrder,
-    qubit_map: Dict[ops.Qid, int]):
+                                   state: np.ndarray,
+                                   qubit_order: ops.QubitOrder,
+                                   qubit_map: Dict[ops.Qid, int]):
     basis_change_circuit = circuits.Circuit.from_ops(
         display.measurement_basis_change())
-    modified_state = basis_change_circuit.apply_unitary_effect_to_state(
+    modified_state = basis_change_circuit.final_wavefunction(
         state,
         qubit_order=qubit_order,
         qubits_that_should_be_present=qubit_map.keys())
     indices = [qubit_map[qubit] for qubit in display.qubits]
-    samples = wave_function.sample_state_vector(
-        modified_state, indices, display.num_samples)
+    samples = wave_function.sample_state_vector(modified_state, indices,
+                                                display.num_samples)
     return display.value_derived_from_samples(samples)
 
 
 class WaveFunctionStepResult(simulator.StepResult, metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def simulator_state(self) -> 'WaveFunctionSimulatorState':
+    def _simulator_state(self) -> 'WaveFunctionSimulatorState':
         """Returns the simulator_state of the simulator after this step.
 
         The form of the simulator_state depends on the implementation of the
@@ -207,16 +199,14 @@ class WaveFunctionStepResult(simulator.StepResult, metaclass=abc.ABCMeta):
 @value.value_equality(unhashable=True)
 class WaveFunctionSimulatorState:
 
-    def __init__(self,
-        state_vector: np.ndarray,
-        qubit_map: Dict[ops.Qid, int]):
+    def __init__(self, state_vector: np.ndarray, qubit_map: Dict[ops.Qid, int]):
         self.state_vector = state_vector
         self.qubit_map = qubit_map
 
     def __repr__(self):
         return (
             'cirq.WaveFunctionSimulatorState(state_vector={!r}, qubit_map={!r})'
-                .format(self.state_vector, self.qubit_map))
+            .format(self.state_vector, self.qubit_map))
 
     def _value_equality_values_(self):
         return (self.state_vector.tolist(), self.qubit_map)
@@ -231,10 +221,9 @@ class WaveFunctionTrialResult(wave_function.StateVectorMixin,
         final_state: The final wave function of the system.
     """
 
-    def __init__(self,
-        params: study.ParamResolver,
-        measurements: Dict[str, np.ndarray],
-        final_simulator_state: WaveFunctionSimulatorState) -> None:
+    def __init__(self, params: study.ParamResolver,
+                 measurements: Dict[str, np.ndarray],
+                 final_simulator_state: WaveFunctionSimulatorState) -> None:
         super().__init__(params=params,
                          measurements=measurements,
                          final_simulator_state=final_simulator_state,
@@ -267,12 +256,13 @@ class WaveFunctionTrialResult(wave_function.StateVectorMixin,
                  6  |   1    |   1    |   0
                  7  |   1    |   1    |   1
         """
-        return self.final_simulator_state.state_vector
+        return self._final_simulator_state.state_vector
 
     def _value_equality_values_(self):
-        measurements = {k: v.tolist() for k, v in
-                        sorted(self.measurements.items())}
-        return (self.params, measurements, self.final_simulator_state)
+        measurements = {
+            k: v.tolist() for k, v in sorted(self.measurements.items())
+        }
+        return (self.params, measurements, self._final_simulator_state)
 
     def __str__(self):
         samples = super().__str__()
@@ -296,4 +286,4 @@ class WaveFunctionTrialResult(wave_function.StateVectorMixin,
         return ('cirq.WaveFunctionTrialResult(params={!r}, '
                 'measurements={!r}, '
                 'final_simulator_state={!r})').format(
-                    self.params, self.measurements, self.final_simulator_state)
+                    self.params, self.measurements, self._final_simulator_state)

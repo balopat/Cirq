@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Types for representing and methods for manipulating circuit operation trees.
 """
 
@@ -40,6 +39,7 @@ from cirq.ops.common_channels import (
 from cirq.ops.common_gates import (
     CNOT,
     CNotPowGate,
+    CX,
     CZ,
     CZPowGate,
     H,
@@ -88,13 +88,14 @@ from cirq.ops.gate_features import (
     TwoQubitGate,
 )
 
-from cirq.ops.gate_operation import (
-    GateOperation,
-    op_gate_of_type
-)
+from cirq.ops.gate_operation import (GateOperation, op_gate_of_type)
 
 from cirq.ops.linear_combinations import (
-    LinearCombinationOfGates,)
+    LinearCombinationOfGates,
+    LinearCombinationOfOperations,
+    PauliSum,
+    PauliSumLike,
+)
 
 from cirq.ops.parallel_gate_operation import (
     ParallelGateOperation,)
@@ -163,6 +164,7 @@ from cirq.ops.raw_types import (
 )
 
 from cirq.ops.three_qubit_gates import (
+    CCNOT,
     CCX,
     CCXPowGate,
     CCZ,

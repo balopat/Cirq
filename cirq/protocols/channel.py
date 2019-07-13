@@ -11,20 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Protocol and methods for quantum channels."""
 
 from typing import Any, Sequence, Tuple, TypeVar, Union
-
 
 import numpy as np
 from typing_extensions import Protocol
 
 from cirq.protocols.mixture import has_mixture_channel
 
-
 from cirq.type_workarounds import NotImplementedType
-
 
 # This is a special indicator value used by the channel method to determine
 # whether or not the caller provided a 'default' argument. It must be of type
@@ -32,7 +28,6 @@ from cirq.type_workarounds import NotImplementedType
 # that case. It is checked for using `is`, so it won't have a false positive
 # if the user provides a different (np.array([]),) value.
 RaiseTypeErrorIfNotProvided = (np.array([]),)
-
 
 TDefault = TypeVar('TDefault')
 
@@ -70,6 +65,7 @@ class SupportsChannel(Protocol):
             A list of matrices describing the channel (Krauss operators), or
             NotImplemented if there is no such matrix.
         """
+
     def _has_channel_(self) -> bool:
         """Whether this value has a channel representation.
 
@@ -85,9 +81,8 @@ class SupportsChannel(Protocol):
         """
 
 
-def channel(val: Any,
-            default: Any = RaiseTypeErrorIfNotProvided
-            ) -> Union[Tuple[np.ndarray], Sequence[TDefault]]:
+def channel(val: Any, default: Any = RaiseTypeErrorIfNotProvided
+           ) -> Union[Tuple[np.ndarray], Sequence[TDefault]]:
     r"""Returns a list of matrices describing the channel for the given value.
 
     These matrices are the terms in the operator sum representation of
@@ -121,33 +116,33 @@ def channel(val: Any,
             specified.
     """
     channel_getter = getattr(val, '_channel_', None)
-    channel_result = (
-        NotImplemented if channel_getter is None else channel_getter())
+    channel_result = (NotImplemented
+                      if channel_getter is None else channel_getter())
     if channel_result is not NotImplemented:
         return tuple(channel_result)
 
     mixture_getter = getattr(val, '_mixture_', None)
-    mixture_result = (
-        NotImplemented if mixture_getter is None else mixture_getter())
-    if mixture_result is not NotImplemented:
+    mixture_result = (NotImplemented
+                      if mixture_getter is None else mixture_getter())
+    if mixture_result is not NotImplemented and mixture_result is not None:
         return tuple(np.sqrt(p) * u for p, u in mixture_result)
 
     unitary_getter = getattr(val, '_unitary_', None)
-    unitary_result = (
-        NotImplemented if unitary_getter is None else unitary_getter())
-    if unitary_result is not NotImplemented:
+    unitary_result = (NotImplemented
+                      if unitary_getter is None else unitary_getter())
+    if unitary_result is not NotImplemented and unitary_result is not None:
         return (unitary_result,)
 
     if default is not RaiseTypeErrorIfNotProvided:
         return default
 
-    if (channel_getter is None and unitary_getter is None
-            and mixture_getter is None):
+    if (channel_getter is None and unitary_getter is None and
+            mixture_getter is None):
         raise TypeError("object of type '{}' has no _channel_ or _mixture_ or "
                         "_unitary_ method.".format(type(val)))
     raise TypeError("object of type '{}' does have a _channel_, _mixture_ or "
-                "_unitary_ method, but it returned NotImplemented."
-                .format(type(val)))
+                    "_unitary_ method, but it returned NotImplemented.".format(
+                        type(val)))
 
 
 def has_channel(val: Any) -> bool:

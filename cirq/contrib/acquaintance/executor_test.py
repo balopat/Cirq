@@ -89,12 +89,11 @@ def test_executor_explicit():
 class DiagonalGate(cirq.Gate):
 
     def __init__(self, num_qubits: int, diagonal: np.ndarray) -> None:
-        dimension = 2 ** num_qubits
-        if (diagonal.shape != (dimension,) or not
-            np.allclose(
-                np.absolute(diagonal), np.ones(dimension))):
+        dimension = 2**num_qubits
+        if (diagonal.shape != (dimension,) or
+                not np.allclose(np.absolute(diagonal), np.ones(dimension))):
             raise ValueError('Diagonal must be an (2**num_qubits)-dimensional '
-                    'vector with unit-norm entries.')
+                             'vector with unit-norm entries.')
         self._num_qubits = num_qubits
         self.diagonal = diagonal
 
@@ -112,7 +111,7 @@ class DiagonalGate(cirq.Gate):
 
     @staticmethod
     def random(num_qubits: int):
-        dimension = 2 ** num_qubits
+        dimension = 2**num_qubits
         diagonal = np.exp(2j * np.pi * np.random.random(dimension))
         return DiagonalGate(num_qubits, diagonal)
 
@@ -140,44 +139,42 @@ def test_diagonal_gate():
     assert actual_text_diagram == expected_text_diagram
 
 
-def random_diagonal_gates(num_qubits: int,
-                 acquaintance_size: int
-                 ) -> Dict[Tuple[cirq.Qid, ...], cirq.Gate]:
+def random_diagonal_gates(num_qubits: int, acquaintance_size: int
+                         ) -> Dict[Tuple[cirq.Qid, ...], cirq.Gate]:
 
-    return {Q: DiagonalGate.random(acquaintance_size)
-             for Q in
-             combinations(cirq.LineQubit.range(num_qubits), acquaintance_size)}
+    return {
+        Q: DiagonalGate.random(acquaintance_size) for Q in combinations(
+            cirq.LineQubit.range(num_qubits), acquaintance_size)
+    }
 
 
-@pytest.mark.parametrize('num_qubits, acquaintance_size, gates',
+@pytest.mark.parametrize(
+    'num_qubits, acquaintance_size, gates',
     [(num_qubits, acquaintance_size,
       random_diagonal_gates(num_qubits, acquaintance_size))
-      for acquaintance_size, num_qubits in
-      ([(2, n) for n in range(2, 9)] +
-       [(3, n) for n in range(3, 9)] +
-       [(4, n) for n in (4, 7)] +
-       [(5, n) for n in (5, 6)])
-      for _ in range(2)
-      ])
-def test_executor_random(num_qubits: int,
-                         acquaintance_size: int,
+     for acquaintance_size, num_qubits in ([(2, n) for n in range(2, 9)] +
+                                           [(3, n) for n in range(3, 9)] +
+                                           [(4, n) for n in (4, 7)] +
+                                           [(5, n) for n in (5, 6)])
+     for _ in range(2)])
+def test_executor_random(num_qubits: int, acquaintance_size: int,
                          gates: Dict[Tuple[cirq.Qid, ...], cirq.Gate]):
     qubits = cirq.LineQubit.range(num_qubits)
     circuit = cca.complete_acquaintance_strategy(qubits, acquaintance_size)
 
     logical_circuit = cirq.Circuit.from_ops([g(*Q) for Q, g in gates.items()])
-    expected_unitary = logical_circuit.to_unitary_matrix()
+    expected_unitary = logical_circuit.unitary()
 
     initial_mapping = {q: q for q in qubits}
     final_mapping = cca.GreedyExecutionStrategy(gates, initial_mapping)(circuit)
     permutation = {q.x: qq.x for q, qq in final_mapping.items()}
     circuit.append(cca.LinearPermutationGate(num_qubits, permutation)(*qubits))
-    actual_unitary = circuit.to_unitary_matrix()
+    actual_unitary = circuit.unitary()
 
-    np.testing.assert_allclose(
-            actual=actual_unitary,
-            desired=expected_unitary,
-            verbose=True)
+    np.testing.assert_allclose(actual=actual_unitary,
+                               desired=expected_unitary,
+                               verbose=True)
+
 
 def test_acquaintance_operation():
     n = 5
@@ -191,5 +188,5 @@ def test_acquaintance_operation():
         assert op.logical_indices == logical_indices
         assert op.qubits == physical_qubits
         wire_symbols = tuple('({})'.format(i) for i in logical_indices)
-        assert (cirq.circuit_diagram_info(op) ==
-                cirq.CircuitDiagramInfo(wire_symbols=wire_symbols))
+        assert (cirq.circuit_diagram_info(op) == cirq.CircuitDiagramInfo(
+            wire_symbols=wire_symbols))

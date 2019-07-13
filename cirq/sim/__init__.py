@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Base simulation classes and generic simulators."""
 
 from cirq.sim.density_matrix_utils import (
@@ -28,12 +27,10 @@ from cirq.sim.density_matrix_simulator import (
 )
 
 from cirq.sim.mux import (
+    final_wavefunction,
     sample,
     sample_sweep,
 )
-
-from cirq.sim.sampler import (
-    Sampler,)
 
 from cirq.sim.simulator import (
     SimulatesFinalState,

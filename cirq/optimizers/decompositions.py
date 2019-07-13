@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Utility methods related to optimizing quantum circuits."""
 
 from typing import List, Tuple, cast
@@ -30,9 +29,8 @@ def _signed_mod_1(x: float) -> float:
     return (x + 0.5) % 1 - 0.5
 
 
-def single_qubit_matrix_to_pauli_rotations(
-        mat: np.ndarray, atol: float = 0
-) -> List[Tuple[ops.Pauli, float]]:
+def single_qubit_matrix_to_pauli_rotations(mat: np.ndarray, atol: float = 0
+                                          ) -> List[Tuple[ops.Pauli, float]]:
     """Implements a single-qubit operation with few rotations.
 
     Args:
@@ -68,16 +66,16 @@ def single_qubit_matrix_to_pauli_rotations(
         linalg.deconstruct_single_qubit_matrix_into_angles(mat))
     z_ht_before = z_rad_before / np.pi - 0.5
     m_ht = y_rad / np.pi
-    m_pauli = ops.pauli_gates.X  # type: ops.pauli_gates.Pauli
+    m_pauli = ops.X  # type: ops.Pauli
     z_ht_after = z_rad_after / np.pi + 0.5
 
     # Clean up angles
     if is_clifford_rotation(z_ht_before):
         if ((is_quarter_turn(z_ht_before) or is_quarter_turn(z_ht_after)) ^
-            (is_half_turn(m_ht) and is_no_turn(z_ht_before-z_ht_after))):
+            (is_half_turn(m_ht) and is_no_turn(z_ht_before - z_ht_after))):
             z_ht_before += 0.5
             z_ht_after -= 0.5
-            m_pauli = ops.pauli_gates.Y
+            m_pauli = ops.Y
         if is_half_turn(z_ht_before) or is_half_turn(z_ht_after):
             z_ht_before -= 1
             z_ht_after += 1
@@ -90,14 +88,12 @@ def single_qubit_matrix_to_pauli_rotations(
         z_ht_before = 0
 
     # Generate operations
-    rotation_list = [(ops.pauli_gates.Z, z_ht_before), (m_pauli, m_ht),
-                     (ops.pauli_gates.Z, z_ht_after)]
+    rotation_list = [(ops.Z, z_ht_before), (m_pauli, m_ht), (ops.Z, z_ht_after)]
     return [(pauli, ht) for pauli, ht in rotation_list if not is_no_turn(ht)]
 
 
-def single_qubit_matrix_to_gates(
-        mat: np.ndarray, tolerance: float = 0
-) -> List[ops.SingleQubitGate]:
+def single_qubit_matrix_to_gates(mat: np.ndarray, tolerance: float = 0
+                                ) -> List[ops.SingleQubitGate]:
     """Implements a single-qubit operation with few gates.
 
     Args:
@@ -168,10 +164,8 @@ def _deconstruct_single_qubit_matrix_into_gate_turns(
             _signed_mod_1(total_z_turn))
 
 
-def single_qubit_matrix_to_phased_x_z(
-        mat: np.ndarray,
-        atol: float = 0
-) -> List[ops.SingleQubitGate]:
+def single_qubit_matrix_to_phased_x_z(mat: np.ndarray, atol: float = 0
+                                     ) -> List[ops.SingleQubitGate]:
     """Implements a single-qubit operation with a PhasedX and Z gate.
 
     If one of the gates isn't needed, it will be omitted.
@@ -195,10 +189,7 @@ def single_qubit_matrix_to_phased_x_z(
                            phase_exponent=2 * xy_phase_turn),
         ops.Z**(2 * total_z_turn)
     ]
-    result = [
-        g for g in result
-        if protocols.trace_distance_bound(g) > atol
-    ]
+    result = [g for g in result if protocols.trace_distance_bound(g) > atol]
 
     # Special case: XY half-turns can absorb Z rotations.
     if len(result) == 2 and abs(xy_turn) >= 0.5 - atol:

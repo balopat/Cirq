@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Utility methods related to optimizing quantum circuits."""
 
 from typing import Iterable, List, Tuple, Optional, cast
@@ -27,13 +26,14 @@ from cirq.optimizers import (
 )
 
 
-def two_qubit_matrix_to_operations(q0: ops.Qid,
-                                   q1: ops.Qid,
-                                   mat: np.ndarray,
-                                   allow_partial_czs: bool,
-                                   atol: float = 1e-8,
-                                   clean_operations: bool = True,
-                                   ) -> List[ops.Operation]:
+def two_qubit_matrix_to_operations(
+        q0: ops.Qid,
+        q1: ops.Qid,
+        mat: np.ndarray,
+        allow_partial_czs: bool,
+        atol: float = 1e-8,
+        clean_operations: bool = True,
+) -> List[ops.Operation]:
     """Decomposes a two-qubit operation into Z/XY/CZ gates.
 
     Args:
@@ -50,17 +50,17 @@ def two_qubit_matrix_to_operations(q0: ops.Qid,
         A list of operations implementing the matrix.
     """
     kak = linalg.kak_decomposition(mat, atol=atol)
-    operations = _kak_decomposition_to_operations(
-        q0, q1, kak, allow_partial_czs, atol=atol)
+    operations = _kak_decomposition_to_operations(q0,
+                                                  q1,
+                                                  kak,
+                                                  allow_partial_czs,
+                                                  atol=atol)
     if clean_operations:
         return _cleanup_operations(operations)
-    else:
-        return operations
+    return operations
 
 
-def _xx_interaction_via_full_czs(q0: ops.Qid,
-                                 q1: ops.Qid,
-                                 x: float):
+def _xx_interaction_via_full_czs(q0: ops.Qid, q1: ops.Qid, x: float):
     a = x * -2 / np.pi
     yield ops.H(q1)
     yield ops.CZ(q0, q1)
@@ -69,9 +69,7 @@ def _xx_interaction_via_full_czs(q0: ops.Qid,
     yield ops.H(q1)
 
 
-def _xx_yy_interaction_via_full_czs(q0: ops.Qid,
-                                    q1: ops.Qid,
-                                    x: float,
+def _xx_yy_interaction_via_full_czs(q0: ops.Qid, q1: ops.Qid, x: float,
                                     y: float):
     a = x * -2 / np.pi
     b = y * -2 / np.pi
@@ -87,11 +85,8 @@ def _xx_yy_interaction_via_full_czs(q0: ops.Qid,
     yield ops.X(q0)**-0.5
 
 
-def _xx_yy_zz_interaction_via_full_czs(q0: ops.Qid,
-                                       q1: ops.Qid,
-                                       x: float,
-                                       y: float,
-                                       z: float):
+def _xx_yy_zz_interaction_via_full_czs(q0: ops.Qid, q1: ops.Qid, x: float,
+                                       y: float, z: float):
     a = x * -2 / np.pi + 0.5
     b = y * -2 / np.pi + 0.5
     c = z * -2 / np.pi + 0.5
@@ -117,8 +112,7 @@ def _cleanup_operations(operations: List[ops.Operation]):
     eject_phased_paulis.EjectPhasedPaulis().optimize_circuit(circuit)
     eject_z.EjectZ().optimize_circuit(circuit)
     circuit = circuits.Circuit.from_ops(
-        circuit.all_operations(),
-        strategy=circuits.InsertStrategy.EARLIEST)
+        circuit.all_operations(), strategy=circuits.InsertStrategy.EARLIEST)
     return list(circuit.all_operations())
 
 
@@ -126,23 +120,25 @@ def _kak_decomposition_to_operations(q0: ops.Qid,
                                      q1: ops.Qid,
                                      kak: linalg.KakDecomposition,
                                      allow_partial_czs: bool,
-                                     atol: float = 1e-8
-                                     ) -> List[ops.Operation]:
+                                     atol: float = 1e-8) -> List[ops.Operation]:
     """Assumes that the decomposition is canonical."""
     b0, b1 = kak.single_qubit_operations_before
     pre = [_do_single_on(b0, q0, atol=atol), _do_single_on(b1, q1, atol=atol)]
     a0, a1 = kak.single_qubit_operations_after
     post = [_do_single_on(a0, q0, atol=atol), _do_single_on(a1, q1, atol=atol)]
 
-    return list(cast(Iterable[ops.Operation], ops.flatten_op_tree([
-        pre,
-        _non_local_part(q0,
-                        q1,
-                        kak.interaction_coefficients,
-                        allow_partial_czs,
-                        atol=atol),
-        post,
-    ])))
+    return list(
+        cast(
+            Iterable[ops.Operation],
+            ops.flatten_op_tree([
+                pre,
+                _non_local_part(q0,
+                                q1,
+                                kak.interaction_coefficients,
+                                allow_partial_czs,
+                                atol=atol),
+                post,
+            ])))
 
 
 def _is_trivial_angle(rad: float, atol: float) -> bool:
@@ -173,7 +169,7 @@ def _parity_interaction(q0: ops.Qid,
     if _is_trivial_angle(rads, atol):
         yield ops.CZ.on(q0, q1)
     else:
-        yield ops.CZ(q0, q1) ** (-2 * h)
+        yield ops.CZ(q0, q1)**(-2 * h)
 
     yield ops.Z(q0)**h
     yield ops.Z(q1)**h
@@ -182,7 +178,7 @@ def _parity_interaction(q0: ops.Qid,
         yield g.on(q0), g.on(q1)
 
 
-def _do_single_on(u: np.ndarray, q: ops.Qid, atol: float=1e-8):
+def _do_single_on(u: np.ndarray, q: ops.Qid, atol: float = 1e-8):
     for gate in decompositions.single_qubit_matrix_to_gates(u, atol):
         yield gate(q)
 
@@ -197,7 +193,7 @@ def _non_local_part(q0: ops.Qid,
     x, y, z = interaction_coefficients
 
     if (allow_partial_czs or
-        all(_is_trivial_angle(e, atol) for e in [x, y, z])):
+            all(_is_trivial_angle(e, atol) for e in [x, y, z])):
         return [
             _parity_interaction(q0, q1, x, atol, ops.Y**-0.5),
             _parity_interaction(q0, q1, y, atol, ops.X**0.5),

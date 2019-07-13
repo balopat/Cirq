@@ -42,6 +42,9 @@ class Pauli(raw_types.Gate, metaclass=abc.ABCMeta):
         self._index = index
         self._name = name
 
+    def num_qubits(self):
+        return 1
+
     def commutes_with(self, other: 'Pauli') -> bool:
         return self is other
 
@@ -84,18 +87,21 @@ class Pauli(raw_types.Gate, metaclass=abc.ABCMeta):
 
 
 class _PauliX(Pauli, common_gates.XPowGate):
+
     def __init__(self, *, exponent: Union[sympy.Basic, float] = 1.0):
         Pauli.__init__(self, index=0, name='X')
         common_gates.XPowGate.__init__(self, exponent=exponent)
 
 
 class _PauliY(Pauli, common_gates.YPowGate):
+
     def __init__(self, *, exponent: Union[sympy.Basic, float] = 1.0):
         Pauli.__init__(self, index=1, name='Y')
         common_gates.YPowGate.__init__(self, exponent=exponent)
 
 
 class _PauliZ(Pauli, common_gates.ZPowGate):
+
     def __init__(self, *, exponent: Union[sympy.Basic, float] = 1.0):
         Pauli.__init__(self, index=2, name='Z')
         common_gates.ZPowGate.__init__(self, exponent=exponent)
@@ -109,7 +115,6 @@ class _PauliZ(Pauli, common_gates.ZPowGate):
 #    [1, 0]]
 X = _PauliX()
 
-
 # The Pauli Y gate.
 #
 # Matrix:
@@ -118,7 +123,6 @@ X = _PauliX()
 #      [i, 0]]
 Y = _PauliY()
 
-
 # The Pauli Z gate.
 #
 # Matrix:
@@ -126,6 +130,5 @@ Y = _PauliY()
 #     [[1, 0],
 #      [0, -1]]
 Z = _PauliZ()
-
 
 Pauli._XYZ = (X, Y, Z)

@@ -18,6 +18,7 @@ import cirq
 
 
 class OtherX(cirq.SingleQubitGate):
+
     def _unitary_(self) -> np.ndarray:
         return np.array([[0, 1], [1, 0]])
 
@@ -26,6 +27,7 @@ class OtherX(cirq.SingleQubitGate):
 
 
 class OtherOtherX(cirq.SingleQubitGate):
+
     def _decompose_(self, qubits):
         return OtherX().on(*qubits)
 
@@ -34,4 +36,5 @@ def test_avoids_infinite_cycle_when_matrix_available():
     q = cirq.GridQubit(0, 0)
     c = cirq.Circuit.from_ops(OtherX().on(q), OtherOtherX().on(q))
     cirq.google.ConvertToXmonGates().optimize_circuit(c)
-    cirq.testing.assert_has_diagram(c, '(0, 0): ───X───X───')
+    cirq.testing.assert_has_diagram(
+        c, '(0, 0): ───PhasedX(1.0)───PhasedX(1.0)───')

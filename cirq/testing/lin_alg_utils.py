@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """A testing class with utilities for checking linear algebra."""
 
 from typing import Optional
@@ -49,8 +48,7 @@ def random_unitary(dim: int) -> np.ndarray:
         'How to generate random matrices from the classical compact groups'
         http://arxiv.org/abs/math-ph/0609050
     """
-    z = (np.random.randn(dim, dim) +
-         1j * np.random.randn(dim, dim)) * np.sqrt(0.5)
+    z = (np.random.randn(dim, dim) + 1j * np.random.randn(dim, dim))
     q, r = np.linalg.qr(z)
     d = np.diag(r)
     return q * (d / abs(d))
@@ -130,11 +128,10 @@ def assert_allclose_up_to_global_phase(
         AssertionError: The matrices aren't nearly equal up to global phase.
     """
     actual, desired = linalg.match_global_phase(actual, desired)
-    np.testing.assert_allclose(
-        actual=actual,
-        desired=desired,
-        rtol=rtol,
-        atol=atol,
-        equal_nan=equal_nan,
-        err_msg=err_msg,
-        verbose=verbose)
+    np.testing.assert_allclose(actual=actual,
+                               desired=desired,
+                               rtol=rtol,
+                               atol=atol,
+                               equal_nan=equal_nan,
+                               err_msg=err_msg,
+                               verbose=verbose)

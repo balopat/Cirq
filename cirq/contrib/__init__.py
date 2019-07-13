@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Package for contributions.
 
 Any contributions not ready for full production can be put in a subdirectory in
@@ -19,4 +18,5 @@ this package.
 """
 
 from cirq.contrib import acquaintance
+from cirq.contrib import graph_device
 from cirq.contrib.qcircuit import circuit_to_latex_using_qcircuit

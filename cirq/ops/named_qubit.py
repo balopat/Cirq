@@ -25,7 +25,6 @@ class NamedQubit(raw_types.Qid):
     """
 
     def __init__(self, name: str) -> None:
-        super().__init__()
         self._name = name
         self._comp_key = _pad_digits(name)
 
@@ -33,6 +32,10 @@ class NamedQubit(raw_types.Qid):
         return self._comp_key
 
     def __str__(self):
+        return self._name
+
+    @property
+    def name(self):
         return self._name
 
     def __repr__(self):

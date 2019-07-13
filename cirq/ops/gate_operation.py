@@ -11,13 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Basic types defining qubits, gates, and operations."""
 
-from typing import (
-    Any, FrozenSet, Optional, Sequence, Tuple, Type, TypeVar, TYPE_CHECKING,
-    Union
-)
+from typing import (Any, FrozenSet, Optional, Sequence, Tuple, Type, TypeVar,
+                    TYPE_CHECKING, Union)
 
 import numpy as np
 
@@ -34,8 +31,7 @@ if TYPE_CHECKING:
 class GateOperation(raw_types.Operation):
     """An application of a gate to a sequence of qubits."""
 
-    def __init__(self,
-                 gate: raw_types.Gate,
+    def __init__(self, gate: raw_types.Gate,
                  qubits: Sequence[raw_types.Qid]) -> None:
         """
         Args:
@@ -56,31 +52,28 @@ class GateOperation(raw_types.Operation):
         """The qubits targeted by the operation."""
         return self._qubits
 
-    def with_qubits(self, *new_qubits: raw_types.Qid) -> 'GateOperation':
+    def with_qubits(self, *new_qubits: raw_types.Qid) -> 'raw_types.Operation':
         return self.gate.on(*new_qubits)
 
-    def with_gate(self, new_gate: raw_types.Gate) -> 'GateOperation':
+    def with_gate(self, new_gate: raw_types.Gate) -> 'raw_types.Operation':
         return new_gate.on(*self.qubits)
 
     def __repr__(self):
         # Abbreviate when possible.
         if self == self.gate.on(*self.qubits):
-            return '{!r}.on({})'.format(
-                self.gate,
-                ', '.join(repr(q) for q in self.qubits))
+            return '{!r}.on({})'.format(self.gate,
+                                        ', '.join(repr(q) for q in self.qubits))
 
         return 'cirq.GateOperation(gate={!r}, qubits={!r})'.format(
-            self.gate,
-            list(self.qubits))
+            self.gate, list(self.qubits))
 
     def __str__(self):
         return '{}({})'.format(self.gate,
                                ', '.join(str(e) for e in self.qubits))
 
-    def _group_interchangeable_qubits(self) -> Tuple[
-            Union[raw_types.Qid,
-                  Tuple[int, FrozenSet[raw_types.Qid]]],
-            ...]:
+    def _group_interchangeable_qubits(
+            self
+    ) -> Tuple[Union[raw_types.Qid, Tuple[int, FrozenSet[raw_types.Qid]]], ...]:
 
         if not isinstance(self.gate, gate_features.InterchangeableQubitsGate):
             return self.qubits
@@ -97,22 +90,21 @@ class GateOperation(raw_types.Operation):
         return self.gate, self._group_interchangeable_qubits()
 
     def _decompose_(self) -> op_tree.OP_TREE:
-        return protocols.decompose_once_with_qubits(self.gate,
-                                                    self.qubits,
+        return protocols.decompose_once_with_qubits(self.gate, self.qubits,
                                                     NotImplemented)
 
     def _pauli_expansion_(self) -> value.LinearDict[str]:
         return protocols.pauli_expansion(self.gate)
 
     def _apply_unitary_(self, args: protocols.ApplyUnitaryArgs
-                        ) -> Union[np.ndarray, None, NotImplementedType]:
-        return protocols.apply_unitary(self.gate, args, default=NotImplemented)
+                       ) -> Union[np.ndarray, None, NotImplementedType]:
+        return protocols.apply_unitary(self.gate, args, default=None)
 
     def _has_unitary_(self) -> bool:
         return protocols.has_unitary(self.gate)
 
     def _unitary_(self) -> Union[np.ndarray, NotImplementedType]:
-        return protocols.unitary(self.gate, NotImplemented)
+        return protocols.unitary(self.gate, default=None)
 
     def _has_mixture_(self) -> bool:
         return protocols.has_mixture(self.gate)
@@ -136,12 +128,9 @@ class GateOperation(raw_types.Operation):
         resolved_gate = protocols.resolve_parameters(self.gate, resolver)
         return GateOperation(resolved_gate, self._qubits)
 
-    def _circuit_diagram_info_(self,
-                               args: protocols.CircuitDiagramInfoArgs
-                               ) -> protocols.CircuitDiagramInfo:
-        return protocols.circuit_diagram_info(self.gate,
-                                              args,
-                                              NotImplemented)
+    def _circuit_diagram_info_(self, args: protocols.CircuitDiagramInfoArgs
+                              ) -> protocols.CircuitDiagramInfo:
+        return protocols.circuit_diagram_info(self.gate, args, NotImplemented)
 
     def _trace_distance_bound_(self) -> float:
         return protocols.trace_distance_bound(self.gate)
@@ -156,7 +145,7 @@ class GateOperation(raw_types.Operation):
             return NotImplemented
         return GateOperation(phased_gate, self._qubits)
 
-    def __pow__(self, exponent: Any) -> 'GateOperation':
+    def __pow__(self, exponent: Any) -> 'raw_types.Operation':
         """Raise gate to a power, then reapply to the same qubits.
 
         Only works if the gate implements cirq.ExtrapolatableEffect.
@@ -170,9 +159,7 @@ class GateOperation(raw_types.Operation):
         Returns:
             A new operation on the same qubits with the scaled gate.
         """
-        new_gate = protocols.pow(self.gate,
-                                 exponent,
-                                 NotImplemented)
+        new_gate = protocols.pow(self.gate, exponent, NotImplemented)
         if new_gate is NotImplemented:
             return NotImplemented
         return self.with_gate(new_gate)

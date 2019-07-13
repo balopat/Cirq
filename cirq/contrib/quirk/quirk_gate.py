@@ -27,7 +27,7 @@ class QuirkOp:
     for how things can be combined.
     """
 
-    def __init__(self, *keys: Any, can_merge: bool=True) -> None:
+    def __init__(self, *keys: Any, can_merge: bool = True) -> None:
         """
         Args:
             *keys: The JSON object(s) that each qubit is turned into when
@@ -82,10 +82,9 @@ def single_qubit_matrix_gate(matrix: Optional[np.ndarray]) -> Optional[QuirkOp]:
 
     matrix = matrix.round(6)
     matrix_repr = '{{%s+%si,%s+%si},{%s+%si,%s+%si}}' % (
-        np.real(matrix[0, 0]), np.imag(matrix[0, 0]),
-        np.real(matrix[1, 0]), np.imag(matrix[1, 0]),
-        np.real(matrix[0, 1]), np.imag(matrix[0, 1]),
-        np.real(matrix[1, 1]), np.imag(matrix[1, 1]))
+        np.real(matrix[0, 0]), np.imag(matrix[0, 0]), np.real(matrix[1, 0]),
+        np.imag(matrix[1, 0]), np.real(matrix[0, 1]), np.imag(
+            matrix[0, 1]), np.real(matrix[1, 1]), np.imag(matrix[1, 1]))
 
     # Clean up.
     matrix_repr = matrix_repr.replace('+-', '-')
@@ -95,15 +94,14 @@ def single_qubit_matrix_gate(matrix: Optional[np.ndarray]) -> Optional[QuirkOp]:
     matrix_repr = matrix_repr.replace('.0+', '+')
     matrix_repr = matrix_repr.replace('.0-', '-')
 
-    return QuirkOp({
-        'id': '?',
-        'matrix': matrix_repr
-    })
+    return QuirkOp({'id': '?', 'matrix': matrix_repr})
 
 
 def known_quirk_op_for_operation(op: ops.Operation) -> Optional[QuirkOp]:
     if isinstance(op, ops.GateOperation):
         return _gate_to_quirk_op(op.gate)
+    if isinstance(op, ops.ControlledOperation):
+        return controlled_unwrap(op)
     return None
 
 
@@ -179,18 +177,17 @@ def ccz_to_known(gate: ops.CCZPowGate) -> Optional[QuirkOp]:
     return QuirkOp('•', '•', 'Z' + e, can_merge=False)
 
 
-def controlled_unwrap(gate: ops.ControlledGate) -> Optional[QuirkOp]:
-    sub = _gate_to_quirk_op(gate.sub_gate)
+def controlled_unwrap(op: ops.ControlledOperation) -> Optional[QuirkOp]:
+    sub = known_quirk_op_for_operation(op.sub_operation)
     if sub is None:
         return None
-    return QuirkOp(*(('•',) * gate.num_controls() + sub.keys), can_merge=False)
+    return QuirkOp(*(('•',) * len(op.controls) + sub.keys), can_merge=False)
 
 
 _known_gate_conversions = cast(
     Dict[type, Callable[[ops.Gate], Optional[QuirkOp]]], {
         ops.CCXPowGate: ccx_to_known,
         ops.CCZPowGate: ccz_to_known,
-        ops.ControlledGate: controlled_unwrap,
         ops.CSwapGate: cswap_to_known,
         ops.XPowGate: x_to_known,
         ops.YPowGate: y_to_known,

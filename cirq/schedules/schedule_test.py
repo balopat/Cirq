@@ -14,6 +14,7 @@
 
 from datetime import timedelta
 import pytest
+import numpy as np
 
 import cirq
 from cirq.devices import UnconstrainedDevice
@@ -178,9 +179,6 @@ def test_query_overlapping_operations_exclusive():
     assert schedule.query(time=zero + 3.5 * ps, duration=ps) == []
 
 
-# In python 2, timedelta doesn't support multiplication with floats
-
-
 def test_query_timedelta():
     q = cirq.NamedQubit('q')
     zero = cirq.Timestamp(picos=0)
@@ -221,9 +219,9 @@ def test_slice_operations():
                              scheduled_operations=[op1, op2, op3])
 
     assert schedule[zero] == [op1]
-    assert schedule[zero + ps*0.5] == [op1]
+    assert schedule[zero + ps * 0.5] == [op1]
     assert schedule[zero:zero] == []
-    assert schedule[zero + ps*0.5:zero + ps*0.5] == [op1]
+    assert schedule[zero + ps * 0.5:zero + ps * 0.5] == [op1]
     assert schedule[zero:zero + ps] == [op1]
     assert schedule[zero:zero + 2 * ps] == [op1]
     assert schedule[zero:zero + 2.1 * ps] == [op1, op2]
@@ -244,9 +242,8 @@ def test_include():
     with pytest.raises(ValueError):
         schedule.include(cirq.ScheduledOperation(zero, ps, cirq.H(q0)))
     with pytest.raises(ValueError):
-        schedule.include(cirq.ScheduledOperation(zero + 0.5 * ps,
-                                                 ps,
-                                                 cirq.H(q0)))
+        schedule.include(
+            cirq.ScheduledOperation(zero + 0.5 * ps, ps, cirq.H(q0)))
     op1 = cirq.ScheduledOperation(zero + 2 * ps, ps, cirq.H(q0))
     schedule.include(op1)
     op2 = cirq.ScheduledOperation(zero + 0.5 * ps, ps, cirq.H(q1))
@@ -263,11 +260,31 @@ def test_exclude():
     schedule = cirq.Schedule(device=UnconstrainedDevice,
                              scheduled_operations=[op])
 
-    assert not schedule.exclude(cirq.ScheduledOperation(zero + ps,
-                                                        ps,
-                                                        cirq.H(q)))
+    assert not schedule.exclude(
+        cirq.ScheduledOperation(zero + ps, ps, cirq.H(q)))
     assert not schedule.exclude(cirq.ScheduledOperation(zero, ps, cirq.X(q)))
     assert schedule.query(time=zero, duration=ps * 10) == [op]
     assert schedule.exclude(cirq.ScheduledOperation(zero, ps, cirq.H(q)))
     assert schedule.query(time=zero, duration=ps * 10) == []
     assert not schedule.exclude(cirq.ScheduledOperation(zero, ps, cirq.H(q)))
+
+
+def test_unitary():
+    q = cirq.NamedQubit('q')
+    zero = cirq.Timestamp(picos=0)
+    ps = cirq.Duration(picos=1)
+    op = cirq.ScheduledOperation(zero, ps, cirq.H(q))
+    schedule = cirq.Schedule(device=UnconstrainedDevice,
+                             scheduled_operations=[op])
+
+    cirq.testing.assert_has_consistent_apply_unitary(schedule, qubit_count=1)
+    np.testing.assert_allclose(cirq.unitary(schedule), cirq.unitary(cirq.H))
+    assert cirq.has_unitary(schedule)
+
+    schedule2 = cirq.Schedule(device=UnconstrainedDevice,
+                              scheduled_operations=[
+                                  cirq.ScheduledOperation(
+                                      zero, ps,
+                                      cirq.depolarize(0.5).on(q))
+                              ])
+    assert not cirq.has_unitary(schedule2)

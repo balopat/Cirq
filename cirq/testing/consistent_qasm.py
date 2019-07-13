@@ -57,13 +57,13 @@ def assert_qasm_is_consistent_with_unitary(val: Any):
     qasm = protocols.qasm(op, args=args, default=None)
     if qasm is None:
         return
-    else:
-        header = """
+
+    header = """
 OPENQASM 2.0;
 include "qelib1.inc";
 qreg q[{}];
 """.format(len(qubits))
-        qasm = header + qasm
+    qasm = header + qasm
 
     qasm_unitary = None
     try:
@@ -72,14 +72,12 @@ qreg q[{}];
             backend=qiskit.Aer.get_backend('unitary_simulator'))
         qasm_unitary = result.result().get_unitary()
         qasm_unitary = _reorder_indices_of_matrix(
-                qasm_unitary,
-                list(reversed(range(len(qubits)))))
+            qasm_unitary, list(reversed(range(len(qubits)))))
 
-        lin_alg_utils.assert_allclose_up_to_global_phase(
-            qasm_unitary,
-            unitary,
-            rtol=1e-8,
-            atol=1e-8)
+        lin_alg_utils.assert_allclose_up_to_global_phase(qasm_unitary,
+                                                         unitary,
+                                                         rtol=1e-8,
+                                                         atol=1e-8)
     except Exception as ex:
         if qasm_unitary is not None:
             p_unitary, p_qasm_unitary = linalg.match_global_phase(
@@ -95,14 +93,13 @@ qreg q[{}];
             'Unitary of generated QASM:\n{}\n\n'
             'Phased matched cirq.unitary(op):\n{}\n\n'
             'Phased matched unitary of generated QASM:\n{}\n\n'
-            'Underlying error:\n{}'.format(
-                _indent(repr(op)),
-                _indent(repr(unitary)),
-                _indent(qasm),
-                _indent(repr(qasm_unitary)),
-                _indent(repr(p_unitary)),
-                _indent(repr(p_qasm_unitary)),
-                _indent(str(ex))))
+            'Underlying error:\n{}'.format(_indent(repr(op)),
+                                           _indent(repr(unitary)),
+                                           _indent(qasm),
+                                           _indent(repr(qasm_unitary)),
+                                           _indent(repr(p_unitary)),
+                                           _indent(repr(p_qasm_unitary)),
+                                           _indent(str(ex))))
 
 
 def _indent(*content: str) -> str:
@@ -112,13 +109,10 @@ def _indent(*content: str) -> str:
 def _reorder_indices_of_matrix(matrix: np.ndarray, new_order: List[int]):
     num_qubits = matrix.shape[0].bit_length() - 1
     matrix = np.reshape(matrix, (2,) * 2 * num_qubits)
-    all_indices = range(2*num_qubits)
+    all_indices = range(2 * num_qubits)
     new_input_indices = new_order
     new_output_indices = [i + num_qubits for i in new_input_indices]
-    matrix = np.moveaxis(
-            matrix,
-            all_indices,
-            new_input_indices + new_output_indices
-    )
+    matrix = np.moveaxis(matrix, all_indices,
+                         new_input_indices + new_output_indices)
     matrix = np.reshape(matrix, (2**num_qubits, 2**num_qubits))
     return matrix

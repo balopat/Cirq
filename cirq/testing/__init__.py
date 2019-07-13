@@ -11,8 +11,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Utilities for testing code."""
+
+from cirq.testing.asynchronous import (
+    assert_asyncio_still_running,
+    assert_asyncio_will_have_result,
+    assert_asyncio_will_raise,
+)
 
 from cirq.testing.circuit_compare import (
     assert_circuits_with_terminal_measurements_are_equivalent,

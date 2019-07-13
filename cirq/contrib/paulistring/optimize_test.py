@@ -12,32 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 import cirq
 
 from cirq.contrib.paulistring import (
-    optimized_circuit,
-)
+    optimized_circuit,)
 
 
 def test_optimize():
     q0, q1, q2 = cirq.LineQubit.range(3)
     c_orig = cirq.Circuit.from_ops(
-        cirq.X(q0) ** 0.5,
+        cirq.X(q0)**0.5,
         cirq.X(q1),
         cirq.CZ(q1, q2),
-        cirq.X(q2) ** 0.125,
-        cirq.Z(q1) ** 0.5,
-        cirq.Y(q1) ** 0.5,
+        cirq.X(q2)**0.125,
+        cirq.Z(q1)**0.5,
+        cirq.Y(q1)**0.5,
         cirq.CZ(q0, q1),
-        cirq.Z(q1) ** 0.5,
+        cirq.Z(q1)**0.5,
         cirq.CZ(q1, q2),
-        cirq.Z(q1) ** 0.5,
-        cirq.X(q2) ** 0.875,
+        cirq.Z(q1)**0.5,
+        cirq.X(q2)**0.875,
         cirq.CZ(q1, q2),
-        cirq.X(q2) ** 0.125,
+        cirq.X(q2)**0.125,
     )
-    cirq.testing.assert_has_diagram(c_orig, """
+    cirq.testing.assert_has_diagram(
+        c_orig, """
 0: ───X^0.5─────────────────────────@───────────────────────────────────
                                     │
 1: ───X───────@───S─────────Y^0.5───@───S───@───S─────────@─────────────
@@ -48,12 +47,13 @@ def test_optimize():
     c_opt = optimized_circuit(c_orig)
 
     cirq.testing.assert_allclose_up_to_global_phase(
-        c_orig.to_unitary_matrix(),
-        c_opt.to_unitary_matrix(),
+        c_orig.unitary(),
+        c_opt.unitary(),
         atol=1e-7,
     )
 
-    cirq.testing.assert_has_diagram(c_opt, """
+    cirq.testing.assert_has_diagram(
+        c_opt, """
 0: ───X^0.5────────────@────────────────────────────────────────
                        │
 1: ───@───────X^-0.5───@───@────────────────@───Z^-0.5──────────
@@ -69,14 +69,14 @@ def test_optimize_large_circuit():
     c_opt = optimized_circuit(c_orig)
 
     cirq.testing.assert_allclose_up_to_global_phase(
-        c_orig.to_unitary_matrix(),
-        c_opt.to_unitary_matrix(),
+        c_orig.unitary(),
+        c_opt.unitary(),
         atol=1e-7,
     )
 
     assert sum(1 for op in c_opt.all_operations()
-                 if isinstance(op, cirq.GateOperation)
-                    and isinstance(op.gate, cirq.CZPowGate)) == 10
+               if isinstance(op, cirq.GateOperation) and
+               isinstance(op.gate, cirq.CZPowGate)) == 10
 
 
 def test_repeat_limit():
@@ -86,11 +86,10 @@ def test_repeat_limit():
     c_opt = optimized_circuit(c_orig, repeat=1)
 
     cirq.testing.assert_allclose_up_to_global_phase(
-        c_orig.to_unitary_matrix(),
-        c_opt.to_unitary_matrix(),
+        c_orig.unitary(),
+        c_opt.unitary(),
         atol=1e-7,
     )
 
-    assert sum(1 for op in c_opt.all_operations()
-                 if isinstance(op, cirq.GateOperation)
-                    and isinstance(op.gate, cirq.CZPowGate)) >= 10
+    assert sum(1 for op in c_opt.all_operations() if isinstance(
+        op, cirq.GateOperation) and isinstance(op.gate, cirq.CZPowGate)) >= 10

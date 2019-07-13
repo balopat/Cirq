@@ -13,8 +13,7 @@
 # limitations under the License.
 
 from cirq._version import (
-    __version__,
-)
+    __version__,)
 
 # Flattened sub-modules.
 
@@ -49,6 +48,8 @@ from cirq.linalg import (
     all_near_zero_mod,
     allclose_up_to_global_phase,
     apply_matrix_to_slices,
+    axis_angle,
+    AxisAngleDecomposition,
     bidiagonalize_real_matrix_pair_with_symmetric_products,
     bidiagonalize_unitary_with_special_orthogonals,
     block_diag,
@@ -68,6 +69,7 @@ from cirq.linalg import (
     kak_canonicalize_vector,
     kak_decomposition,
     KakDecomposition,
+    subwavefunction,
     kron,
     kron_bases,
     kron_factor_4x4_to_2x2s,
@@ -75,6 +77,7 @@ from cirq.linalg import (
     map_eigenvalues,
     match_global_phase,
     matrix_from_basis_coefficients,
+    one_hot,
     partial_trace,
     PAULI_BASIS,
     reflection_matrix_pow,
@@ -82,11 +85,11 @@ from cirq.linalg import (
     so4_to_magic_su2s,
     targeted_conjugate_about,
     targeted_left_multiply,
+    wavefunction_partial_trace_as_mixture,
 )
 
 from cirq.line import (
-    LineQubit,
-)
+    LineQubit,)
 
 from cirq.ops import (
     amplitude_damp,
@@ -100,12 +103,14 @@ from cirq.ops import (
     CCXPowGate,
     CCZ,
     CCZPowGate,
+    CCNOT,
     CNOT,
     CNotPowGate,
     ControlledGate,
     ControlledOperation,
     CSWAP,
     CSwapGate,
+    CX,
     CZ,
     CZPowGate,
     DensityMatrixDisplay,
@@ -128,6 +133,7 @@ from cirq.ops import (
     ISWAP,
     ISwapPowGate,
     LinearCombinationOfGates,
+    LinearCombinationOfOperations,
     measure,
     measure_each,
     MeasurementGate,
@@ -144,6 +150,8 @@ from cirq.ops import (
     PauliStringExpectation,
     PauliStringGateOperation,
     PauliStringPhasor,
+    PauliSum,
+    PauliSumLike,
     PauliTransform,
     phase_damp,
     phase_flip,
@@ -219,11 +227,11 @@ from cirq.sim import (
     dirac_notation,
     measure_density_matrix,
     measure_state_vector,
+    final_wavefunction,
     sample,
     sample_density_matrix,
     sample_state_vector,
     sample_sweep,
-    Sampler,
     SimulatesFinalState,
     SimulatesIntermediateState,
     SimulatesIntermediateWaveFunction,
@@ -256,6 +264,8 @@ from cirq.study import (
 )
 
 from cirq.value import (
+    ABCMetaImplementAnyOneOf,
+    alternative,
     canonicalize_half_turns,
     chosen_angle_to_canonical_half_turns,
     chosen_angle_to_half_turns,
@@ -270,6 +280,7 @@ from cirq.value import (
 # pylint: disable=redefined-builtin
 from cirq.protocols import (
     apply_channel,
+    apply_unitaries,
     apply_unitary,
     ApplyChannelArgs,
     ApplyUnitaryArgs,
@@ -282,6 +293,7 @@ from cirq.protocols import (
     decompose,
     decompose_once,
     decompose_once_with_qubits,
+    equal_up_to_global_phase,
     has_channel,
     has_mixture,
     has_mixture_channel,
@@ -300,7 +312,7 @@ from cirq.protocols import (
     QasmArgs,
     resolve_parameters,
     SupportsApplyChannel,
-    SupportsApplyUnitary,
+    SupportsConsistentApplyUnitary,
     SupportsApproximateEquality,
     SupportsChannel,
     SupportsCircuitDiagramInfo,
@@ -331,6 +343,14 @@ from cirq.neutral_atoms import (
     is_native_neutral_atom_op,
     NeutralAtomDevice,
 )
+
+from cirq.work import (
+    CircuitSampleJob,
+    PauliSumCollector,
+    Sampler,
+    Collector,
+)
+
 # pylint: enable=redefined-builtin
 
 # Unflattened sub-modules.

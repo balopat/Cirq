@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Quantum channels that are commonly used in the literature."""
 
 from typing import Iterable, Optional, Sequence, Tuple, Union
@@ -73,22 +72,23 @@ class AsymmetricDepolarizingChannel(gate_features.SingleQubitGate):
 
     def __repr__(self) -> str:
         return 'cirq.asymmetric_depolarize(p_x={!r},p_y={!r},p_z={!r})'.format(
-            self._p_x, self._p_y, self._p_z
-        )
+            self._p_x, self._p_y, self._p_z)
 
     def __str__(self) -> str:
         return 'asymmetric_depolarize(p_x={!r},p_y={!r},p_z={!r})'.format(
-            self._p_x, self._p_y, self._p_z
-        )
+            self._p_x, self._p_y, self._p_z)
 
     def _circuit_diagram_info_(self,
                                args: protocols.CircuitDiagramInfoArgs) -> str:
+        if args.precision is not None:
+            f = '{:.' + str(args.precision) + 'g}'
+            return 'A({},{},{})'.format(f, f, f).format(self._p_x, self._p_y,
+                                                        self._p_z)
         return 'A({!r},{!r},{!r})'.format(self._p_x, self._p_y, self._p_z)
 
 
-def asymmetric_depolarize(
-    p_x: float, p_y: float, p_z: float
-) -> AsymmetricDepolarizingChannel:
+def asymmetric_depolarize(p_x: float, p_y: float,
+                          p_z: float) -> AsymmetricDepolarizingChannel:
     r"""Returns a AsymmetricDepolarizingChannel with given parameter.
 
     This channel evolves a density matrix via
@@ -156,9 +156,8 @@ class DepolarizingChannel(gate_features.SingleQubitGate):
     def __str__(self) -> str:
         return 'depolarize(p={!r})'.format(self._p)
 
-    def _circuit_diagram_info_(
-        self, args: protocols.CircuitDiagramInfoArgs
-    ) -> str:
+    def _circuit_diagram_info_(self,
+                               args: protocols.CircuitDiagramInfoArgs) -> str:
         return 'D({!r})'.format(self._p)
 
 
@@ -274,23 +273,19 @@ class GeneralizedAmplitudeDampingChannel(gate_features.SingleQubitGate):
 
     def __repr__(self) -> str:
         return 'cirq.generalized_amplitude_damp(p={!r},gamma={!r})'.format(
-            self._p, self._gamma
-        )
+            self._p, self._gamma)
 
     def __str__(self) -> str:
         return 'generalized_amplitude_damp(p={!r},gamma={!r})'.format(
-            self._p, self._gamma
-        )
+            self._p, self._gamma)
 
-    def _circuit_diagram_info_(
-        self, args: protocols.CircuitDiagramInfoArgs
-    ) -> str:
+    def _circuit_diagram_info_(self,
+                               args: protocols.CircuitDiagramInfoArgs) -> str:
         return 'GAD({!r},{!r})'.format(self._p, self._gamma)
 
 
-def generalized_amplitude_damp(
-    p: float, gamma: float
-) -> GeneralizedAmplitudeDampingChannel:
+def generalized_amplitude_damp(p: float, gamma: float
+                              ) -> GeneralizedAmplitudeDampingChannel:
     r"""
     Returns a GeneralizedAmplitudeDampingChannel with the given
     probabilities gamma and p.
@@ -400,9 +395,8 @@ class AmplitudeDampingChannel(gate_features.SingleQubitGate):
     def __str__(self) -> str:
         return 'amplitude_damp(gamma={!r})'.format(self._gamma)
 
-    def _circuit_diagram_info_(
-        self, args: protocols.CircuitDiagramInfoArgs
-    ) -> str:
+    def _circuit_diagram_info_(self,
+                               args: protocols.CircuitDiagramInfoArgs) -> str:
         return 'AD({!r})'.format(self._gamma)
 
 
@@ -502,9 +496,8 @@ class PhaseDampingChannel(gate_features.SingleQubitGate):
     def __str__(self) -> str:
         return 'phase_damp(gamma={!r})'.format(self._gamma)
 
-    def _circuit_diagram_info_(
-        self, args: protocols.CircuitDiagramInfoArgs
-    ) -> str:
+    def _circuit_diagram_info_(self,
+                               args: protocols.CircuitDiagramInfoArgs) -> str:
         return 'PD({!r})'.format(self._gamma)
 
 
@@ -600,9 +593,8 @@ class PhaseFlipChannel(gate_features.SingleQubitGate):
     def __str__(self) -> str:
         return 'phase_flip(p={!r})'.format(self._p)
 
-    def _circuit_diagram_info_(
-        self, args: protocols.CircuitDiagramInfoArgs
-    ) -> str:
+    def _circuit_diagram_info_(self,
+                               args: protocols.CircuitDiagramInfoArgs) -> str:
         return 'PF({!r})'.format(self._p)
 
 
@@ -648,9 +640,8 @@ def _phase_flip(p: float) -> PhaseFlipChannel:
     return PhaseFlipChannel(p)
 
 
-def phase_flip(
-    p: Optional[float] = None
-) -> Union[common_gates.ZPowGate, PhaseFlipChannel]:
+def phase_flip(p: Optional[float] = None
+              ) -> Union[common_gates.ZPowGate, PhaseFlipChannel]:
     r"""
     Returns a PhaseFlipChannel that flips a qubit's phase with probability p
     if p is None, return a guaranteed phase flip in the form of a Z operation.
@@ -746,9 +737,8 @@ class BitFlipChannel(gate_features.SingleQubitGate):
     def __str__(self) -> str:
         return 'bit_flip(p={!r})'.format(self._p)
 
-    def _circuit_diagram_info_(
-        self, args: protocols.CircuitDiagramInfoArgs
-    ) -> str:
+    def _circuit_diagram_info_(self,
+                               args: protocols.CircuitDiagramInfoArgs) -> str:
         return 'BF({!r})'.format(self._p)
 
 
@@ -788,9 +778,8 @@ def _bit_flip(p: float) -> BitFlipChannel:
     return BitFlipChannel(p)
 
 
-def bit_flip(
-    p: Optional[float] = None
-) -> Union[common_gates.XPowGate, BitFlipChannel]:
+def bit_flip(p: Optional[float] = None
+            ) -> Union[common_gates.XPowGate, BitFlipChannel]:
     r"""
     Construct a BitFlipChannel that flips a qubit state
     with probability of a flip given by p. If p is None, return

@@ -11,11 +11,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-
 """Utility methods for breaking matrices into useful pieces."""
 
-from typing import Set, NamedTuple  # pylint: disable=unused-import
+from typing import Set, NamedTuple, Union  # pylint: disable=unused-import
 from typing import Callable, List, Tuple, TypeVar
 
 import math
@@ -26,12 +24,9 @@ from cirq import value
 from cirq._compat import proper_repr
 from cirq.linalg import combinators, diagonalize, predicates
 
-
 T = TypeVar('T')
-MAGIC = np.array([[1, 0, 0, 1j],
-                  [0, 1j, 1, 0],
-                  [0, 1j, -1, 0],
-                  [1, 0, 0, -1j]]) * np.sqrt(0.5)
+MAGIC = np.array([[1, 0, 0, 1j], [0, 1j, 1, 0], [0, 1j, -1, 0], [1, 0, 0, -1j]
+                 ]) * np.sqrt(0.5)
 MAGIC_CONJ_T = np.conj(MAGIC.T)
 
 
@@ -44,8 +39,8 @@ def _rotation_matrix(angle: float) -> np.ndarray:
     return np.array([[c, -s], [s, c]])
 
 
-def deconstruct_single_qubit_matrix_into_angles(
-        mat: np.ndarray) -> Tuple[float, float, float]:
+def deconstruct_single_qubit_matrix_into_angles(mat: np.ndarray
+                                               ) -> Tuple[float, float, float]:
     """Breaks down a 2x2 unitary into more useful ZYZ angle parameters.
 
     Args:
@@ -98,10 +93,11 @@ def _group_similar(items: List[T],
     return groups
 
 
-def _perp_eigendecompose(matrix: np.ndarray,
-                         rtol: float = 1e-5,
-                         atol: float = 1e-8,
-                         ) -> Tuple[np.array, List[np.ndarray]]:
+def _perp_eigendecompose(
+        matrix: np.ndarray,
+        rtol: float = 1e-5,
+        atol: float = 1e-8,
+) -> Tuple[np.array, List[np.ndarray]]:
     """An eigendecomposition that ensures eigenvectors are perpendicular.
 
     numpy.linalg.eig doesn't guarantee that eigenvectors from the same
@@ -133,8 +129,8 @@ def _perp_eigendecompose(matrix: np.ndarray,
     # Group by similar eigenvalue.
     n = len(vecs)
     groups = _group_similar(
-        list(range(n)),
-        lambda k1, k2: np.allclose(vals[k1], vals[k2], rtol=rtol))
+        list(range(
+            n)), lambda k1, k2: np.allclose(vals[k1], vals[k2], rtol=rtol))
 
     # Remove overlap between eigenvectors with the same eigenvalue.
     for g in groups:
@@ -145,12 +141,11 @@ def _perp_eigendecompose(matrix: np.ndarray,
     return vals, vecs
 
 
-def map_eigenvalues(
-        matrix: np.ndarray,
-        func: Callable[[complex], complex],
-        *,
-        rtol: float = 1e-5,
-        atol: float = 1e-8) -> np.ndarray:
+def map_eigenvalues(matrix: np.ndarray,
+                    func: Callable[[complex], complex],
+                    *,
+                    rtol: float = 1e-5,
+                    atol: float = 1e-8) -> np.ndarray:
     """Applies a function to the eigenvalues of a matrix.
 
     Given M = sum_k a_k |v_k><v_k|, returns f(M) = sum_k f(a_k) |v_k><v_k|.
@@ -164,9 +159,7 @@ def map_eigenvalues(
     Returns:
         The transformed matrix.
     """
-    vals, vecs = _perp_eigendecompose(matrix,
-                                      rtol=rtol,
-                                      atol=atol)
+    vals, vecs = _perp_eigendecompose(matrix, rtol=rtol, atol=atol)
     pieces = [np.outer(vec, np.conj(vec.T)) for vec in vecs]
     out_vals = np.vectorize(func)(vals.astype(complex))
 
@@ -176,9 +169,8 @@ def map_eigenvalues(
     return total
 
 
-def kron_factor_4x4_to_2x2s(
-        matrix: np.ndarray,
-) -> Tuple[complex, np.ndarray, np.ndarray]:
+def kron_factor_4x4_to_2x2s(matrix: np.ndarray,
+                           ) -> Tuple[complex, np.ndarray, np.ndarray]:
     """Splits a 4x4 matrix U = kron(A, B) into A, B, and a global factor.
 
     Requires the matrix to be the kronecker product of two 2x2 unitaries.
@@ -198,9 +190,8 @@ def kron_factor_4x4_to_2x2s(
     """
 
     # Use the entry with the largest magnitude as a reference point.
-    a, b = max(
-        ((i, j) for i in range(4) for j in range(4)),
-        key=lambda t: abs(matrix[t]))
+    a, b = max(((i, j) for i in range(4) for j in range(4)),
+               key=lambda t: abs(matrix[t]))
 
     # Extract sub-factors touching the reference cell.
     f1 = np.zeros((2, 2), dtype=np.complex128)
@@ -223,13 +214,12 @@ def kron_factor_4x4_to_2x2s(
     return g, f1, f2
 
 
-def so4_to_magic_su2s(
-        mat: np.ndarray,
-        *,
-        rtol: float = 1e-5,
-        atol: float = 1e-8,
-        check_preconditions: bool = True
-) -> Tuple[np.ndarray, np.ndarray]:
+def so4_to_magic_su2s(mat: np.ndarray,
+                      *,
+                      rtol: float = 1e-5,
+                      atol: float = 1e-8,
+                      check_preconditions: bool = True
+                     ) -> Tuple[np.ndarray, np.ndarray]:
     """Finds 2x2 special-unitaries A, B where mat = Mag.H @ kron(A, B) @ Mag.
 
     Mag is the magic basis matrix:
@@ -264,6 +254,145 @@ def so4_to_magic_su2s(
     return a, b
 
 
+@value.value_equality(approximate=True)
+class AxisAngleDecomposition:
+    """Represents a unitary operation as an axis, angle, and global phase.
+
+    The unitary $U$ is decomposed as follows:
+
+        $$U = g e^{-i \theta/2 (xX + yY + zZ)}$$
+
+    where \theta is the rotation angle, (x, y, z) is a unit vector along the
+    rotation axis, and g is the global phase.
+    """
+
+    def __init__(self, *, angle: float, axis: Tuple[float, float, float],
+                 global_phase: Union[int, float, complex]):
+        if not np.isclose(np.linalg.norm(axis, 2), 1, atol=1e-8):
+            raise ValueError('Axis vector must be normalized.')
+        self.global_phase = complex(global_phase)
+        self.axis = tuple(axis)
+        self.angle = float(angle)
+
+    def canonicalize(self, atol: float = 1e-8) -> 'AxisAngleDecomposition':
+        """Returns a standardized AxisAngleDecomposition with the same unitary.
+
+        Ensures the axis (x, y, z) satisfies x+y+z >= 0.
+        Ensures the angle theta satisfies -pi + atol < theta <= pi + atol.
+
+        Args:
+            atol: Absolute tolerance for errors in the representation and the
+                canonicalization. Determines how much larger a value needs to
+                be than pi before it wraps into the negative range (so that
+                approximation errors less than the tolerance do not cause sign
+                instabilities).
+
+        Returns:
+            The canonicalized AxisAngleDecomposition.
+        """
+        assert 0 <= atol < np.pi
+
+        angle = self.angle
+        x, y, z = self.axis
+        p = self.global_phase
+
+        # Prefer axes that point positive-ward.
+        if x + y + z < 0:
+            x = -x
+            y = -y
+            z = -z
+            angle = -angle
+
+        # Prefer angle in (-π, π].
+        if abs(angle) >= np.pi * 2:
+            angle %= np.pi * 4
+        while angle <= -np.pi + atol:
+            angle += np.pi * 2
+            p = -p
+        while angle > np.pi + atol:
+            angle -= np.pi * 2
+            p = -p
+
+        return AxisAngleDecomposition(axis=(x, y, z),
+                                      angle=angle,
+                                      global_phase=p)
+
+    def _value_equality_values_(self):
+        v = self.canonicalize(atol=0)
+        return (value.PeriodicValue(v.angle,
+                                    period=math.pi * 2), v.axis, v.global_phase)
+
+    def _unitary_(self):
+        x, y, z = self.axis
+        xm = np.array([[0, 1], [1, 0]])
+        ym = np.array([[0, -1j], [1j, 0]])
+        zm = np.diag([1, -1])
+        i = np.eye(2)
+        c = math.cos(-self.angle / 2)
+        s = math.sin(-self.angle / 2)
+        return (c * i + 1j * s * (x * xm + y * ym + z * zm)) * self.global_phase
+
+    def __str__(self):
+        axis_terms = '+'.join('{:.3g}*{}'.format(e, a) if e < 0.9999 else a
+                              for e, a in zip(self.axis, ['X', 'Y', 'Z'])
+                              if abs(e) >= 1e-8).replace('+-', '-')
+        return '{:.3g}*π around {}'.format(
+            self.angle / np.pi,
+            axis_terms,
+        )
+
+    def __repr__(self):
+        return ('cirq.AxisAngleDecomposition('
+                'angle={!r}, axis={!r}, global_phase={!r})'.format(
+                    self.angle, self.axis, self.global_phase))
+
+
+def axis_angle(single_qubit_unitary: np.ndarray) -> AxisAngleDecomposition:
+    """Decomposes a single-qubit unitary into axis, angle, and global phase.
+
+    Args:
+        single_qubit_unitary: The unitary of the single-qubit operation to
+            decompose.
+
+    Returns:
+        An AxisAngleDecomposition equivalent to the given unitary.
+    """
+    u = single_qubit_unitary
+    assert u.shape == (2, 2)
+    assert predicates.is_unitary(single_qubit_unitary, atol=1e-8)
+
+    # Extract phased quaternion components.
+    [a, b], [c, d] = u
+    wp = (a + d) / 2
+    xp = (b + c) / 2j
+    yp = (b - c) / 2
+    zp = (a - d) / 2j
+
+    # Extract global phase factor from largest component.
+    p = max(wp, xp, yp, zp, key=abs)
+    p /= abs(p)
+
+    # Cancel global phase factor, pushing components onto the real line.
+    w = min(1, max(-1, np.real(wp / p)))
+    x = np.real(xp / p)
+    y = np.real(yp / p)
+    z = np.real(zp / p)
+    angle = -2 * math.acos(w)
+
+    # Normalize axis.
+    n = math.sqrt(x * x + y * y + z * z)
+    if n < 0.0000001:
+        # There's an axis singularity near θ=0.
+        # Default to no rotation around the X axis.
+        return AxisAngleDecomposition(global_phase=p, angle=0, axis=(1, 0, 0))
+    x /= n
+    y /= n
+    z /= n
+
+    return AxisAngleDecomposition(axis=(x, y, z), angle=angle,
+                                  global_phase=p).canonicalize()
+
+
 @value.value_equality
 class KakDecomposition:
     """A convenient description of an arbitrary two-qubit operation.
@@ -285,9 +414,7 @@ class KakDecomposition:
         https://arxiv.org/abs/quant-ph/0507171
     """
 
-    def __init__(self,
-                 *,
-                 global_phase: complex,
+    def __init__(self, *, global_phase: complex,
                  single_qubit_operations_before: Tuple[np.ndarray, np.ndarray],
                  interaction_coefficients: Tuple[float, float, float],
                  single_qubit_operations_after: Tuple[np.ndarray, np.ndarray]):
@@ -307,36 +434,47 @@ class KakDecomposition:
         self.single_qubit_operations_after = single_qubit_operations_after
 
     def _value_equality_values_(self):
+
         def flatten(x):
             return tuple(tuple(e.flat) for e in x)
 
-        return (type(KakDecomposition),
-                self.global_phase,
+        return (type(KakDecomposition), self.global_phase,
                 tuple(self.interaction_coefficients),
                 flatten(self.single_qubit_operations_before),
                 flatten(self.single_qubit_operations_after))
 
+    def __str__(self):
+        return ('KAK {{\n'
+                '    xyz*(4/π): {:.3g}, {:.3g}, {:.3g}\n'
+                '    before: ({}) ⊗ ({})\n'
+                '    after: ({}) ⊗ ({})\n'
+                '}}').format(self.interaction_coefficients[0] * 4 / np.pi,
+                             self.interaction_coefficients[1] * 4 / np.pi,
+                             self.interaction_coefficients[2] * 4 / np.pi,
+                             axis_angle(self.single_qubit_operations_before[0]),
+                             axis_angle(self.single_qubit_operations_before[1]),
+                             axis_angle(self.single_qubit_operations_after[0]),
+                             axis_angle(self.single_qubit_operations_after[1]))
+
     def __repr__(self):
-        return (
-            'cirq.KakDecomposition(\n'
-            '    interaction_coefficients={!r},\n'
-            '    single_qubit_operations_before=(\n'
-            '        {},\n'
-            '        {},\n'
-            '    ),\n'
-            '    single_qubit_operations_after=(\n'
-            '        {},\n'
-            '        {},\n'
-            '    ),\n'
-            '    global_phase={!r})'
-        ).format(
-            self.interaction_coefficients,
-            proper_repr(self.single_qubit_operations_before[0]),
-            proper_repr(self.single_qubit_operations_before[1]),
-            proper_repr(self.single_qubit_operations_after[0]),
-            proper_repr(self.single_qubit_operations_after[1]),
-            self.global_phase,
-        )
+        return ('cirq.KakDecomposition(\n'
+                '    interaction_coefficients={!r},\n'
+                '    single_qubit_operations_before=(\n'
+                '        {},\n'
+                '        {},\n'
+                '    ),\n'
+                '    single_qubit_operations_after=(\n'
+                '        {},\n'
+                '        {},\n'
+                '    ),\n'
+                '    global_phase={!r})').format(
+                    self.interaction_coefficients,
+                    proper_repr(self.single_qubit_operations_before[0]),
+                    proper_repr(self.single_qubit_operations_before[1]),
+                    proper_repr(self.single_qubit_operations_after[0]),
+                    proper_repr(self.single_qubit_operations_after[1]),
+                    self.global_phase,
+                )
 
     def _unitary_(self):
         """Returns the decomposition's two-qubit unitary matrix.
@@ -347,8 +485,7 @@ class KakDecomposition:
         after = np.kron(*self.single_qubit_operations_after)
 
         def interaction_matrix(m: np.ndarray, c: float) -> np.ndarray:
-            return map_eigenvalues(np.kron(m, m),
-                                   lambda v: np.exp(1j * v * c))
+            return map_eigenvalues(np.kron(m, m), lambda v: np.exp(1j * v * c))
 
         x, y, z = self.interaction_coefficients
         x_mat = np.array([[0, 1], [1, 0]])
@@ -356,27 +493,26 @@ class KakDecomposition:
         z_mat = np.array([[1, 0], [0, -1]])
 
         return self.global_phase * combinators.dot(
-            after,
-            interaction_matrix(z_mat, z),
-            interaction_matrix(y_mat, y),
-            interaction_matrix(x_mat, x),
-            before)
+            after, interaction_matrix(z_mat, z), interaction_matrix(y_mat, y),
+            interaction_matrix(x_mat, x), before)
 
 
-def kak_canonicalize_vector(x: float, y: float, z: float) -> KakDecomposition:
+def kak_canonicalize_vector(x: float, y: float, z: float,
+                            atol: float = 1e-9) -> KakDecomposition:
     """Canonicalizes an XX/YY/ZZ interaction by swap/negate/shift-ing axes.
 
     Args:
         x: The strength of the XX interaction.
         y: The strength of the YY interaction.
         z: The strength of the ZZ interaction.
+        atol: How close x2 must be to π/4 to guarantee z2 >= 0
 
     Returns:
         The canonicalized decomposition, with vector coefficients (x2, y2, z2)
         satisfying:
 
             0 ≤ abs(z2) ≤ y2 ≤ x2 ≤ π/4
-            z2 ≠ -π/4
+            if x2 = π/4, z2 >= 0
 
         Guarantees that the implied output matrix:
 
@@ -411,9 +547,9 @@ def kak_canonicalize_vector(x: float, y: float, z: float) -> KakDecomposition:
     # Shifting strength by ½π is equivalent to local ops (e.g. exp(i½π XX)∝XX).
     def shift(k, step):
         v[k] += step * np.pi / 2
-        phase[0] *= 1j ** step
-        right[0] = combinators.dot(flippers[k] ** (step % 4), right[0])
-        right[1] = combinators.dot(flippers[k] ** (step % 4), right[1])
+        phase[0] *= 1j**step
+        right[0] = combinators.dot(flippers[k]**(step % 4), right[0])
+        right[1] = combinators.dot(flippers[k]**(step % 4), right[1])
 
     # Two negations is equivalent to temporarily flipping along the other axis.
     def negate(k1, k2):
@@ -462,17 +598,19 @@ def kak_canonicalize_vector(x: float, y: float, z: float) -> KakDecomposition:
         negate(1, 2)
     canonical_shift(2)
 
-    return KakDecomposition(
-        global_phase=phase[0],
-        single_qubit_operations_after=(left[1], left[0]),
-        interaction_coefficients=(v[0], v[1], v[2]),
-        single_qubit_operations_before=(right[1], right[0]))
+    # If x = π/4, force z to be positive
+    if v[0] > np.pi / 4 - atol and v[2] < 0:
+        shift(0, -1)
+        negate(0, 2)
+
+    return KakDecomposition(global_phase=phase[0],
+                            single_qubit_operations_after=(left[1], left[0]),
+                            interaction_coefficients=(v[0], v[1], v[2]),
+                            single_qubit_operations_before=(right[1], right[0]))
 
 
-def kak_decomposition(
-        mat: np.ndarray,
-        rtol: float = 1e-5,
-        atol: float = 1e-8) -> KakDecomposition:
+def kak_decomposition(mat: np.ndarray, rtol: float = 1e-5,
+                      atol: float = 1e-8) -> KakDecomposition:
     """Decomposes a 2-qubit unitary into 1-qubit ops and XX/YY/ZZ interactions.
 
     Args:
@@ -484,8 +622,8 @@ def kak_decomposition(
         A `cirq.KakDecomposition` canonicalized such that the interaction
         coefficients x, y, z satisfy:
 
-            0 ≤ abs(z) ≤ y ≤ x ≤ π/4
-            z ≠ -π/4
+            0 ≤ abs(z2) ≤ y2 ≤ x2 ≤ π/4
+            if x2 = π/4, z2 >= 0
 
     Raises:
         ValueError: Bad matrix.
@@ -495,13 +633,9 @@ def kak_decomposition(
         'An Introduction to Cartan's KAK Decomposition for QC Programmers'
         https://arxiv.org/abs/quant-ph/0507171
     """
-    magic = np.array([[1, 0, 0, 1j],
-                      [0, 1j, 1, 0],
-                      [0, 1j, -1, 0],
+    magic = np.array([[1, 0, 0, 1j], [0, 1j, 1, 0], [0, 1j, -1, 0],
                       [1, 0, 0, -1j]]) * np.sqrt(0.5)
-    gamma = np.array([[1, 1, 1, 1],
-                      [1, 1, -1, -1],
-                      [-1, 1, -1, 1],
+    gamma = np.array([[1, 1, 1, 1], [1, 1, -1, -1], [-1, 1, -1, 1],
                       [1, -1, -1, 1]]) * 0.25
 
     # Diagonalize in magic basis.

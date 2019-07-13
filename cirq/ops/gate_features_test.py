@@ -12,15 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from collections import Iterator
 import pytest
 
 import cirq
 
 
 def test_single_qubit_gate_validate_args():
+
     class Dummy(cirq.SingleQubitGate):
+
         def matrix(self):
             pass
+
     g = Dummy()
     q1 = cirq.NamedQubit('q1')
     q2 = cirq.NamedQubit('q2')
@@ -35,23 +39,34 @@ def test_single_qubit_gate_validate_args():
 
 
 def test_single_qubit_gate_validates_on_each():
+
     class Dummy(cirq.SingleQubitGate):
+
         def matrix(self):
             pass
+
     g = Dummy()
     assert g.num_qubits() == 1
 
     test_qubits = [cirq.NamedQubit(str(i)) for i in range(3)]
 
     _ = g.on_each(*test_qubits)
+    _ = g.on_each(test_qubits)
+
+    test_non_qubits = [str(i) for i in range(3)]
     with pytest.raises(ValueError):
-        _ = g.on_each(test_qubits)
+        _ = g.on_each(*test_non_qubits)
+    with pytest.raises(ValueError):
+        _ = g.on_each(test_non_qubits)
 
 
 def test_single_qubit_validates_on():
+
     class Dummy(cirq.SingleQubitGate):
+
         def matrix(self):
             pass
+
     g = Dummy()
     assert g.num_qubits() == 1
 
@@ -64,16 +79,19 @@ def test_single_qubit_validates_on():
 
 
 def test_two_qubit_gate_is_abstract_can_implement():
+
     class Included(cirq.TwoQubitGate):
+
         def matrix(self):
             pass
 
-    assert isinstance(Included(),
-                      cirq.TwoQubitGate)
+    assert isinstance(Included(), cirq.TwoQubitGate)
 
 
 def test_two_qubit_gate_validate_pass():
+
     class Dummy(cirq.TwoQubitGate):
+
         def matrix(self):
             pass
 
@@ -89,7 +107,9 @@ def test_two_qubit_gate_validate_pass():
 
 
 def test_two_qubit_gate_validate_wrong_number():
+
     class Dummy(cirq.TwoQubitGate):
+
         def matrix(self):
             pass
 
@@ -107,7 +127,9 @@ def test_two_qubit_gate_validate_wrong_number():
 
 
 def test_three_qubit_gate_validate():
+
     class Dummy(cirq.ThreeQubitGate):
+
         def matrix(self):
             pass
 
@@ -128,8 +150,10 @@ def test_three_qubit_gate_validate():
 
 
 def test_on_each():
+
     class CustomGate(cirq.SingleQubitGate):
         pass
+
     a = cirq.NamedQubit('a')
     b = cirq.NamedQubit('b')
     c = CustomGate()
@@ -139,11 +163,26 @@ def test_on_each():
     assert c.on_each(a, b) == [c(a), c(b)]
     assert c.on_each(b, a) == [c(b), c(a)]
 
-    with pytest.raises(ValueError):
-        c.on_each([])
+    assert c.on_each([]) == []
+    assert c.on_each([a]) == [c(a)]
+    assert c.on_each([a, b]) == [c(a), c(b)]
+    assert c.on_each([b, a]) == [c(b), c(a)]
+    assert c.on_each([a, [b, a], b]) == [c(a), c(b), c(a), c(b)]
 
     with pytest.raises(ValueError):
-        c.on_each([a])
+        c.on_each('abcd')
+    with pytest.raises(ValueError):
+        c.on_each(['abcd'])
+    with pytest.raises(ValueError):
+        c.on_each([a, 'abcd'])
+
+    def iterator(qubits):
+        for i in range(len(qubits)):
+            yield qubits[i]
+
+    qubit_iterator = iterator([a, b, a, b])
+    assert isinstance(qubit_iterator, Iterator)
+    assert c.on_each(qubit_iterator) == [c(a), c(b), c(a), c(b)]
 
 
 def test_qasm_output_args_validate():
@@ -159,11 +198,16 @@ def test_qasm_output_args_format():
     b = cirq.NamedQubit('b')
     m_a = cirq.measure(a, key='meas_a')
     m_b = cirq.measure(b, key='meas_b')
-    args = cirq.QasmArgs(
-                    precision=4,
-                    version='2.0',
-                    qubit_id_map={a: 'aaa[0]', b: 'bbb[0]'},
-                    meas_key_id_map={'meas_a': 'm_a', 'meas_b': 'm_b'})
+    args = cirq.QasmArgs(precision=4,
+                         version='2.0',
+                         qubit_id_map={
+                             a: 'aaa[0]',
+                             b: 'bbb[0]'
+                         },
+                         meas_key_id_map={
+                             'meas_a': 'm_a',
+                             'meas_b': 'm_b'
+                         })
 
     assert args.format('_{0}_', a) == '_aaa[0]_'
     assert args.format('_{0}_', b) == '_bbb[0]_'
@@ -181,6 +225,7 @@ def test_qasm_output_args_format():
 
 
 def test_multi_qubit_gate_validate():
+
     class Dummy(cirq.Gate):
 
         def num_qubits(self) -> int:

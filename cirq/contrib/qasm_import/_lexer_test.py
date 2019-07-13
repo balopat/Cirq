@@ -7,41 +7,48 @@
 # limitations under the License.
 
 import pytest
-import sympy
-from sympy import Number
-
+import numpy as np
 from cirq.contrib.qasm_import import QasmException
 from cirq.contrib.qasm_import._lexer import QasmLexer
 
 
 def test_empty_circuit():
-    assert QasmLexer("").token() is None
+    lexer = QasmLexer()
+    lexer.input("")
+    assert lexer.token() is None
 
 
 @pytest.mark.parametrize('number', ["00000", "03", "3", "0045", "21"])
 def test_natural_numbers(number: str):
-    token = QasmLexer(number).token()
+    lexer = QasmLexer()
+    lexer.input(number)
+    token = lexer.token()
     assert token is not None
     assert token.type == "NATURAL_NUMBER"
     assert token.value == int(number)
 
 
 def test_supported_format():
-    token = QasmLexer("OPENQASM 2.0;").token()
+    lexer = QasmLexer()
+    lexer.input("OPENQASM 2.0;")
+    token = lexer.token()
     assert token is not None
     assert token.type == "FORMAT_SPEC"
     assert token.value == '2.0'
 
 
 def test_qelib_inc():
-    token = QasmLexer('include "qelib1.inc";').token()
+    lexer = QasmLexer()
+    lexer.input('include "qelib1.inc";')
+    token = lexer.token()
     assert token is not None
     assert token.type == "QELIBINC"
     assert token.value == 'include "qelib1.inc";'
 
 
 def test_measurment():
-    lexer = QasmLexer("measure q -> c;")
+    lexer = QasmLexer()
+    lexer.input("measure q -> c;")
     token = lexer.token()
     assert token.type == "MEASURE"
     assert token.value == 'measure'
@@ -67,32 +74,48 @@ def test_measurment():
     'identifier',
     ['b', 'CX', 'abc', 'aXY03', 'a_valid_name_with_02_digits_and_underscores'])
 def test_valid_ids(identifier: str):
-    token = QasmLexer(identifier).token()
+    lexer = QasmLexer()
+    lexer.input(identifier)
+    token = lexer.token()
 
     assert token is not None
     assert token.type == "ID"
     assert token.value == identifier
 
 
-@pytest.mark.parametrize(
-    'number', ['.333', '1.0', '0.1', '2.0e-05', '1.2E+05', '123123.2132312'])
-def test_reals(number: str):
-    token = QasmLexer(number).token()
+@pytest.mark.parametrize('number', [
+    '1e2',
+    '1e0',
+    '3.',
+    '4.e10',
+    '.333',
+    '1.0',
+    '0.1',
+    '2.0e-05',
+    '1.2E+05',
+    '123123.2132312',
+])
+def test_numbers(number: str):
+    lexer = QasmLexer()
+    lexer.input(number)
+    token = lexer.token()
 
     assert token is not None
     assert token.type == "NUMBER"
-    assert token.value == Number(number)
+    assert token.value == float(number)
 
 
 def test_pi():
-    lexer = QasmLexer('pi')
+    lexer = QasmLexer()
+    lexer.input('pi')
     token = lexer.token()
     assert token.type == "PI"
-    assert token.value == sympy.pi
+    assert token.value == np.pi
 
 
 def test_qreg():
-    lexer = QasmLexer('qreg [5];')
+    lexer = QasmLexer()
+    lexer.input('qreg [5];')
     token = lexer.token()
     assert token.type == "QREG"
     assert token.value == "qreg"
@@ -115,7 +138,8 @@ def test_qreg():
 
 
 def test_creg():
-    lexer = QasmLexer('creg [8];')
+    lexer = QasmLexer()
+    lexer.input('creg [8];')
     token = lexer.token()
     assert token.type == "CREG"
     assert token.value == "creg"
@@ -138,7 +162,8 @@ def test_creg():
 
 
 def test_error():
-    lexer = QasmLexer('θ')
+    lexer = QasmLexer()
+    lexer.input('θ')
 
     with pytest.raises(QasmException, match="Illegal character 'θ' at line 1"):
         lexer.token()

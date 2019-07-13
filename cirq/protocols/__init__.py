@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 from cirq.protocols.apply_unitary import (
+    apply_unitaries,
     apply_unitary,
     ApplyUnitaryArgs,
-    SupportsApplyUnitary,
+    SupportsConsistentApplyUnitary,
 )
 from cirq.protocols.apply_channel import (
     apply_channel,
@@ -33,8 +33,7 @@ from cirq.protocols.channel import (
     SupportsChannel,
 )
 from cirq.protocols.control import (
-    control,
-)
+    control,)
 from cirq.protocols.circuit_diagram_info import (
     circuit_diagram_info,
     CircuitDiagramInfo,
@@ -48,9 +47,10 @@ from cirq.protocols.decompose import (
     SupportsDecompose,
     SupportsDecomposeWithQubits,
 )
+from cirq.protocols.equal_up_to_global_phase import (
+    equal_up_to_global_phase,)
 from cirq.protocols.inverse import (
-    inverse,
-)
+    inverse,)
 from cirq.protocols.measurement_key import (
     is_measurement,
     measurement_key,
@@ -64,15 +64,12 @@ from cirq.protocols.mixture import (
     validate_mixture,
 )
 from cirq.protocols.mul import (
-    mul,
-)
+    mul,)
 from cirq.protocols.pauli_expansion import (
-    pauli_expansion,
-)
+    pauli_expansion,)
 # pylint: disable=redefined-builtin
 from cirq.protocols.pow import (
-    pow,
-)
+    pow,)
 # pylint: enable=redefined-builtin
 from cirq.protocols.qasm import (
     qasm,
@@ -95,7 +92,10 @@ from cirq.protocols.phase import (
     SupportsPhase,
 )
 from cirq.protocols.unitary import (
-    has_unitary,
     SupportsUnitary,
     unitary,
+)
+from cirq.protocols.has_unitary import (
+    has_unitary,
+    SupportsExplicitHasUnitary,
 )

@@ -17,10 +17,13 @@ from cirq.contrib.qasm_import._parser import QasmParser
 
 
 class QasmCircuitParser:
+    """QasmCircuitParser is currently partially developed, not functional,
+    DO NOT USE.
+    TODO(https://github.com/quantumlib/Cirq/issues/1548)
+    It will serve as the entrypoint for parsing QASM files."""
 
-    def __init__(self, qasm: str):
-        self.qasm = qasm
-        self.parser = QasmParser(qasm)
+    def __init__(self):
+        pass
 
-    def parse(self) -> circuits.Circuit:
-        return self.parser.parse().circuit
+    def parse(self, qasm: str) -> circuits.Circuit:
+        return QasmParser().parse(qasm).circuit

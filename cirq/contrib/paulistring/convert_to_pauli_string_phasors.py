@@ -40,7 +40,7 @@ class ConvertToPauliStringPhasors(PointOptimizer):
     def __init__(self,
                  ignore_failures: bool = False,
                  keep_clifford: bool = False,
-                 atol: float = 0) -> None:
+                 atol: float = 1e-14) -> None:
         """
         Args:
             ignore_failures: If set, gates that fail to convert are forwarded
@@ -56,15 +56,14 @@ class ConvertToPauliStringPhasors(PointOptimizer):
         self.keep_clifford = keep_clifford
         self.atol = atol
 
-    def _matrix_to_pauli_string_phasors(self,
-                                        mat: np.ndarray,
+    def _matrix_to_pauli_string_phasors(self, mat: np.ndarray,
                                         qubit: ops.Qid) -> ops.OP_TREE:
         rotations = optimizers.single_qubit_matrix_to_pauli_rotations(
             mat, self.atol)
         out_ops = []  # type: List[ops.Operation]
         for pauli, half_turns in rotations:
-            if (self.keep_clifford
-                    and linalg.all_near_zero_mod(half_turns, 0.5)):
+            if (self.keep_clifford and
+                    linalg.all_near_zero_mod(half_turns, 0.5)):
                 cliff_gate = ops.SingleQubitCliffordGate.from_quarter_turns(
                     pauli, round(half_turns * 2))
                 if out_ops and not isinstance(out_ops[-1],
@@ -73,8 +72,7 @@ class ConvertToPauliStringPhasors(PointOptimizer):
                     gate = cast(ops.SingleQubitCliffordGate, op.gate)
                     out_ops[-1] = gate.merged_with(cliff_gate)(qubit)
                 else:
-                    out_ops.append(
-                        cliff_gate(qubit))
+                    out_ops.append(cliff_gate(qubit))
             else:
                 pauli_string = ops.PauliString.from_single(qubit, pauli)
                 out_ops.append(
@@ -87,9 +85,8 @@ class ConvertToPauliStringPhasors(PointOptimizer):
         if isinstance(op, ops.PauliStringPhasor):
             return op
 
-        if (self.keep_clifford
-            and isinstance(op, ops.GateOperation)
-                and isinstance(op.gate, ops.SingleQubitCliffordGate)):
+        if (self.keep_clifford and isinstance(op, ops.GateOperation) and
+                isinstance(op.gate, ops.SingleQubitCliffordGate)):
             return op
 
         # Single qubit gate with known matrix?
@@ -110,16 +107,17 @@ class ConvertToPauliStringPhasors(PointOptimizer):
         converted = self._convert_one(op)
         if converted is op:
             return converted
-        return [self.convert(cast(ops.Operation, e))
-                for e in ops.flatten_op_tree(converted)]
+        return [
+            self.convert(cast(ops.Operation, e))
+            for e in ops.flatten_op_tree(converted)
+        ]
 
     def optimization_at(self, circuit: Circuit, index: int, op: ops.Operation
-                        ) -> Optional[PointOptimizationSummary]:
+                       ) -> Optional[PointOptimizationSummary]:
         converted = self.convert(op)
         if converted is op:
             return None
 
-        return PointOptimizationSummary(
-            clear_span=1,
-            new_operations=converted,
-            clear_qubits=op.qubits)
+        return PointOptimizationSummary(clear_span=1,
+                                        new_operations=converted,
+                                        clear_qubits=op.qubits)

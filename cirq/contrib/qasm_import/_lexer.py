@@ -14,21 +14,16 @@
 
 import re
 from typing import Optional
-
+import numpy as np
 import ply.lex as lex
-import sympy
-from sympy import Number
 
 from cirq.contrib.qasm_import.exception import QasmException
 
 
 class QasmLexer(object):
-    NATURAL_NUMBER = "NATURAL_NUMBER"
 
-    def __init__(self, qasm: str):
-        self.qasm = qasm
+    def __init__(self):
         self.lex = lex.lex(object=self, debug=False)
-        self.lex.input(qasm)
 
     literals = "{}[]();,+/*-^"
 
@@ -54,15 +49,27 @@ class QasmLexer(object):
 
     t_ignore = ' \t'
 
-    def t_PI(selfs, t):
+    def t_PI(self, t):
         r"""pi"""
-        t.value = sympy.pi
+        t.value = np.pi
         return t
 
-    def t_NUMBER(selfs, t):
-        # pylint: disable=line-too-long
-        r"""(([0-9]+|([0-9]+)?\.[0-9]+|[0-9]+\.)[eE][+-]?[0-9]+)|(([0-9]+)?\.[0-9]+|[0-9]+\.)"""
-        t.value = Number(t.value)
+    # all numbers except NATURAL_NUMBERs:
+    # it's useful to have this separation to be able to handle indices
+    # separately. In case of the parameter expressions, we are "OR"-ing
+    # them together (see p_term in _parser.py)
+    def t_NUMBER(self, t):
+        r"""(
+        (
+        [0-9]+\.?|
+        [0-9]?\.[0-9]+
+        )
+        [eE][+-]?[0-9]+
+        )|
+        (
+        ([0-9]+)?\.[0-9]+|
+        [0-9]+\.)"""
+        t.value = float(t.value)
         return t
 
     def t_NATURAL_NUMBER(self, t):
@@ -106,6 +113,9 @@ class QasmLexer(object):
     def t_error(self, t):
         raise QasmException("Illegal character '{}' at line {}".format(
             t.value[0], t.lineno))
+
+    def input(self, qasm):
+        self.lex.input(qasm)
 
     def token(self) -> Optional[lex.Token]:
         return self.lex.token()

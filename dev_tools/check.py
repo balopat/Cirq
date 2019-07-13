@@ -22,10 +22,8 @@ from dev_tools import env_tools, shell_tools
 
 class CheckResult:
     """Output of a status check that passed, failed, or error'ed."""
-    def __init__(self,
-                 check: 'Check',
-                 success: bool,
-                 message: str,
+
+    def __init__(self, check: 'Check', success: bool, message: str,
                  unexpected_error: Optional[Exception]) -> None:
         self.check = check
         self.success = success
@@ -33,14 +31,12 @@ class CheckResult:
         self.unexpected_error = unexpected_error
 
     def __str__(self):
-        outcome = ('ERROR' if self.unexpected_error
-            else 'pass' if self.success
-            else 'FAIL')
+        outcome = ('ERROR' if self.unexpected_error else
+                   'pass' if self.success else 'FAIL')
         msg = self.unexpected_error if self.unexpected_error else self.message
         result = '{}: {} ({})'.format(outcome, self.check.context(), msg)
         return shell_tools.highlight(
-            result,
-            shell_tools.GREEN if self.success else shell_tools.RED)
+            result, shell_tools.GREEN if self.success else shell_tools.RED)
 
 
 class Check(metaclass=abc.ABCMeta):
@@ -58,8 +54,7 @@ class Check(metaclass=abc.ABCMeta):
         """The name of this status check, as shown on github."""
 
     @abc.abstractmethod
-    def perform_check(self,
-                      env: env_tools.PreparedEnv,
+    def perform_check(self, env: env_tools.PreparedEnv,
                       verbose: bool) -> Tuple[bool, str]:
         """Evaluates the status check and returns a pass/fail with message.
 
@@ -74,9 +69,7 @@ class Check(metaclass=abc.ABCMeta):
     def needs_python2_env(self):
         return False
 
-    def run(self,
-            env: env_tools.PreparedEnv,
-            verbose: bool,
+    def run(self, env: env_tools.PreparedEnv, verbose: bool,
             previous_failures: Set['Check']) -> CheckResult:
         """Evaluates this check.
 
@@ -91,31 +84,31 @@ class Check(metaclass=abc.ABCMeta):
 
         # Skip if a dependency failed.
         if previous_failures.intersection(self.dependencies):
-            print(shell_tools.highlight(
-                'Skipped ' + self.command_line_switch(),
-                shell_tools.YELLOW))
-            return CheckResult(
-                self, False, 'Skipped due to dependency failing.', None)
+            print(
+                shell_tools.highlight('Skipped ' + self.command_line_switch(),
+                                      shell_tools.YELLOW))
+            return CheckResult(self, False,
+                               'Skipped due to dependency failing.', None)
 
-        print(shell_tools.highlight(
-            'Running ' + self.command_line_switch(),
-            shell_tools.GREEN))
+        print(
+            shell_tools.highlight('Running ' + self.command_line_switch(),
+                                  shell_tools.GREEN))
         try:
             success, message = self.perform_check(env, verbose=verbose)
             result = CheckResult(self, success, message, None)
         except Exception as ex:
             result = CheckResult(self, False, 'Unexpected error.', ex)
 
-        print(shell_tools.highlight(
-            'Finished ' + self.command_line_switch(),
-            shell_tools.GREEN if result.success else shell_tools.RED))
+        print(
+            shell_tools.highlight(
+                'Finished ' + self.command_line_switch(),
+                shell_tools.GREEN if result.success else shell_tools.RED))
         if verbose:
             print(result)
 
         return result
 
     def pick_env_and_run_and_report(self, env: env_tools.PreparedEnv,
-                                    env_py2: Optional[env_tools.PreparedEnv],
                                     verbose: bool,
                                     previous_failures: Set['Check']
                                    ) -> CheckResult:
@@ -126,7 +119,6 @@ class Check(metaclass=abc.ABCMeta):
 
         Args:
             env: A prepared python 3 environment.
-            env_py2: A prepared python 2.7 environment.
             verbose: When set, more progress output is produced.
             previous_failures: Checks that have already run and failed.
 
@@ -134,20 +126,17 @@ class Check(metaclass=abc.ABCMeta):
             A CheckResult instance.
         """
         env.report_status_to_github('pending', 'Running...', self.context())
-        chosen_env = cast(env_tools.PreparedEnv,
-                          env_py2 if self.needs_python2_env() else env)
+        chosen_env = cast(env_tools.PreparedEnv, env)
         os.chdir(cast(str, chosen_env.destination_directory))
 
         result = self.run(chosen_env, verbose, previous_failures)
 
         if result.unexpected_error is not None:
-            env.report_status_to_github('error',
-                                        'Unexpected error.',
+            env.report_status_to_github('error', 'Unexpected error.',
                                         self.context())
         else:
             env.report_status_to_github(
-                'success' if result.success else 'failure',
-                result.message,
+                'success' if result.success else 'failure', result.message,
                 self.context())
 
         return result

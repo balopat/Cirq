@@ -25,14 +25,17 @@ def test_apply_unitary_presence_absence():
         pass
 
     class HasUnitary:
+
         def _unitary_(self) -> np.ndarray:
             return m
 
     class HasApplyReturnsNotImplemented:
+
         def _apply_unitary_(self, args: cirq.ApplyUnitaryArgs):
             return NotImplemented
 
     class HasApplyReturnsNotImplementedButHasUnitary:
+
         def _apply_unitary_(self, args: cirq.ApplyUnitaryArgs):
             return NotImplemented
 
@@ -40,6 +43,7 @@ def test_apply_unitary_presence_absence():
             return m
 
     class HasApplyOutputInBuffer:
+
         def _apply_unitary_(self, args: cirq.ApplyUnitaryArgs) -> np.ndarray:
             zero = args.subspace_index(0)
             one = args.subspace_index(1)
@@ -48,6 +52,7 @@ def test_apply_unitary_presence_absence():
             return args.available_buffer
 
     class HasApplyMutateInline:
+
         def _apply_unitary_(self, args: cirq.ApplyUnitaryArgs) -> np.ndarray:
             one = args.subspace_index(1)
             args.target_tensor[one] *= -1
@@ -80,25 +85,102 @@ def test_apply_unitary_presence_absence():
     buf = np.empty(shape=(2, 2), dtype=np.complex128)
 
     for f in fails:
-        with pytest.raises(TypeError, match='no _apply_unitary_'):
+        with pytest.raises(TypeError, match='failed to satisfy'):
             _ = cirq.apply_unitary(
-                f,
-                cirq.ApplyUnitaryArgs(make_input(), buf, [0]))
-        assert cirq.apply_unitary(
-            f,
-            cirq.ApplyUnitaryArgs(make_input(), buf, [0]),
-            default=None) is None
-        assert cirq.apply_unitary(
-            f,
-            cirq.ApplyUnitaryArgs(make_input(), buf, [0]),
-            default=NotImplemented) is NotImplemented
-        assert cirq.apply_unitary(
-            f,
-            cirq.ApplyUnitaryArgs(make_input(), buf, [0]),
-            default=1) == 1
+                f, cirq.ApplyUnitaryArgs(make_input(), buf, [0]))
+        assert cirq.apply_unitary(f,
+                                  cirq.ApplyUnitaryArgs(make_input(), buf, [0]),
+                                  default=None) is None
+        assert cirq.apply_unitary(f,
+                                  cirq.ApplyUnitaryArgs(make_input(), buf, [0]),
+                                  default=NotImplemented) is NotImplemented
+        assert cirq.apply_unitary(f,
+                                  cirq.ApplyUnitaryArgs(make_input(), buf, [0]),
+                                  default=1) == 1
 
     for s in passes:
         assert_works(s)
         assert cirq.apply_unitary(s,
                                   cirq.ApplyUnitaryArgs(make_input(), buf, [0]),
                                   default=None) is not None
+
+
+def test_apply_unitaries():
+    a, b, c = cirq.LineQubit.range(3)
+
+    result = cirq.apply_unitaries(
+        unitary_values=[cirq.H(a),
+                        cirq.CNOT(a, b),
+                        cirq.H(c).controlled_by(b)],
+        qubits=[a, b, c])
+    np.testing.assert_allclose(result.reshape(8), [
+        np.sqrt(0.5),
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.5,
+        0.5,
+    ],
+                               atol=1e-8)
+
+    # Different order.
+    result = cirq.apply_unitaries(
+        unitary_values=[cirq.H(a),
+                        cirq.CNOT(a, b),
+                        cirq.H(c).controlled_by(b)],
+        qubits=[a, c, b])
+    np.testing.assert_allclose(result.reshape(8), [
+        np.sqrt(0.5),
+        0,
+        0,
+        0,
+        0,
+        0.5,
+        0,
+        0.5,
+    ],
+                               atol=1e-8)
+
+    # Explicit arguments.
+    result = cirq.apply_unitaries(
+        unitary_values=[cirq.H(a),
+                        cirq.CNOT(a, b),
+                        cirq.H(c).controlled_by(b)],
+        qubits=[a, b, c],
+        args=cirq.ApplyUnitaryArgs.default(num_qubits=3))
+    np.testing.assert_allclose(result.reshape(8), [
+        np.sqrt(0.5),
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.5,
+        0.5,
+    ],
+                               atol=1e-8)
+
+    # Empty.
+    result = cirq.apply_unitaries(unitary_values=[], qubits=[])
+    np.testing.assert_allclose(result, [1])
+    result = cirq.apply_unitaries(unitary_values=[], qubits=[], default=None)
+    np.testing.assert_allclose(result, [1])
+
+    # Non-unitary operation.
+    with pytest.raises(TypeError, match='non-unitary'):
+        _ = cirq.apply_unitaries(unitary_values=[cirq.depolarize(0.5).on(a)],
+                                 qubits=[a])
+    assert cirq.apply_unitaries(unitary_values=[cirq.depolarize(0.5).on(a)],
+                                qubits=[a],
+                                default=None) is None
+    assert cirq.apply_unitaries(unitary_values=[cirq.depolarize(0.5).on(a)],
+                                qubits=[a],
+                                default=1) == 1
+
+    # Inconsistent arguments.
+    with pytest.raises(ValueError, match='len'):
+        _ = cirq.apply_unitaries(unitary_values=[],
+                                 qubits=[],
+                                 args=cirq.ApplyUnitaryArgs.default(1))

@@ -23,8 +23,9 @@ from cirq.type_workarounds import NotImplementedType
 
 
 class GateUsingWorkspaceForApplyUnitary(cirq.SingleQubitGate):
+
     def _apply_unitary_(self, args: cirq.ApplyUnitaryArgs
-                        ) -> Union[np.ndarray, NotImplementedType]:
+                       ) -> Union[np.ndarray, NotImplementedType]:
         args.available_buffer[...] = args.target_tensor
         args.target_tensor[...] = 0
         return args.available_buffer
@@ -41,17 +42,18 @@ class GateUsingWorkspaceForApplyUnitary(cirq.SingleQubitGate):
 
 
 class GateAllocatingNewSpaceForResult(cirq.SingleQubitGate):
+
     def _apply_unitary_(self, args: cirq.ApplyUnitaryArgs
-                        ) -> Union[np.ndarray, NotImplementedType]:
+                       ) -> Union[np.ndarray, NotImplementedType]:
         assert len(args.axes) == 1
         a = args.axes[0]
-        seed = cast(Tuple[Union[int, slice, 'ellipsis'], ...],
-                    (slice(None),))
-        zero = seed*a + (0, Ellipsis)
-        one = seed*a + (1, Ellipsis)
+        seed = cast(Tuple[Union[int, slice, 'ellipsis'], ...], (slice(None),))
+        zero = seed * a + (0, Ellipsis)
+        one = seed * a + (1, Ellipsis)
         result = np.zeros(args.target_tensor.shape, args.target_tensor.dtype)
-        result[zero] = args.target_tensor[zero]*2 + args.target_tensor[one]*3
-        result[one] = args.target_tensor[zero]*5 + args.target_tensor[one]*7
+        result[
+            zero] = args.target_tensor[zero] * 2 + args.target_tensor[one] * 3
+        result[one] = args.target_tensor[zero] * 5 + args.target_tensor[one] * 7
         return result
 
     def _unitary_(self):
@@ -64,8 +66,10 @@ class GateAllocatingNewSpaceForResult(cirq.SingleQubitGate):
         return ('cirq.ops.controlled_gate_test.'
                 'GateAllocatingNewSpaceForResult()')
 
+
 class RestrictedGate(cirq.SingleQubitGate):
     pass
+
 
 q = cirq.NamedQubit('q')
 p = cirq.NamedQubit('p')
@@ -86,20 +90,19 @@ def test_init():
 
 def test_init2():
     with pytest.raises(ValueError):
-        cirq.ControlledGate(cirq.Z, [p,q], 1)
+        cirq.ControlledGate(cirq.Z, [p, q], 1)
     gate = cirq.ControlledGate(cirq.Z, [q])
     assert gate.sub_gate is cirq.Z
     assert gate.control_qubits == (q,)
     assert gate.num_qubits() == 2
-    gate = cirq.ControlledGate(cirq.Z, [p,q], 2)
+    gate = cirq.ControlledGate(cirq.Z, [p, q], 2)
     assert gate.sub_gate is cirq.Z
     assert gate.control_qubits == (p, q)
     assert gate.num_qubits() == 3
-    assert gate == cirq.ControlledGate(cirq.Z, [p,q])
-    gate = cirq.ControlledGate(cirq.ControlledGate(
-                                    cirq.ControlledGate(cirq.Z, [p], 3),
-                                    num_controls=2),
-                               [q], 2)
+    assert gate == cirq.ControlledGate(cirq.Z, [p, q])
+    gate = cirq.ControlledGate(
+        cirq.ControlledGate(cirq.ControlledGate(cirq.Z, [p], 3),
+                            num_controls=2), [q], 2)
     assert gate.sub_gate is cirq.Z
     assert gate.control_qubits == (None, q, None, None, None, None, p)
     assert gate.num_qubits() == 8
@@ -181,11 +184,40 @@ def test_validate_args():
 
 def test_eq():
     eq = cirq.testing.EqualsTester()
-    eq.add_equality_group(CY, SCY, cirq.ControlledGate(cirq.Y))
-    eq.add_equality_group(CCH, SCSCH)
+    eq.add_equality_group(CY, cirq.ControlledGate(cirq.Y))
+    eq.add_equality_group(SCY)
+    eq.add_equality_group(CCH)
+    eq.add_equality_group(SCSCH)
     eq.add_equality_group(cirq.ControlledGate(cirq.H))
     eq.add_equality_group(cirq.ControlledGate(cirq.X))
     eq.add_equality_group(cirq.X)
+
+
+def test_controlled_by():
+    a, b, c = cirq.LineQubit.range(3)
+
+    g = cirq.SingleQubitGate()
+
+    # Ignores empty.
+    assert g.controlled_by() is g
+
+    # Combined.
+    cg = g.controlled_by(a, b)
+    assert isinstance(cg, cirq.ControlledGate)
+    assert cg.sub_gate == g
+    assert cg.control_qubits == (a, b)
+
+    # Equality ignores ordering but cares about set and quantity.
+    eq = cirq.testing.EqualsTester()
+    eq.add_equality_group(g, g.controlled_by())
+    eq.add_equality_group(g.controlled_by(a, b), g.controlled_by(b, a),
+                          cirq.ControlledGate(g, [a, b]),
+                          g.controlled_by(a).controlled_by(b))
+    eq.add_equality_group(g.controlled_by(a))
+    eq.add_equality_group(g.controlled_by(b))
+    eq.add_equality_group(g.controlled_by(a, c))
+    eq.add_equality_group(cirq.ControlledGate(g, num_controls=1))
+    eq.add_equality_group(cirq.ControlledGate(g, num_controls=2))
 
 
 def test_unitary():
@@ -197,24 +229,22 @@ def test_unitary():
     assert cirq.has_unitary(CCH)
     assert cirq.has_unitary(SCY)
     assert cirq.has_unitary(SCSCH)
-    np.testing.assert_allclose(
-        cirq.unitary(CY),
-        np.array([
-            [1, 0, 0, 0],
-            [0, 1, 0, 0],
-            [0, 0, 0, -1j],
-            [0, 0, 1j, 0],
-        ]),
-        atol=1e-8)
-    np.testing.assert_allclose(
-        cirq.unitary(SCY),
-        np.array([
-            [1, 0, 0, 0],
-            [0, 1, 0, 0],
-            [0, 0, 0, -1j],
-            [0, 0, 1j, 0],
-        ]),
-        atol=1e-8)
+    np.testing.assert_allclose(cirq.unitary(CY),
+                               np.array([
+                                   [1, 0, 0, 0],
+                                   [0, 1, 0, 0],
+                                   [0, 0, 0, -1j],
+                                   [0, 0, 1j, 0],
+                               ]),
+                               atol=1e-8)
+    np.testing.assert_allclose(cirq.unitary(SCY),
+                               np.array([
+                                   [1, 0, 0, 0],
+                                   [0, 1, 0, 0],
+                                   [0, 0, 0, -1j],
+                                   [0, 0, 1j, 0],
+                               ]),
+                               atol=1e-8)
 
     np.testing.assert_allclose(
         cirq.unitary(CCH),
@@ -225,7 +255,8 @@ def test_unitary():
             [0, 0, 0, 1, 0, 0, 0, 0],
             [0, 0, 0, 0, 1, 0, 0, 0],
             [0, 0, 0, 0, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0, 0, np.sqrt(0.5), np.sqrt(0.5)],
+            [0, 0, 0, 0, 0, 0, np.sqrt(0.5),
+             np.sqrt(0.5)],
             [0, 0, 0, 0, 0, 0, np.sqrt(0.5), -np.sqrt(0.5)],
         ]),
         atol=1e-8)
@@ -238,11 +269,11 @@ def test_unitary():
             [0, 0, 0, 1, 0, 0, 0, 0],
             [0, 0, 0, 0, 1, 0, 0, 0],
             [0, 0, 0, 0, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0, 0, np.sqrt(0.5), np.sqrt(0.5)],
+            [0, 0, 0, 0, 0, 0, np.sqrt(0.5),
+             np.sqrt(0.5)],
             [0, 0, 0, 0, 0, 0, np.sqrt(0.5), -np.sqrt(0.5)],
         ]),
         atol=1e-8)
-
 
 
 @pytest.mark.parametrize('gate', [
@@ -289,7 +320,6 @@ def test_pow_inverse():
     assert cirq.pow(CRestricted, 1.5, None) is None
     assert cirq.pow(SCRestricted, 1.5, None) is None
     assert cirq.pow(CY, 1.5) == cirq.ControlledGate(cirq.Y**1.5)
-    assert cirq.pow(SCY, 1.5) == cirq.ControlledGate(cirq.Y**1.5)
     assert cirq.inverse(CY) == CY**-1 == CY
     assert cirq.inverse(SCY) == SCY**-1 == SCY
 
@@ -300,21 +330,22 @@ def test_extrapolatable_effect():
 
     assert cirq.ControlledGate(cirq.Z)**0.5 == cirq.ControlledGate(cirq.Z**0.5)
 
-    assert (cirq.ControlledGate(cirq.Z).on(a, b)**0.5 ==
-            cirq.ControlledGate(cirq.Z**0.5).on(a, b))
+    assert (cirq.ControlledGate(cirq.Z).on(a, b)**0.5 == cirq.ControlledGate(
+        cirq.Z**0.5).on(a, b))
 
     assert (cirq.ControlledGate(cirq.Z)**0.5 == cirq.ControlledGate(
-        cirq.Z**0.5, [a]))
+        cirq.Z**0.5))
 
-    assert (cirq.ControlledGate(cirq.Z, [a]).on(b)**0.5 ==
-            cirq.ControlledGate(cirq.Z**0.5, [a]).on(b))
+    assert (cirq.ControlledGate(cirq.Z, [a]).on(b)**0.5 == cirq.ControlledGate(
+        cirq.Z**0.5, [a]).on(b))
 
 
 def test_reversible():
-    assert (cirq.inverse(cirq.ControlledGate(cirq.S)) ==
-            cirq.ControlledGate(cirq.S**-1))
-    assert (cirq.inverse(cirq.ControlledGate(cirq.S, [q])) ==
-            cirq.ControlledGate(cirq.S**-1, [q]))
+    assert (cirq.inverse(cirq.ControlledGate(cirq.S)) == cirq.ControlledGate(
+        cirq.S**-1))
+    assert (cirq.inverse(cirq.ControlledGate(cirq.S,
+                                             [q])) == cirq.ControlledGate(
+                                                 cirq.S**-1, [q]))
 
 
 class UnphaseableGate(cirq.SingleQubitGate):
@@ -323,30 +354,25 @@ class UnphaseableGate(cirq.SingleQubitGate):
 
 def test_parameterizable():
     a = sympy.Symbol('a')
-    cz = cirq.ControlledGate(cirq.Y)
-    cza = cirq.ControlledGate(cirq.YPowGate(exponent=a))
-    scza = cirq.ControlledGate(cirq.YPowGate(exponent=a), [q])
-    assert cirq.is_parameterized(cza)
-    assert cirq.is_parameterized(scza)
-    assert not cirq.is_parameterized(cz)
-    assert cirq.resolve_parameters(cza, cirq.ParamResolver({'a': 1})) == cz
-    assert cirq.resolve_parameters(scza, cirq.ParamResolver({'a': 1})) == cz
+    cy = cirq.ControlledGate(cirq.Y)
+    cya = cirq.ControlledGate(cirq.YPowGate(exponent=a))
+    scya = cirq.ControlledGate(cirq.YPowGate(exponent=a), [q])
+    assert cirq.is_parameterized(cya)
+    assert cirq.is_parameterized(scya)
+    assert not cirq.is_parameterized(cy)
+    assert cirq.resolve_parameters(cya, cirq.ParamResolver({'a': 1})) == cy
 
 
 def test_circuit_diagram_info():
     assert cirq.circuit_diagram_info(CY) == cirq.CircuitDiagramInfo(
-        wire_symbols=('@', 'Y'),
-        exponent=1)
+        wire_symbols=('@', 'Y'), exponent=1)
 
-    assert cirq.circuit_diagram_info(cirq.ControlledGate(cirq.Y**0.5)
-                                     ) == cirq.CircuitDiagramInfo(
-        wire_symbols=('@', 'Y'),
-        exponent=0.5)
+    assert cirq.circuit_diagram_info(cirq.ControlledGate(
+        cirq.Y**0.5)) == cirq.CircuitDiagramInfo(wire_symbols=('@', 'Y'),
+                                                 exponent=0.5)
 
-    assert cirq.circuit_diagram_info(cirq.ControlledGate(cirq.S)
-                                     ) == cirq.CircuitDiagramInfo(
-        wire_symbols=('@', 'S'),
-        exponent=1)
+    assert cirq.circuit_diagram_info(cirq.ControlledGate(
+        cirq.S)) == cirq.CircuitDiagramInfo(wire_symbols=('@', 'S'), exponent=1)
 
     class UndiagrammableGate(cirq.SingleQubitGate):
         pass
@@ -366,16 +392,14 @@ class MultiH(cirq.Gate):
     def __init__(self, num_qubits):
         self._num_qubits = num_qubits
 
-    def _circuit_diagram_info_(self,
-                               args: cirq.CircuitDiagramInfoArgs
-                               ) -> cirq.CircuitDiagramInfo:
+    def _circuit_diagram_info_(self, args: cirq.CircuitDiagramInfoArgs
+                              ) -> cirq.CircuitDiagramInfo:
         assert args.known_qubit_count is not None
         assert args.known_qubits is not None
 
-        return cirq.CircuitDiagramInfo(
-            wire_symbols=tuple('H({})'.format(q) for q in args.known_qubits),
-            connected=True
-        )
+        return cirq.CircuitDiagramInfo(wire_symbols=tuple(
+            'H({})'.format(q) for q in args.known_qubits),
+                                       connected=True)
 
 
 def test_circuit_diagram():
@@ -383,7 +407,8 @@ def test_circuit_diagram():
     c = cirq.Circuit()
     c.append(cirq.ControlledGate(MultiH(2))(*qubits))
 
-    cirq.testing.assert_has_diagram(c, """
+    cirq.testing.assert_has_diagram(
+        c, """
 0: ───@──────
       │
 1: ───H(1)───
@@ -394,11 +419,11 @@ def test_circuit_diagram():
 
 class MockGate(cirq.TwoQubitGate):
 
-    def _circuit_diagram_info_(self,
-                               args: cirq.CircuitDiagramInfoArgs
-                               ) -> cirq.CircuitDiagramInfo:
+    def _circuit_diagram_info_(self, args: cirq.CircuitDiagramInfoArgs
+                              ) -> cirq.CircuitDiagramInfo:
         self.captured_diagram_args = args
-        return cirq.CircuitDiagramInfo(wire_symbols=tuple(['MOCK']), exponent=1,
+        return cirq.CircuitDiagramInfo(wire_symbols=tuple(['MOCK']),
+                                       exponent=1,
                                        connected=True)
 
 
@@ -409,9 +434,8 @@ def test_uninformed_circuit_diagram_info():
 
     args = cirq.CircuitDiagramInfoArgs.UNINFORMED_DEFAULT
 
-    assert (cirq.circuit_diagram_info(cgate, args) ==
-            cirq.CircuitDiagramInfo(wire_symbols=('@', 'MOCK'), exponent=1,
-                                    connected=True))
+    assert (cirq.circuit_diagram_info(cgate, args) == cirq.CircuitDiagramInfo(
+        wire_symbols=('@', 'MOCK'), exponent=1, connected=True))
     assert mock_gate.captured_diagram_args == args
 
 
@@ -421,12 +445,13 @@ def test_bounded_effect():
 
 
 def test_repr():
-    assert repr(cirq.ControlledGate(
-        cirq.Z)) == 'cirq.ControlledGate(sub_gate=cirq.Z)'
-    assert (repr(cirq.ControlledGate(
-        cirq.Z, [cirq.LineQubit(0)])) == "cirq.ControlledGate(sub_gate=cirq.Z, "
-            "control_qubits=(cirq.LineQubit(0),), "
-            "num_controls=1)")
+    cirq.testing.assert_equivalent_repr(cirq.ControlledGate(cirq.Z))
+    cirq.testing.assert_equivalent_repr(
+        cirq.ControlledGate(cirq.Z, num_controls=1))
+    cirq.testing.assert_equivalent_repr(
+        cirq.ControlledGate(cirq.Z, num_controls=2))
+    cirq.testing.assert_equivalent_repr(
+        cirq.ControlledGate(cirq.Y, control_qubits=[cirq.LineQubit(1)]))
 
 
 def test_str():
@@ -436,6 +461,6 @@ def test_str():
     assert str(cirq.ControlledGate(cirq.S, [q])) == 'CS'
     assert str(cirq.ControlledGate(cirq.Z**0.125)) == 'CZ**0.125'
     assert str(cirq.ControlledGate(cirq.ControlledGate(cirq.S))) == 'CCS'
-    assert str(cirq.ControlledGate(cirq.ControlledGate(cirq.S,
-                                                       [q]), [q])) == 'CCS'
+    assert str(cirq.ControlledGate(cirq.ControlledGate(cirq.S, [q]),
+                                   [q])) == 'CCS'
     assert str(cirq.ControlledGate(cirq.S, [q, q], 2)) == 'CCS'
