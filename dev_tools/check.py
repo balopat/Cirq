@@ -114,12 +114,11 @@ class Check(metaclass=abc.ABCMeta):
 
         return result
 
-    def pick_env_and_run_and_report(self,
-                                    env: env_tools.PreparedEnv,
+    def pick_env_and_run_and_report(self, env: env_tools.PreparedEnv,
                                     env_py2: Optional[env_tools.PreparedEnv],
                                     verbose: bool,
                                     previous_failures: Set['Check']
-                                    ) -> CheckResult:
+                                   ) -> CheckResult:
         """Evaluates this check in python 3 or 2.7, and reports to github.
 
         If the prepared environments are not linked to a github repository,
