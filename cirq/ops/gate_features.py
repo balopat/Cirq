@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 """Marker classes for indicating which additional features gates support.
 
 For example: some gates are reversible, some have known matrices, etc.
@@ -34,7 +35,7 @@ class InterchangeableQubitsGate(metaclass=abc.ABCMeta):
 class SingleQubitGate(raw_types.Gate, metaclass=abc.ABCMeta):
     """A gate that must be applied to exactly one qubit."""
 
-    def num_qubits(self) -> int:
+    def _num_qubits_(self) -> int:
         return 1
 
     def on_each(self, *targets: Union[raw_types.Qid, Iterable[Any]]
@@ -67,12 +68,12 @@ class SingleQubitGate(raw_types.Gate, metaclass=abc.ABCMeta):
 class TwoQubitGate(raw_types.Gate, metaclass=abc.ABCMeta):
     """A gate that must be applied to exactly two qubits."""
 
-    def num_qubits(self) -> int:
+    def _num_qubits_(self) -> int:
         return 2
 
 
 class ThreeQubitGate(raw_types.Gate, metaclass=abc.ABCMeta):
     """A gate that must be applied to exactly three qubits."""
 
-    def num_qubits(self) -> int:
+    def _num_qubits_(self) -> int:
         return 3
