@@ -274,11 +274,10 @@ class DensityMatrixSimulator(simulator.SimulatesSamples,
                                                                  out=out)
                         sum_buffer += result
                     np.copyto(dst=matrix, src=sum_buffer)
-            yield DensityMatrixStepResult(
-                    density_matrix=matrix,
-                    measurements=measurements,
-                    qubit_map=qubit_map,
-                    dtype=self._dtype)
+            yield DensityMatrixStepResult(density_matrix=matrix,
+                                          measurements=measurements,
+                                          qubit_map=qubit_map,
+                                          dtype=self._dtype)
 
     def _create_simulator_trial_result(self,
             params: study.ParamResolver,
@@ -522,8 +521,7 @@ class DensityMatrixStepResult(simulator.StepResult):
             repetitions: int = 1) -> np.ndarray:
         indices = [self._qubit_map[q] for q in qubits]
         return density_matrix_utils.sample_density_matrix(
-            self.simulator_state().density_matrix,
-            indices, repetitions)
+            self.simulator_state().density_matrix, indices, repetitions)
 
 
 @value.value_equality(unhashable=True)
@@ -610,6 +608,5 @@ class DensityMatrixTrialResult(simulator.SimulationTrialResult):
 
     def __repr__(self):
         return ("cirq.DensityMatrixTrialResult(params={!r}, measurements={!r}, "
-                "final_simulator_state={!r})"
-                .format(self.params, self.measurements,
-                        self.final_simulator_state))
+                "final_simulator_state={!r})".format(
+                    self.params, self.measurements, self.final_simulator_state))

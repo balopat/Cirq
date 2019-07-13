@@ -103,12 +103,11 @@ def test_unitary():
     assert not cirq.has_unitary(p)
     assert cirq.unitary(p, None) is None
     np.testing.assert_allclose(cirq.unitary(q),
-                               np.array([
-                                   [0. + 0.j, 0. + 0.j, 0. + 0.j, 0. + 0.j],
-                                   [0. + 0.j, 1. + 0.j, 1. + 0.j, 0. + 0.j],
-                                   [0. + 0.j, 1. + 0.j, 1. + 0.j, 0. + 0.j],
-                                   [0. + 0.j, 0. + 0.j, 0. + 0.j, 0. + 0.j]
-                               ]),
+                               np.array(
+                                   [[0. + 0.j, 0. + 0.j, 0. + 0.j, 0. + 0.j],
+                                    [0. + 0.j, 1. + 0.j, 1. + 0.j, 0. + 0.j],
+                                    [0. + 0.j, 1. + 0.j, 1. + 0.j, 0. + 0.j],
+                                    [0. + 0.j, 0. + 0.j, 0. + 0.j, 0. + 0.j]]),
                                atol=1e-8)
 
 
@@ -157,7 +156,5 @@ def test_equivalent_circuit():
         newc.append(cirq.ops.ParallelGateOperation(gate, qreg))
 
     cirq.testing.assert_has_diagram(newc, oldc.to_text_diagram())
-    cirq.testing.assert_circuits_with_terminal_measurements_are_equivalent(oldc,
-                                                                           newc,
-                                                                           atol=
-                                                                           1e-6)
+    cirq.testing.assert_circuits_with_terminal_measurements_are_equivalent(
+        oldc, newc, atol=1e-6)

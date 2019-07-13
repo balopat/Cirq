@@ -91,9 +91,11 @@ class QasmParser(object):
                       args: List[List[cirq.Qid]],
                       lineno: int = 0) -> Iterable[cirq.GateOperation]:
             self.validate_params('U', params, 3, lineno)
-            return operation([float(params[2])/np.pi,
-                              float(params[0])/np.pi,
-                              float(params[1])/np.pi], args, lineno)
+            return operation([
+                float(params[2]) / np.pi,
+                float(params[0]) / np.pi,
+                float(params[1]) / np.pi
+            ], args, lineno)
 
         return call_gate
 
@@ -104,9 +106,9 @@ class QasmParser(object):
                       args: List[List[cirq.Qid]],
                       lineno: int = 0) -> Iterable[cirq.GateOperation]:
             self.validate_params('u2', params, 2, lineno)
-            return operation([float(params[1])/np.pi,
-                              0.5,
-                              float(params[0])/np.pi], args, lineno)
+            return operation(
+                [float(params[1]) / np.pi, 0.5,
+                 float(params[0]) / np.pi], args, lineno)
 
         return call_gate
 

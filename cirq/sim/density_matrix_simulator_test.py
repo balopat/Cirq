@@ -264,9 +264,8 @@ def test_simulate_compare_to_wave_function_simulator(dtype):
         pure_result = (cirq.Simulator(dtype=dtype)
                        .simulate(circuit,qubit_order=qubits)
                        .density_matrix_of())
-        mixed_result = (cirq.DensityMatrixSimulator(dtype=dtype)
-                        .simulate(circuit,qubit_order=qubits)
-                        .final_density_matrix)
+        mixed_result = (cirq.DensityMatrixSimulator(dtype=dtype).simulate(
+            circuit, qubit_order=qubits).final_density_matrix)
         np.testing.assert_almost_equal(mixed_result, pure_result)
 
 
@@ -606,5 +605,6 @@ def test_compute_samples_displays(dtype):
     assert 'x3' not in result.display_values
     np.testing.assert_allclose(result.display_values['approx_z1x2'], -1,
                                atol=1e-7)
-    np.testing.assert_allclose(result.display_values['approx_z1x3'], 1,
+    np.testing.assert_allclose(result.display_values['approx_z1x3'],
+                               1,
                                atol=1e-7)

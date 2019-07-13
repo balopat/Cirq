@@ -111,8 +111,8 @@ def test_from_circuit():
     dag = cirq.CircuitDag.from_circuit(circuit)
     assert networkx.dag.is_directed_acyclic_graph(dag)
     assert len(dag.nodes()) == 2
-    assert ([(n1.val, n2.val) for n1, n2 in dag.edges()] ==
-            [(cirq.X(q0), cirq.Y(q0))])
+    assert ([(n1.val, n2.val) for n1, n2 in dag.edges()] == [(cirq.X(q0),
+                                                              cirq.Y(q0))])
 
 
 def test_from_circuit_with_device():
@@ -125,8 +125,8 @@ def test_from_circuit_with_device():
     assert networkx.dag.is_directed_acyclic_graph(dag)
     assert dag.device == circuit.device
     assert len(dag.nodes()) == 2
-    assert ([(n1.val, n2.val) for n1, n2 in dag.edges()] ==
-            [(cirq.X(q0), cirq.Y(q0))])
+    assert ([(n1.val, n2.val) for n1, n2 in dag.edges()] == [(cirq.X(q0),
+                                                              cirq.Y(q0))])
 
 
 def test_to_empty_circuit():

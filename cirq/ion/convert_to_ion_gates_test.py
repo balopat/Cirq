@@ -61,15 +61,17 @@ def test_convert_to_ion_gates():
                    cirq.ops.Rx(-1*np.pi/2).on(op.qubits[0]),
                    cirq.ops.Rx(-1*np.pi/2).on(op.qubits[1]),
                    cirq.ops.Ry(-1*np.pi/2).on(op.qubits[0])]
-    assert rcnot == [cirq.PhasedXPowGate(phase_exponent=-0.75, exponent=0.5).
-                         on(cirq.GridQubit(0, 0)),
-                     (cirq.X**-0.25).on(cirq.GridQubit(0, 1)),
-                     cirq.T.on(cirq.GridQubit(0, 0)),
-                     cirq.MS(-0.5*np.pi/2).on(cirq.GridQubit(0, 0),
-                                              cirq.GridQubit(0, 1)),
-                     (cirq.Y**0.5).on(cirq.GridQubit(0, 0)),
-                     (cirq.X**-0.25).on(cirq.GridQubit(0, 1)),
-                     (cirq.Z**-0.75).on(cirq.GridQubit(0, 0))]
+    assert rcnot == [
+        cirq.PhasedXPowGate(phase_exponent=-0.75,
+                            exponent=0.5).on(cirq.GridQubit(0, 0)),
+        (cirq.X**-0.25).on(cirq.GridQubit(0, 1)),
+        cirq.T.on(cirq.GridQubit(0, 0)),
+        cirq.MS(-0.5 * np.pi / 2).on(cirq.GridQubit(0, 0), cirq.GridQubit(0,
+                                                                          1)),
+        (cirq.Y**0.5).on(cirq.GridQubit(0, 0)),
+        (cirq.X**-0.25).on(cirq.GridQubit(0, 1)),
+        (cirq.Z**-0.75).on(cirq.GridQubit(0, 0))
+    ]
 
 
 def _operations_to_matrix(operations, qubits):
@@ -81,7 +83,8 @@ def _operations_to_matrix(operations, qubits):
 def assert_ops_implement_unitary(q0, q1, operations, intended_effect,
                                  atol=0.01):
     actual_effect = _operations_to_matrix(operations, (q0, q1))
-    assert cirq.allclose_up_to_global_phase(actual_effect, intended_effect,
+    assert cirq.allclose_up_to_global_phase(actual_effect,
+                                            intended_effect,
                                             atol=atol)
 
 
@@ -100,17 +103,21 @@ def test_convert_to_ion_circuit():
     ion_circuit_2 = cirq.ion.ConvertToIonGates().\
         convert_circuit(clifford_circuit_2)
 
-    cirq.testing.assert_has_diagram(ion_circuit_1, """
+    cirq.testing.assert_has_diagram(ion_circuit_1,
+                                    """
 (0, 0): ───X───────────────────MS(0.25π)───
                                │
 (0, 1): ───Rx(π)───Ry(-0.5π)───MS(0.25π)───
-    """, use_unicode_characters=True)
+    """,
+                                    use_unicode_characters=True)
 
-    cirq.testing.assert_has_diagram(ion_circuit_2, """
+    cirq.testing.assert_has_diagram(ion_circuit_2,
+                                    """
 (0, 0): ───X──────────MS(0.25π)───Rx(-0.5π)───────────────MS(0.25π)───
                       │                                   │
 (0, 1): ───Ry(0.5π)───MS(0.25π)───Rx(-0.5π)───Ry(-0.5π)───MS(0.25π)───
-        """, use_unicode_characters=True)
+        """,
+                                    use_unicode_characters=True)
 
     assert_ops_implement_unitary(q0, q1, ion_circuit_1,
                                  cirq.unitary(clifford_circuit_1))

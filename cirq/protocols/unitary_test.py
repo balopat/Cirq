@@ -46,8 +46,10 @@ class NoMethod:
 class ReturnsNotImplemented(cirq.Gate):
     def _has_unitary_(self):
         return NotImplemented
+
     def _unitary_(self):
         return NotImplemented
+
     def num_qubits(self):
         return 1
 
@@ -55,17 +57,21 @@ class ReturnsNotImplemented(cirq.Gate):
 class ReturnsMatrix(cirq.Gate):
     def _unitary_(self) -> np.ndarray:
         return m1
+
     def num_qubits(self):
-        return 1 # coverage: ignore
+        return 1  # coverage: ignore
 
 
 class FullyImplemented(cirq.Gate):
     def __init__(self, unitary_value):
         self.unitary_value = unitary_value
+
     def _has_unitary_(self) -> bool:
         return self.unitary_value
+
     def _unitary_(self) -> np.ndarray:
         return m1
+
     def num_qubits(self):
         return 1
 
@@ -73,8 +79,10 @@ class FullyImplemented(cirq.Gate):
 class DecomposableGate(cirq.Gate):
     def __init__(self, unitary_value):
         self.unitary_value = unitary_value
+
     def num_qubits(self):
         return 1
+
     def _decompose_(self, qubits):
         yield FullyImplemented(self.unitary_value).on(qubits[0])
 
@@ -82,9 +90,11 @@ class DecomposableGate(cirq.Gate):
 class DecomposableOperation(cirq.Operation):
     qubits = ()
     with_qubits = NotImplemented
+
     def __init__(self, qubits, unitary_value):
         self.qubits = qubits
         self.unitary_value = unitary_value
+
     def _decompose_(self):
         for q in self.qubits:
             yield FullyImplemented(self.unitary_value)(q)
@@ -93,8 +103,10 @@ class DecomposableOperation(cirq.Operation):
 class DecomposableOrder(cirq.Operation):
     qubits = ()
     with_qubits = NotImplemented
+
     def __init__(self, qubits):
         self.qubits = qubits
+
     def _decompose_(self):
         yield FullyImplemented(True)(self.qubits[2])
         yield FullyImplemented(True)(self.qubits[0])
@@ -103,8 +115,10 @@ class DecomposableOrder(cirq.Operation):
 class DecomposableNoUnitary(cirq.Operation):
     qubits = ()
     with_qubits = NotImplemented
+
     def __init__(self, qubits):
         self.qubits = qubits
+
     def _decompose_(self):
         for q in self.qubits:
             yield ReturnsNotImplemented()(q)
@@ -113,8 +127,10 @@ class DecomposableNoUnitary(cirq.Operation):
 class DummyOperation(cirq.Operation):
     qubits = ()
     with_qubits = NotImplemented
+
     def __init__(self, qubits):
         self.qubits = qubits
+
     def _decompose_(self):
         return ()
 
@@ -157,16 +173,16 @@ def test_has_unitary():
 
 def test_decompose_and_get_unitary():
     from cirq.protocols.unitary import _decompose_and_get_unitary
-    np.testing.assert_allclose(_decompose_and_get_unitary(
-        DecomposableOperation((a,), True)), m1)
-    np.testing.assert_allclose(_decompose_and_get_unitary(
-        DecomposableOperation((a, b), True)), m2)
-    np.testing.assert_allclose(_decompose_and_get_unitary(
-        DecomposableOrder((a, b, c))), m3)
-    np.testing.assert_allclose(_decompose_and_get_unitary(
-        DummyOperation((a,))), np.eye(2))
-    np.testing.assert_allclose(_decompose_and_get_unitary(
-        DummyOperation((a, b))), np.eye(4))
+    np.testing.assert_allclose(
+        _decompose_and_get_unitary(DecomposableOperation((a,), True)), m1)
+    np.testing.assert_allclose(
+        _decompose_and_get_unitary(DecomposableOperation((a, b), True)), m2)
+    np.testing.assert_allclose(
+        _decompose_and_get_unitary(DecomposableOrder((a, b, c))), m3)
+    np.testing.assert_allclose(_decompose_and_get_unitary(DummyOperation((a,))),
+                               np.eye(2))
+    np.testing.assert_allclose(
+        _decompose_and_get_unitary(DummyOperation((a, b))), np.eye(4))
 
 
 def test_decomposed_has_unitary():

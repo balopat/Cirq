@@ -41,8 +41,8 @@ def optimized_circuit(circuit: circuits.Circuit,
         circuit3 = clifford_optimized_circuit(
                         circuit2,
                         atol=atol)
-        if (len(circuit3) >= start_len
-            and _cz_count(circuit3) >= start_cz_count):
+        if (len(circuit3) >= start_len and
+                _cz_count(circuit3) >= start_cz_count):
             return circuit3
         circuit = circuit3
     return circuit

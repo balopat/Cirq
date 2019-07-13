@@ -159,4 +159,3 @@ class BipartiteSwapNetworkGate(PermutationGate):
                 self.subgraph == other.subgraph and
                 self.part_size == other.part_size and
                 self.swap_gate == other.swap_gate)
-

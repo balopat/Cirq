@@ -339,8 +339,8 @@ class SparseSimulatorStep(wave_function.StateVectorMixin,
         self._dtype = dtype
         self._state_vector = np.reshape(state_vector, 2 ** len(qubit_map))
 
-    def simulator_state(
-        self) -> wave_function_simulator.WaveFunctionSimulatorState:
+    def simulator_state(self
+                       ) -> wave_function_simulator.WaveFunctionSimulatorState:
         return wave_function_simulator.WaveFunctionSimulatorState(
             qubit_map=self.qubit_map,
             state_vector=self._state_vector)

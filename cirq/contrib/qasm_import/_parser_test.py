@@ -307,13 +307,12 @@ def test_u_gate():
     q1 = cirq.NamedQubit('q_1')
 
     expected_circuit = Circuit()
-    expected_circuit.append(
-        QasmUGate(1/2.0, 1.0, 2.0)(q0))
+    expected_circuit.append(QasmUGate(1 / 2.0, 1.0, 2.0)(q0))
 
     expected_circuit.append(
         cirq.Moment([
-            QasmUGate(1/2.0, 1.0, 2.0)(q0),
-            QasmUGate(1/2.0, 1.0, 2.0)(q1)
+            QasmUGate(1 / 2.0, 1.0, 2.0)(q0),
+            QasmUGate(1 / 2.0, 1.0, 2.0)(q1)
         ]))
 
     parsed_qasm = parser.parse()
@@ -353,13 +352,12 @@ def test_u3_gate():
     q1 = cirq.NamedQubit('q_1')
 
     expected_circuit = Circuit()
-    expected_circuit.append(
-        QasmUGate(1.0/2.0, 1.0, 2.0)(q0))
+    expected_circuit.append(QasmUGate(1.0 / 2.0, 1.0, 2.0)(q0))
 
     expected_circuit.append(
         cirq.Moment([
-            QasmUGate(1.0/2.0, 1.0, 2.0)(q0),
-            QasmUGate(1.0/2.0, 1.0, 2.0)(q1)
+            QasmUGate(1.0 / 2.0, 1.0, 2.0)(q0),
+            QasmUGate(1.0 / 2.0, 1.0, 2.0)(q1)
         ]))
 
     parsed_qasm = parser.parse()
@@ -386,13 +384,12 @@ def test_u2_gate():
     q1 = cirq.NamedQubit('q_1')
 
     expected_circuit = Circuit()
-    expected_circuit.append(
-        QasmUGate(1.0/2.0, 1.0/2.0, 2.0)(q0))
+    expected_circuit.append(QasmUGate(1.0 / 2.0, 1.0 / 2.0, 2.0)(q0))
 
     expected_circuit.append(
         cirq.Moment([
-            QasmUGate(1.0/2.0, 1.0/2.0, 2.0)(q0),
-            QasmUGate(1.0/2.0, 1.0/2.0, 2.0)(q1)
+            QasmUGate(1.0 / 2.0, 1.0 / 2.0, 2.0)(q0),
+            QasmUGate(1.0 / 2.0, 1.0 / 2.0, 2.0)(q1)
         ]))
 
     parsed_qasm = parser.parse()
@@ -405,31 +402,33 @@ def test_u2_gate():
     cirq.Simulator().run(parsed_qasm.circuit)
 
 
-@pytest.mark.parametrize('expr', [
-    '.333 + 4',
-    '1.0 * 2',
-    '0.1 ^ pi',
-    '0.1 / pi',
-    '2.0e-05 ^ (1/2)',
-    '1.2E+05 * (3 + 2)',
-    '123123.2132312 * cos(pi)',
-    '123123.2132312 * sin(2 * pi)',
-    '3 - 4 * 2',  # precedence of *
-    '3 * 4 + 2',  # precedence of *
-    '3 * 4 ^ 2',  # precedence of ^
-    '3 - 4 ^ 2',  # precedence of ^
-    '3^2^(-2)',   # right associativity of ^
-    '(-1) * pi',
-    '(+1) * pi',
-    '-3 * 5 + 2',
-    '(+4 * (-3) ^ 5 - 2)',
-    'tan(123123.2132312)',
-    'ln(pi)',
-    'exp(2*pi)',
-    'sqrt(4)',
-    'acos(1)',
-    'atan(0.2)',
-])
+@pytest.mark.parametrize(
+    'expr',
+    [
+        '.333 + 4',
+        '1.0 * 2',
+        '0.1 ^ pi',
+        '0.1 / pi',
+        '2.0e-05 ^ (1/2)',
+        '1.2E+05 * (3 + 2)',
+        '123123.2132312 * cos(pi)',
+        '123123.2132312 * sin(2 * pi)',
+        '3 - 4 * 2',  # precedence of *
+        '3 * 4 + 2',  # precedence of *
+        '3 * 4 ^ 2',  # precedence of ^
+        '3 - 4 ^ 2',  # precedence of ^
+        '3^2^(-2)',  # right associativity of ^
+        '(-1) * pi',
+        '(+1) * pi',
+        '-3 * 5 + 2',
+        '(+4 * (-3) ^ 5 - 2)',
+        'tan(123123.2132312)',
+        'ln(pi)',
+        'exp(2*pi)',
+        'sqrt(4)',
+        'acos(1)',
+        'atan(0.2)',
+    ])
 def test_expressions(expr: str):
     qasm = """
      OPENQASM 2.0;
@@ -443,7 +442,8 @@ def test_expressions(expr: str):
 
     expected_circuit = Circuit()
     expected_circuit.append(
-        QasmUGate(1/2.0, float(sympy.sympify(expr))/np.pi, 2.0)(q0))
+        QasmUGate(1 / 2.0,
+                  float(sympy.sympify(expr)) / np.pi, 2.0)(q0))
 
     parsed_qasm = parser.parse()
 
@@ -521,9 +521,8 @@ def test_rotation_gates(qasm_gate: str, cirq_gate: cirq.SingleQubitGate):
     expected_circuit = Circuit()
     expected_circuit.append(cirq_gate(np.pi / 2).on(q0))
     expected_circuit.append(
-        cirq.Moment(
-            [cirq_gate(np.pi).on(q0),
-             cirq_gate(np.pi).on(q1)]))
+        cirq.Moment([cirq_gate(np.pi).on(q0),
+                     cirq_gate(np.pi).on(q1)]))
 
     parsed_qasm = parser.parse()
 

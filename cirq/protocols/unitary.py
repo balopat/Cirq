@@ -150,8 +150,9 @@ def has_unitary(val: Any) -> bool:
     if isinstance(val, Gate):
         # Since gates don't know about qubits, we need to create some
         decomposed_val = decompose_once_with_qubits(val,
-            LineQubit.range(val.num_qubits()),
-            default=None)
+                                                    LineQubit.range(
+                                                        val.num_qubits()),
+                                                    default=None)
         if decomposed_val is not None:
             return all(has_unitary(v) for v in decomposed_val)
     elif isinstance(val, Operation):
@@ -164,7 +165,7 @@ def has_unitary(val: Any) -> bool:
 
 
 def _decompose_and_get_unitary(val: Union['cirq.Operation', 'cirq.Gate']
-                               ) -> np.ndarray:
+                              ) -> np.ndarray:
     """Try to decompose a cirq.Operation or cirq.Gate, and return its unitary
     if it exists.
 
@@ -183,9 +184,7 @@ def _decompose_and_get_unitary(val: Union['cirq.Operation', 'cirq.Gate']
     elif isinstance(val, Gate):
         # Since gates don't know about qubits, we need to create some
         qubits = tuple(LineQubit.range(val.num_qubits()))
-        decomposed_val = decompose_once_with_qubits(val,
-                                                    qubits,
-                                                    default=None)
+        decomposed_val = decompose_once_with_qubits(val, qubits, default=None)
 
     if decomposed_val is not None:
         # Calculate the resulting unitary (if it exists)
@@ -197,10 +196,10 @@ def _decompose_and_get_unitary(val: Union['cirq.Operation', 'cirq.Gate']
         result = state
         for op in decomposed_val:
             indices = [qubit_map[q] for q in op.qubits]
-            result = apply_unitary(
-                unitary_value=op,
-                args=ApplyUnitaryArgs(state, buffer, indices),
-                default=None)
+            result = apply_unitary(unitary_value=op,
+                                   args=ApplyUnitaryArgs(
+                                       state, buffer, indices),
+                                   default=None)
             if result is None:
                 return None
             if result is buffer:

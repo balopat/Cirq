@@ -162,26 +162,26 @@ def test_unphaseable_causes_earlier_merge_without_size_increase():
 
     # pylint: disable=not-callable
     q = cirq.NamedQubit('q')
-    assert_optimizes(
-        before=cirq.Circuit([
-            cirq.Moment([cirq.Z(q)]),
-            cirq.Moment([u(q)]),
-            cirq.Moment([cirq.Z(q)**0.5]),
-            cirq.Moment([cirq.X(q)]),
-            cirq.Moment([cirq.Z(q)**0.25]),
-            cirq.Moment([cirq.X(q)]),
-            cirq.Moment([u(q)]),
-        ]),
-        expected=cirq.Circuit([
-            cirq.Moment([cirq.Z(q)]),
-            cirq.Moment([u(q)]),
-            cirq.Moment(),
-            cirq.Moment([cirq.Y(q)**-1.0]),
-            cirq.Moment(),
-            cirq.Moment([cirq.PhasedXPowGate(phase_exponent=-0.75).on(q)]),
-            cirq.Moment([cirq.Z(q)**0.75]),
-            cirq.Moment([u(q)]),
-        ]))
+    assert_optimizes(before=cirq.Circuit([
+        cirq.Moment([cirq.Z(q)]),
+        cirq.Moment([u(q)]),
+        cirq.Moment([cirq.Z(q)**0.5]),
+        cirq.Moment([cirq.X(q)]),
+        cirq.Moment([cirq.Z(q)**0.25]),
+        cirq.Moment([cirq.X(q)]),
+        cirq.Moment([u(q)]),
+    ]),
+                     expected=cirq.Circuit([
+                         cirq.Moment([cirq.Z(q)]),
+                         cirq.Moment([u(q)]),
+                         cirq.Moment(),
+                         cirq.Moment([cirq.Y(q)**-1.0]),
+                         cirq.Moment(),
+                         cirq.Moment(
+                             [cirq.PhasedXPowGate(phase_exponent=-0.75).on(q)]),
+                         cirq.Moment([cirq.Z(q)**0.75]),
+                         cirq.Moment([u(q)]),
+                     ]))
 
 
 def test_symbols_block():

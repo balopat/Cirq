@@ -217,17 +217,15 @@ def apply_unitary(unitary_value: Any,
             zero = args.subspace_index(0)
             one = args.subspace_index(1)
             return linalg.apply_matrix_to_slices(args.target_tensor,
-                                                 matrix,
-                                                 [zero, one],
+                                                 matrix, [zero, one],
                                                  out=args.available_buffer)
 
         # Fallback to np.einsum for the general case.
-        return linalg.targeted_left_multiply(
-            matrix.astype(args.target_tensor.dtype).reshape(
-                (2,) * (2 * len(args.axes))),
-            args.target_tensor,
-            args.axes,
-            out=args.available_buffer)
+        return linalg.targeted_left_multiply(matrix.astype(
+            args.target_tensor.dtype).reshape((2,) * (2 * len(args.axes))),
+                                             args.target_tensor,
+                                             args.axes,
+                                             out=args.available_buffer)
 
     # Don't know how to apply. Fallback to specified default behavior.
     if default is not RaiseTypeErrorIfNotProvided:

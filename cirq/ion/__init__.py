@@ -25,5 +25,4 @@ from cirq.ion.ion_device import (
     IonDevice,)
 
 from cirq.ion.convert_to_ion_gates import (
-    ConvertToIonGates,
-)
+    ConvertToIonGates,)

@@ -20,6 +20,7 @@ import cirq
 
 
 def test_avoids_infinite_cycle_when_matrix_available():
+
     class OtherX(cirq.SingleQubitGate):
         # coverage: ignore
         def _unitary_(self) -> np.ndarray:
@@ -56,10 +57,9 @@ def test_kak_decomposes_unknown_two_qubit_gate():
     assert all(op.gate.exponent == 1
                for op in circuit.all_operations()
                if cirq.op_gate_of_type(op, cirq.CZPowGate))
-    cirq.testing.assert_allclose_up_to_global_phase(
-        circuit.to_unitary_matrix(),
-        c_orig.to_unitary_matrix(),
-        atol=1e-7)
+    cirq.testing.assert_allclose_up_to_global_phase(circuit.to_unitary_matrix(),
+                                                    c_orig.to_unitary_matrix(),
+                                                    atol=1e-7)
 
 
 def test_composite_gates_without_matrix():
@@ -89,13 +89,10 @@ def test_composite_gates_without_matrix():
     cirq.ConvertToCzAndSingleGates().optimize_circuit(circuit)
 
     cirq.testing.assert_allclose_up_to_global_phase(
-        circuit.to_unitary_matrix(),
-        expected.to_unitary_matrix(),
-        atol=1e-7)
-    cirq.testing.assert_allclose_up_to_global_phase(
-        circuit.to_unitary_matrix(),
-        c_orig.to_unitary_matrix(),
-        atol=1e-7)
+        circuit.to_unitary_matrix(), expected.to_unitary_matrix(), atol=1e-7)
+    cirq.testing.assert_allclose_up_to_global_phase(circuit.to_unitary_matrix(),
+                                                    c_orig.to_unitary_matrix(),
+                                                    atol=1e-7)
 
 
 def test_ignore_unsupported_gate():
@@ -178,7 +175,6 @@ def test_dont_allow_partial_czs():
     assert all(op.gate.exponent % 2 == 1
                for op in circuit.all_operations()
                if cirq.op_gate_of_type(op, cirq.CZPowGate))
-    cirq.testing.assert_allclose_up_to_global_phase(
-        circuit.to_unitary_matrix(),
-        c_orig.to_unitary_matrix(),
-        atol=1e-7)
+    cirq.testing.assert_allclose_up_to_global_phase(circuit.to_unitary_matrix(),
+                                                    c_orig.to_unitary_matrix(),
+                                                    atol=1e-7)

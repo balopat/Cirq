@@ -72,11 +72,10 @@ class ConvertToIonGates:
             if self.ignore_failures:
                 return [op]
             else:
-                raise TypeError(
-                    "Don't know how to work with {!r}. "
-                    "It isn't a native Ion Trap operation, "
-                    "a 1 or 2 qubit gate with a known unitary, "
-                    "or composite.".format(op.gate))
+                raise TypeError("Don't know how to work with {!r}. "
+                                "It isn't a native Ion Trap operation, "
+                                "a 1 or 2 qubit gate with a known unitary, "
+                                "or composite.".format(op.gate))
 
     def convert_circuit(self, circuit: circuits.Circuit) -> circuits.Circuit:
         new_circuit = circuits.Circuit()
@@ -96,8 +95,5 @@ def is_native_ion_gate(gate: ops.Gate) -> bool:
     Returns:
         True if the gate is native to the ion, false otherwise.
     """
-    return isinstance(gate, (ops.XXPowGate,
-                             ops.MeasurementGate,
-                             ops.XPowGate,
-                             ops.YPowGate,
-                             ops.ZPowGate))
+    return isinstance(gate, (ops.XXPowGate, ops.MeasurementGate, ops.XPowGate,
+                             ops.YPowGate, ops.ZPowGate))

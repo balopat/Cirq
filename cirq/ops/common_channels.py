@@ -81,9 +81,8 @@ class AsymmetricDepolarizingChannel(gate_features.SingleQubitGate):
             self._p_x, self._p_y, self._p_z
         )
 
-    def _circuit_diagram_info_(
-        self, args: protocols.CircuitDiagramInfoArgs
-    ) -> str:
+    def _circuit_diagram_info_(self,
+                               args: protocols.CircuitDiagramInfoArgs) -> str:
         return 'A({!r},{!r},{!r})'.format(self._p_x, self._p_y, self._p_z)
 
 

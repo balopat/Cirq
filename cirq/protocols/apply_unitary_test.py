@@ -99,7 +99,6 @@ def test_apply_unitary_presence_absence():
 
     for s in passes:
         assert_works(s)
-        assert cirq.apply_unitary(
-            s,
-            cirq.ApplyUnitaryArgs(make_input(), buf, [0]),
-            default=None) is not None
+        assert cirq.apply_unitary(s,
+                                  cirq.ApplyUnitaryArgs(make_input(), buf, [0]),
+                                  default=None) is not None

@@ -119,8 +119,8 @@ class XPowGate(eigen_gate.EigenGate,
         if self._exponent == 1:
             return args.format('x {0};\n', qubits[0])
         else:
-            return args.format('rx({0:half_turns}) {1};\n',
-                               self._exponent, qubits[0])
+            return args.format('rx({0:half_turns}) {1};\n', self._exponent,
+                               qubits[0])
 
     @property
     def phase_exponent(self):
@@ -150,8 +150,7 @@ class XPowGate(eigen_gate.EigenGate,
                 return 'cirq.Rx({})'.format(
                     proper_repr(sympy.pi * self._exponent))
             else:
-                return 'cirq.Rx(np.pi*{})'.format(
-                    proper_repr(self._exponent))
+                return 'cirq.Rx(np.pi*{})'.format(proper_repr(self._exponent))
         if self._global_shift == 0:
             if self._exponent == 1:
                 return 'cirq.X'
@@ -222,8 +221,8 @@ class YPowGate(eigen_gate.EigenGate,
         if self._exponent == 1:
             return args.format('y {0};\n', qubits[0])
         else:
-            return args.format('ry({0:half_turns}) {1};\n',
-                               self._exponent, qubits[0])
+            return args.format('ry({0:half_turns}) {1};\n', self._exponent,
+                               qubits[0])
 
     @property
     def phase_exponent(self):
@@ -253,8 +252,7 @@ class YPowGate(eigen_gate.EigenGate,
                 return 'cirq.Ry({})'.format(
                     proper_repr(sympy.pi * self._exponent))
             else:
-                return 'cirq.Ry(np.pi*{})'.format(
-                    proper_repr(self._exponent))
+                return 'cirq.Ry(np.pi*{})'.format(proper_repr(self._exponent))
         if self._global_shift == 0:
             if self._exponent == 1:
                 return 'cirq.Y'
@@ -350,8 +348,8 @@ class ZPowGate(eigen_gate.EigenGate,
         if self._exponent == 1:
             return args.format('z {0};\n', qubits[0])
         else:
-            return args.format('rz({0:half_turns}) {1};\n',
-                               self._exponent, qubits[0])
+            return args.format('rz({0:half_turns}) {1};\n', self._exponent,
+                               qubits[0])
 
     def __str__(self) -> str:
         if self._global_shift == -0.5:
@@ -508,8 +506,7 @@ def _default_measurement_key(qubits: Iterable[raw_types.Qid]) -> str:
 
 def measure(*qubits: raw_types.Qid,
             key: Optional[str] = None,
-            invert_mask: Tuple[bool, ...] = ()
-            ) -> gate_operation.GateOperation:
+            invert_mask: Tuple[bool, ...] = ()) -> gate_operation.GateOperation:
     """Returns a single MeasurementGate applied to all the given qubits.
 
     The qubits are measured in the computational basis.
@@ -545,7 +542,7 @@ def measure(*qubits: raw_types.Qid,
 
 def measure_each(*qubits: raw_types.Qid,
                  key_func: Callable[[raw_types.Qid], str] = str
-                 ) -> List[gate_operation.GateOperation]:
+                ) -> List[gate_operation.GateOperation]:
     """Returns a list of operations individually measuring the given qubits.
 
     The qubits are measured in the computational basis.
@@ -692,10 +689,11 @@ class HPowGate(eigen_gate.EigenGate, gate_features.SingleQubitGate):
         if self._exponent == 1:
             return args.format('h {0};\n', qubits[0])
         else:
-            return args.format('ry({0:half_turns}) {3};\n'
-                               'rx({1:half_turns}) {3};\n'
-                               'ry({2:half_turns}) {3};\n',
-                               0.25,  self._exponent, -0.25, qubits[0])
+            return args.format(
+                'ry({0:half_turns}) {3};\n'
+                'rx({1:half_turns}) {3};\n'
+                'ry({2:half_turns}) {3};\n', 0.25, self._exponent, -0.25,
+                qubits[0])
 
     def __str__(self):
         if self._exponent == 1:

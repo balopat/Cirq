@@ -90,10 +90,8 @@ def single_qubit_matrix_to_pauli_rotations(
         z_ht_before = 0
 
     # Generate operations
-    rotation_list = [
-        (ops.pauli_gates.Z, z_ht_before),
-        (m_pauli, m_ht),
-        (ops.pauli_gates.Z, z_ht_after)]
+    rotation_list = [(ops.pauli_gates.Z, z_ht_before), (m_pauli, m_ht),
+                     (ops.pauli_gates.Z, z_ht_after)]
     return [(pauli, ht) for pauli, ht in rotation_list if not is_no_turn(ht)]
 
 

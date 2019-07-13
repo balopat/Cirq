@@ -26,6 +26,7 @@ from cirq import ops, linalg, protocols, value
 
 
 class QasmUGate(ops.SingleQubitGate):
+
     def __init__(self, lmda, theta, phi) -> None:
         """A QASM gate representing any single qubit unitary with a series of
         three rotations, Z, Y, and Z.
@@ -45,7 +46,8 @@ class QasmUGate(ops.SingleQubitGate):
     def from_matrix(mat: np.array) -> 'QasmUGate':
         pre_phase, rotation, post_phase = (
             linalg.deconstruct_single_qubit_matrix_into_angles(mat))
-        return QasmUGate(pre_phase/np.pi, rotation/np.pi, post_phase/np.pi)
+        return QasmUGate(pre_phase / np.pi, rotation / np.pi,
+                         post_phase / np.pi)
 
     def _qasm_(self,
                qubits: Tuple[ops.Qid, ...],
@@ -56,8 +58,7 @@ class QasmUGate(ops.SingleQubitGate):
             self.theta, self.phi, self.lmda, qubits[0])
 
     def __repr__(self) -> str:
-        return 'cirq.QasmUGate({}, {}, {})'.format(self.lmda,
-                                                   self.theta,
+        return 'cirq.QasmUGate({}, {}, {})'.format(self.lmda, self.theta,
                                                    self.phi)
 
     def _unitary_(self) -> np.ndarray:
@@ -106,7 +107,7 @@ class QasmTwoQubitGate(ops.TwoQubitGate):
         Returns:
             A QasmTwoQubitGate implementing the matrix.
         """
-        kak = linalg.kak_decomposition(mat ,atol=atol)
+        kak = linalg.kak_decomposition(mat, atol=atol)
         return QasmTwoQubitGate(kak)
 
     def _unitary_(self):
@@ -154,8 +155,8 @@ class QasmOutput:
         self.qubits = qubits
         self.header = header
         self.measurements = tuple(
-                op for op in self.operations if
-                ops.op_gate_of_type(op, ops.MeasurementGate)) # type: ignore
+            op for op in self.operations
+            if ops.op_gate_of_type(op, ops.MeasurementGate))  # type: ignore
         meas_key_id_map, meas_comments = self._generate_measurement_ids()
         self.meas_comments = meas_comments
         qubit_id_map = self._generate_qubit_ids()
@@ -198,6 +199,7 @@ class QasmOutput:
         with open(path, 'w') as f:
             def write(s: str) -> None:
                 f.write(s)
+
             self._write_qasm(write)
 
     def __str__(self) -> str:

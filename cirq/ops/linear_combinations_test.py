@@ -115,7 +115,7 @@ def test_pauli_expansion(terms, expected_expansion):
 
 
 def get_matrix(operator: Union[cirq.LinearCombinationOfGates, cirq.Gate]
-        ) -> np.ndarray:
+              ) -> np.ndarray:
     if isinstance(operator, cirq.LinearCombinationOfGates):
         return operator.matrix()
     return cirq.unitary(operator)

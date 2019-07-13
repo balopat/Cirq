@@ -94,9 +94,7 @@ class ParallelGateOperation(raw_types.Operation):
         for axis in args.axes:
             result = protocols.apply_unitary(self.gate,
                                              protocols.ApplyUnitaryArgs(
-                                                 state,
-                                                 buffer,
-                                                 (axis,)),
+                                                 state, buffer, (axis,)),
                                              default=NotImplemented)
 
             if result is buffer:
@@ -151,7 +149,9 @@ class ParallelGateOperation(raw_types.Operation):
 
     def _phase_by_(self, phase_turns: float,
                    qubit_index: int) -> 'ParallelGateOperation':
-        phased_gate = protocols.phase_by(self._gate, phase_turns, qubit_index,
+        phased_gate = protocols.phase_by(self._gate,
+                                         phase_turns,
+                                         qubit_index,
                                          default=None)
         if phased_gate is None:
             return NotImplemented

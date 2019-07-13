@@ -428,8 +428,8 @@ def two_qubit_state_tomography(sampler: sim.Sampler,
         for j, rot_2 in enumerate(rots):
             m_idx, indices, signs = _indices_after_basis_rot(i, j)
             mat[m_idx: (m_idx + 3), indices] = s * np.tile(signs, (3, 1))
-            test_circuit = circuit + circuits.Circuit.from_ops(rot_1(
-                second_qubit))
+            test_circuit = circuit + circuits.Circuit.from_ops(
+                rot_1(second_qubit))
             test_circuit.append(rot_2(first_qubit))
             probs = np.concatenate((probs, _measurement(test_circuit)))
 
@@ -451,14 +451,12 @@ def _indices_after_basis_rot(i: int, j: int) -> Tuple[int, Sequence[int],
     q_0_i = 3 - i
     q_1_j = 3 - j
     indices = [q_1_j - 1, 4 * q_0_i - 1, 4 * q_0_i + q_1_j - 1]
-    signs = [(-1) ** (j == 2), (-1) ** (i == 2), (-1) ** (i == 2 + j == 2)]
+    signs = [(-1)**(j == 2), (-1)**(i == 2), (-1)**(i == 2 + j == 2)]
     return mat_idx, indices, signs
 
 
-def _two_qubit_clifford_matrices(q_0: devices.GridQubit,
-                                 q_1: devices.GridQubit,
-                                 cliffords: Cliffords
-                                 ) -> np.ndarray:
+def _two_qubit_clifford_matrices(q_0: devices.GridQubit, q_1: devices.GridQubit,
+                                 cliffords: Cliffords) -> np.ndarray:
     mats = []
 
     # Total number of different gates in the two-qubit Clifford group.
@@ -487,8 +485,7 @@ def _random_single_q_clifford(qubit: devices.GridQubit, num_cfds: int,
 
 def _random_two_q_clifford(q_0: devices.GridQubit, q_1: devices.GridQubit,
                            num_cfds: int, cfd_matrices: np.ndarray,
-                           cliffords: Cliffords
-                           ) -> circuits.Circuit:
+                           cliffords: Cliffords) -> circuits.Circuit:
     clifford_group_size = 11520
     idx_list = list(np.random.choice(clifford_group_size, num_cfds))
     circuit = circuits.Circuit()

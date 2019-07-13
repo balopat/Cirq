@@ -91,8 +91,7 @@ def test_extrapolate():
 def test_eq():
     eq = cirq.testing.EqualsTester()
     eq.add_equality_group(cirq.PhasedXPowGate(phase_exponent=0),
-                          cirq.PhasedXPowGate(phase_exponent=0,
-                                              exponent=1),
+                          cirq.PhasedXPowGate(phase_exponent=0, exponent=1),
                           cirq.PhasedXPowGate(exponent=1, phase_exponent=0),
                           cirq.PhasedXPowGate(exponent=1, phase_exponent=1),
                           cirq.PhasedXPowGate(exponent=1, phase_exponent=2),
@@ -102,13 +101,10 @@ def test_eq():
                                               phase_exponent=2,
                                               global_shift=0.1))
 
-    eq.add_equality_group(cirq.PhasedXPowGate(phase_exponent=0.5,
-                                              exponent=1),
-                          cirq.PhasedXPowGate(phase_exponent=2.5,
-                                              exponent=3),
+    eq.add_equality_group(cirq.PhasedXPowGate(phase_exponent=0.5, exponent=1),
+                          cirq.PhasedXPowGate(phase_exponent=2.5, exponent=3),
                           cirq.Y,
-                          cirq.PhasedXPowGate(phase_exponent=-0.5,
-                                              exponent=1))
+                          cirq.PhasedXPowGate(phase_exponent=-0.5, exponent=1))
     eq.add_equality_group(cirq.PhasedXPowGate(phase_exponent=0.5,
                                               exponent=0.25),
                           cirq.Y**0.25)

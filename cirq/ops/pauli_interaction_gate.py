@@ -62,9 +62,8 @@ class PauliInteractionGate(eigen_gate.EigenGate,
         self.invert0 = invert0
         self.pauli1 = pauli1
         self.invert1 = invert1
-        self._eq_vals = (self.pauli0, self.invert0,
-                self.pauli1, self.invert1,
-                self._canonical_exponent)
+        self._eq_vals = (self.pauli0, self.invert0, self.pauli1, self.invert1,
+                         self._canonical_exponent)
         self._pre_hash = hash(self._eq_vals)
 
     def _value_equality_values_(self):

@@ -285,13 +285,14 @@ def test_kak_repr():
         single_qubit_operations_after=(np.eye(2), cirq.unitary(cirq.Z)),
     ))
 
-    assert repr(cirq.KakDecomposition(
-        global_phase=1,
-        single_qubit_operations_before=(cirq.unitary(cirq.X),
-                                        cirq.unitary(cirq.Y)),
-        interaction_coefficients=(0.5, 0.25, 0),
-        single_qubit_operations_after=(np.eye(2), cirq.unitary(cirq.Z)),
-    )) == """
+    assert repr(
+        cirq.KakDecomposition(
+            global_phase=1,
+            single_qubit_operations_before=(cirq.unitary(cirq.X),
+                                            cirq.unitary(cirq.Y)),
+            interaction_coefficients=(0.5, 0.25, 0),
+            single_qubit_operations_after=(np.eye(2), cirq.unitary(cirq.Z)),
+        )) == """
 cirq.KakDecomposition(
     interaction_coefficients=(0.5, 0.25, 0),
     single_qubit_operations_before=(

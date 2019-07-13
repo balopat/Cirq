@@ -24,8 +24,7 @@ Simulator types include:
         as the simulation iterates through the moments of a cirq.
 """
 
-from typing import (
-    Any, Dict, Hashable, Iterator, List, Tuple, Union, Optional)
+from typing import (Any, Dict, Hashable, Iterator, List, Tuple, Union, Optional)
 
 import abc
 import collections
@@ -62,8 +61,8 @@ class SimulatesSamples(sampler.Sampler, metaclass=abc.ABCMeta):
             TrialResult list for this run; one for each possible parameter
             resolver.
         """
-        circuit = (program if isinstance(program, circuits.Circuit)
-                   else program.to_circuit())
+        circuit = (program if isinstance(program, circuits.Circuit) else
+                   program.to_circuit())
         param_resolvers = study.to_resolvers(params)
 
         trial_results = []  # type: List[study.TrialResult]
@@ -501,11 +500,10 @@ class SimulationTrialResult:
         self.final_simulator_state = final_simulator_state
 
     def __repr__(self):
-        return (
-            'cirq.SimulationTrialResult(params={!r}, '
-            'measurements={!r}, '
-            'final_simulator_state={!r})').format(
-                self.params, self.measurements, self.final_simulator_state)
+        return ('cirq.SimulationTrialResult(params={!r}, '
+                'measurements={!r}, '
+                'final_simulator_state={!r})').format(
+                    self.params, self.measurements, self.final_simulator_state)
 
     def __str__(self):
         def bitstring(vals):
