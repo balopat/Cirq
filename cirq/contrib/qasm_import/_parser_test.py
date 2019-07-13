@@ -809,12 +809,11 @@ def test_two_qubit_gates(qasm_gate: str, cirq_gate: cirq.TwoQubitGate):
 
     parsed_qasm = parser.parse(qasm)
 
-    assert parsed_qasm.supportedFormat is True
-    assert parsed_qasm.qelib1Include is True
+    assert parsed_qasm.supportedFormat
+    assert parsed_qasm.qelib1Include
 
     ct.assert_same_circuits(parsed_qasm.circuit, expected_circuit)
     assert parsed_qasm.qregs == {'q1': 2, 'q2': 2}
-    cirq.Simulator().run(parsed_qasm.circuit)
 
 
 @pytest.mark.parametrize('qasm_gate', [g[0] for g in two_qubit_gates])
@@ -840,7 +839,7 @@ def test_two_qubit_gates_with_too_much_parameters(qasm_gate: str):
      OPENQASM 2.0;    
      include "qelib1.inc";             
      qreg q[2];
-     {}(pi) q[0];
+     {}(pi) q[0],q[1];
 """.format(qasm_gate)
 
     parser = QasmParser()
@@ -888,18 +887,16 @@ def test_three_qubit_gates(qasm_gate: str, cirq_gate: cirq.TwoQubitGate):
 
     parsed_qasm = parser.parse(qasm)
 
-    assert parsed_qasm.supportedFormat is True
-    assert parsed_qasm.qelib1Include is True
+    assert parsed_qasm.supportedFormat
+    assert parsed_qasm.qelib1Include
 
     ct.assert_same_circuits(parsed_qasm.circuit, expected_circuit)
     assert parsed_qasm.qregs == {'q1': 2, 'q2': 2, 'q3': 2}
-    cirq.Simulator().run(parsed_qasm.circuit)
 
 
 @pytest.mark.parametrize('qasm_gate', [g[0] for g in three_qubit_gates])
 def test_three_qubit_gates_not_enough_args(qasm_gate: str):
-    qasm = """
-     OPENQASM 2.0;
+    qasm = """OPENQASM 2.0;
      include "qelib1.inc";
      qreg q[2];
      {} q[0];
@@ -909,32 +906,30 @@ def test_three_qubit_gates_not_enough_args(qasm_gate: str):
 
     with pytest.raises(
             QasmException,
-            match=r""".*{}.* takes 3 arg\(s\).*got.*1.*line 5""".format(
+            match=r""".*{}.* takes 3 arg\(s\).*got.*1.*line 4""".format(
                 qasm_gate)):
         parser.parse(qasm)
 
 
 @pytest.mark.parametrize('qasm_gate', [g[0] for g in three_qubit_gates])
 def test_three_qubit_gates_with_too_much_parameters(qasm_gate: str):
-    qasm = """
-     OPENQASM 2.0;
+    qasm = """OPENQASM 2.0;
      include "qelib1.inc";
-     qreg q[2];
-     {}(pi) q[0];
+     qreg q[3];
+     {}(pi) q[0],q[1],q[2];
 """.format(qasm_gate)
 
     parser = QasmParser()
 
     with pytest.raises(
             QasmException,
-            match=r""".*{}.*parameter.*line 5.*""".format(qasm_gate)):
+            match=r""".*{}.*parameter.*line 4.*""".format(qasm_gate)):
         parser.parse(qasm)
 
 
 @pytest.mark.parametrize('qasm_gate,cirq_gate', single_qubit_gates)
 def test_single_qubit_gates(qasm_gate: str, cirq_gate: cirq.SingleQubitGate):
-    qasm = """
-     OPENQASM 2.0;
+    qasm = """OPENQASM 2.0;
      include "qelib1.inc";
      qreg q[2];
      {0} q[0];
