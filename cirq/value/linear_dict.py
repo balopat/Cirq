@@ -40,7 +40,7 @@ class LinearDict(MutableMapping[TVector, Scalar]):
     """
     def __init__(self,
                  terms: Mapping[TVector, Scalar],
-                 validator: Callable[[TVector], bool]=lambda _: True) -> None:
+                 validator: Callable[[TVector], bool] = lambda _: True) -> None:
         """Initializes linear combination from a collection of terms.
 
         Args:
@@ -254,11 +254,10 @@ class LinearDict(MutableMapping[TVector, Scalar]):
         return '({}+{}j)'.format(real_str, imag_str)
 
     @staticmethod
-    def _format_term(format_spec: str,
-                     vector: TVector,
+    def _format_term(format_spec: str, vector: TVector,
                      coefficient: Scalar) -> str:
         coefficient_str = LinearDict._format_coefficient(
-                format_spec, coefficient)
+            format_spec, coefficient)
         if not coefficient_str:
             return coefficient_str
         result = '{}*{!s}'.format(coefficient_str, vector)
@@ -267,8 +266,10 @@ class LinearDict(MutableMapping[TVector, Scalar]):
         return '+' + result
 
     def __format__(self, format_spec: str) -> str:
-        formatted_terms = [self._format_term(format_spec, v, self[v])
-                           for v in sorted(self.keys(), key=str)]
+        formatted_terms = [
+            self._format_term(format_spec, v, self[v])
+            for v in sorted(self.keys(), key=str)
+        ]
         s = ''.join(formatted_terms)
         if not s:
             return '{:{fmt}}'.format(0, fmt=format_spec)

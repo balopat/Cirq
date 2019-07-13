@@ -71,6 +71,7 @@ def test_cmp():
 # But a custom __cmp__ that does fail would result in == failing.
 # So we throw up our hands and let it be.
 
+
 def test_cmp_vs_other_type():
     with pytest.raises(TypeError):
         _ = Timestamp() < Duration()

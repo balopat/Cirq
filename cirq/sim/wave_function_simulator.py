@@ -272,9 +272,7 @@ class WaveFunctionTrialResult(wave_function.StateVectorMixin,
     def _value_equality_values_(self):
         measurements = {k: v.tolist() for k, v in
                         sorted(self.measurements.items())}
-        return (self.params,
-                measurements,
-                self.final_simulator_state)
+        return (self.params, measurements, self.final_simulator_state)
 
     def __str__(self):
         samples = super().__str__()
@@ -297,7 +295,5 @@ class WaveFunctionTrialResult(wave_function.StateVectorMixin,
     def __repr__(self):
         return ('cirq.WaveFunctionTrialResult(params={!r}, '
                 'measurements={!r}, '
-                'final_simulator_state={!r})'
-                ).format(self.params,
-                         self.measurements,
-                         self.final_simulator_state)
+                'final_simulator_state={!r})').format(
+                    self.params, self.measurements, self.final_simulator_state)

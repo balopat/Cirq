@@ -82,5 +82,5 @@ class PeriodicValue:
                                                    proper_repr(self.period))
 
     def _is_parameterized_(self):
-        return any(isinstance(val, sympy.Basic)
-                   for val in (self.value, self.period))
+        return any(
+            isinstance(val, sympy.Basic) for val in (self.value, self.period))
