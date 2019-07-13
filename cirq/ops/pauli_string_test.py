@@ -511,11 +511,13 @@ def test_pass_operations_over_single(shift: int, sign: int):
     X, Y, Z = (cirq.Pauli.by_relative_index(cast(cirq.Pauli, pauli), shift)
                for pauli in (cirq.X, cirq.Y, cirq.Z))
 
+    # commuting because non matching qubits
     op0 = cirq.SingleQubitCliffordGate.from_pauli(Y)(q1)
     ps_before = cirq.PauliString({q0: X}, sign)
     ps_after = ps_before
     _assert_pass_over([op0], ps_before, ps_after)
 
+    # commuting because commuting paulis
     op0 = cirq.SingleQubitCliffordGate.from_pauli(X)(q0)
     op1 = cirq.SingleQubitCliffordGate.from_pauli(Y)(q1)
     ps_before = cirq.PauliString({q0: X, q1: Y}, sign)
