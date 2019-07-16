@@ -105,7 +105,7 @@ class PointOptimizer:
             change should be made.
         """
 
-    def     optimize_circuit(self, circuit: Circuit):
+    def optimize_circuit(self, circuit: Circuit):
         frontier = defaultdict(lambda: 0)  # type: Dict[Qid, int]
         i = 0
         while i < len(circuit):  # Note: circuit may mutate as we go.
