@@ -27,3 +27,7 @@ c2 = paulistring.optimize.optimized_circuit(
 
 dur = time() - start
 logger.info("optimized circuit: {} ops in {} ".format(len(list(c2.all_operations())), dur))
+
+singles = sum([v for v in recombine.stats.values() if v == 1])
+dupes = sum([v for v in recombine.stats.values() if v > 1])
+logger.info("stats: misses {}, dupes: {}, that is {} % dupes".format(singles, dupes, float(dupes/(dupes+singles)*100)))

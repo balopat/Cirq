@@ -14,6 +14,7 @@
 
 
 import cirq
+from cirq import Unique
 
 from cirq.contrib.paulistring import (
     convert_and_separate_circuit,
@@ -48,3 +49,21 @@ def test_move_non_clifford_into_clifford():
     opt_len2 = len(cirq.google.optimized_for_xmon(c_recombined2))
     assert opt_len1 <= baseline_len
     assert opt_len2 <= baseline_len
+
+
+
+def test_simple_heapq():
+    import heapq
+    q = cirq.NamedQubit("q")
+    genOp = lambda: Unique(cirq.PauliString.from_single(q, cirq.X)**0.5)
+    from cirq.contrib.paulistring.recombine import _PauliStringMovement
+    priced = [_PauliStringMovement(genOp(), final_op_len=11, furthest_index=5),
+              _PauliStringMovement(genOp(), final_op_len=1, furthest_index=5),
+              _PauliStringMovement(genOp(), final_op_len=1, furthest_index=2)
+              ]
+
+    assert ([(p.final_op_len, p.furthest_index) for p in
+             heapq.nsmallest(len(priced), priced)] ==
+            [(1,5),
+             (1,2),
+             (11,5)])
