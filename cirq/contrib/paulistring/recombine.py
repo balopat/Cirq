@@ -151,6 +151,7 @@ def move_pauli_strings_into_circuit(circuit_left: Union[circuits.Circuit,
             if best_index > last_index:
                 raise(Exception("{} >= {}, len: {}...not sure what to do..., we need "
                                 "to recalculate".format(best_index, last_index, len(output_ops))))
+            last_index = best_index
             output_ops.insert(best_index, best_string_op)
             # Remove the best one from the dag and update rightmost_nodes
             rightmost_nodes.remove(best_node)
