@@ -34,13 +34,12 @@ def clifford_optimized_circuit(circuit: circuits.Circuit,
         STOP = 0
         CONTINUE = 1
         SKIP = 2
-
         def continue_condition(op: ops.Operation,
                                current_string: ops.PauliStringPhasor,
                                is_first: bool) -> int:
             if ops.op_gate_of_type(op, ops.SingleQubitCliffordGate):
-                return (CONTINUE
-                        if len(current_string.pauli_string) != 1 else STOP)
+                return (CONTINUE if len(current_string.pauli_string) != 1
+                                 else STOP)
             if ops.op_gate_of_type(op, ops.CZPowGate):
                 return STOP if stop_at_cz else CONTINUE
             if (isinstance(op, ops.PauliStringPhasor) and
@@ -54,12 +53,12 @@ def clifford_optimized_circuit(circuit: circuits.Circuit,
         furthest_op = string_op
         furthest_i = start_i + 1
         num_passed_over = 0
-        for i in range(start_i + 1, len(all_ops)):
+        for i in range(start_i+1, len(all_ops)):
             op = all_ops[i]
             if not set(op.qubits) & set(modified_op.qubits):
                 # No qubits in common
                 continue
-            cont_cond = continue_condition(op, modified_op, i == start_i + 1)
+            cont_cond = continue_condition(op, modified_op, i == start_i+1)
             if cont_cond == STOP:
                 if len(modified_op.pauli_string) == 1:
                     furthest_op = modified_op
@@ -67,7 +66,7 @@ def clifford_optimized_circuit(circuit: circuits.Circuit,
                 break
             if cont_cond == CONTINUE:
                 modified_op = modified_op.pass_operations_over(
-                    [op], after_to_before=True)
+                                    [op], after_to_before=True)
             num_passed_over += 1
             if len(modified_op.pauli_string) == 1:
                 furthest_op = modified_op
@@ -111,9 +110,10 @@ def clifford_optimized_circuit(circuit: circuits.Circuit,
                 # Merge with another SingleQubitCliffordGate
                 new_op = part_cliff_gate.merged_with(other_op.gate)(qubit)
                 all_ops[merge_i] = new_op
-            elif (isinstance(other_op, ops.GateOperation) and
-                  isinstance(other_op.gate, ops.CZPowGate) and
-                  other_op.gate.exponent == 1 and quarter_turns == 2):
+            elif (isinstance(other_op, ops.GateOperation)
+                  and isinstance(other_op.gate, ops.CZPowGate)
+                  and other_op.gate.exponent == 1
+                  and quarter_turns == 2):
                 # Pass whole Pauli gate over CZ, possibly adding a Z gate
                 if pauli != ops.pauli_gates.Z:
                     other_qubit = other_op.qubits[other_op.qubits.index(qubit) -

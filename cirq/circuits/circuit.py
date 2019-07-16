@@ -1052,7 +1052,7 @@ class Circuit:
         qubits = set(q for op in operations for q in op.qubits)
         if any(frontier[q] > start for q in qubits):
             raise ValueError('The frontier for qubits on which the operations'
-                             'to insert act cannot be after start.')
+                             ' to insert act cannot be after start.')
 
         next_moments = self.next_moments_operating_on(qubits, start)
 

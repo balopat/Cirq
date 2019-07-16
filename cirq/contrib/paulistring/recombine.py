@@ -23,24 +23,6 @@ from cirq.contrib.paulistring.pauli_string_dag import (
     pauli_string_dag_from_circuit)
 
 
-memo = {}
-cache_hits = 0
-cache_miss = 0
-seq = 0
-
-
-def _pass_op(op1, op2):
-    global cache_miss
-    global cache_hits
-    key = (id(op1), id(op2))
-    if key not in memo:
-        cache_miss += 1
-        memo[key] = op1.pass_operations_over([op2], after_to_before=True)
-    else:
-        cache_hits += 1
-    return memo[key]
-
-
 def _possible_string_placements(
         possible_nodes: Iterable[Any],
         output_ops: Sequence[ops.Operation],
@@ -67,8 +49,8 @@ def _possible_string_placements(
                                              ops.CZPowGate))):
                 # This is as far through as this Pauli string can move
                 break
-            string_op = _pass_op(string_op, out_op)
-
+            string_op = string_op.pass_operations_over([out_op],
+                                                       after_to_before=True)
             yield string_op, i+1, possible_node
 
         if len(string_op.pauli_string) == 1:

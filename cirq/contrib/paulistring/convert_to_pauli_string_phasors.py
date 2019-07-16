@@ -85,8 +85,9 @@ class ConvertToPauliStringPhasors(PointOptimizer):
         if isinstance(op, ops.PauliStringPhasor):
             return op
 
-        if (self.keep_clifford and isinstance(op, ops.GateOperation) and
-                isinstance(op.gate, ops.SingleQubitCliffordGate)):
+        if (self.keep_clifford
+            and isinstance(op, ops.GateOperation)
+                and isinstance(op.gate, ops.SingleQubitCliffordGate)):
             return op
 
         # Single qubit gate with known matrix?

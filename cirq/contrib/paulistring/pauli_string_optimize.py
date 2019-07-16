@@ -40,7 +40,6 @@ def pauli_string_optimized_circuit(circuit: circuits.Circuit,
         remove_negligible_strings(string_dag)
         if len(string_dag.nodes()) >= before_len:
             break
-
     c_all = move_pauli_strings_into_circuit(string_dag, cr)
 
     assert_no_multi_qubit_pauli_strings(c_all)

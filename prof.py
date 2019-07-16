@@ -1,4 +1,5 @@
 import sys
+from time import time
 
 from cirq.contrib import paulistring
 from cirq.contrib.paulistring import recombine
@@ -15,15 +16,14 @@ handler.setFormatter(formatter)
 logger.info("reading qasm file...")
 
 qasm = open('/Users/balintp/dev/proj/benchmarq/circuit_library/files/'
-            'hubbard_sim_3.qasm').read()
-c = QasmCircuitParser(qasm).parse()
+            'hubbard_sim_5.qasm').read()
+c = QasmCircuitParser().parse(qasm)
 
 logger.info("parsed qasm file: {} ops".format(len(list(c.all_operations()))))
+start = time()
 
 c2 = paulistring.optimize.optimized_circuit(
-    c)  #, repeat=1, merge_interactions=False)
+    c, repeat=10, merge_interactions=True)
 
-logger.info("optimized circuit: {} ops".format(len(list(c2.all_operations()))))
-
-print("cache hits: {}, misses: {}".format(recombine.cache_hits,
-                                          recombine.cache_miss))
+dur = time() - start
+logger.info("optimized circuit: {} ops in {} ".format(len(list(c2.all_operations())), dur))
