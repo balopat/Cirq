@@ -1,0 +1,74 @@
+BREAKING CHANGE	900000	For pull requests that are important to mention in release notes.
+Ready for Re-Review	FF8000	For when reviewers take their time.
+automerge	c6ffb2	Tells CirqBot to sync and merge this PR. (If it's running.)
+bug	ee0701
+cla: no	f9d0c4
+cla: yes	FFFFFF	Makes googlebot stop complaining.
+deferred	FFFF00	This would be good to do, but we won't get to it any time soon.
+difficulty: high	FF0000	Not sure what we want to want. Affects large parts of the code base. Could easily take a month.
+difficulty: low	88FF88	Small scope (e.g. one method). Similar to existing code. Less than a day's work for an optimist.
+difficulty: medium	FFFF44	Some details unstated. Interacts with existing features. A week's work for an optimist.
+difficulty: trivial	DDDDff	A couple line change that someone just has to go and actually do for it to get done.
+duplicate	cccccc
+enhancement	84b6eb
+front_of_queue_automerge	ededed	CirqBot uses this label to indicate (and remember) what's being merged next.
+going_stale	c44045	This PR has been inactive for awhile. It may be closed two weeks after this tag was added.
+good first issue	7057ff	This issue can be resolved by someone who is not familiar with the codebase. A good starting issue.
+good part time project	fbca04	A meaty non-urgent issue with a substantial amount of work to be done.
+help wanted	33aa3f
+inactive	FFFF00	This PR has had no recent activity. It will be closed if not updated.
+invalid	e6e6e6
+kind/bug-report	d93f0b	Something doesn't seem to work.
+kind/docs	e1f24b	Documentation related problems, ideas, requests
+kind/feature-request	0e8a16	Describes new functionality
+kind/health	e99695	For CI/testing/release process/refactoring/technical debt items
+kind/question	6ae8bc	A question about usage / quantum computing / etc. Should typically go on QC Stack Exchange
+kind/roadmap-item	fcc18a	for higher level roadmap items to capture conversations and feedback (not for project tracking)
+kind/task	d4c5f9	for tracking progress on larger efforts
+needs clarification	c2e0c6
+needs decision	f0f989
+no QC knowledge needed	7d2ef4	Want to contribute to Cirq, but don't know quantum computing? This issue is for you.
+priority: URGENT BLOCKING	FF0000	This needs to get done ASAP.
+priority: high	f2db48	This is something that should get done soon, e.g. within a month.
+question	cc317c
+triage/accepted	c2e0c6	there is consensus amongst maintainers that this is a real bug or a reasonable feature to add
+triage/discuss	fef2c0	Needs decision / discussion, bring these up during Cirq Cynque
+triage/duplicate	f9d0c4
+triage/needs-design-work	fef2c0	[feature requests] needs design work to prove feasibility before accepting
+triage/needs-more-evidence	fef2c0	[feature requests] this seems plausible but maintainers are not convinced about the use cases yet
+triage/needs-reproduction	fef2c0	[bugs only] the bug was not provenly reproduced yet
+triage/stale	aaaaaa
+wontfix	ffffff
+area/examples	1d76db
+area/experiments	1d76db
+area/parameters	1d76db	parameter resolution, parameterized gates, operations
+area/interop	1d76db
+area/gates	1d76db
+area/channels	1d76db
+area/placement	1d76db
+area/devices	1d76db
+area/workflow	1d76db
+area/variational	1d76db
+area/hilbert-space	1d76db
+area/classical	1d76db
+area/classical/data	1d76db
+area/classical/control	1d76db
+area/classical/measurements	1d76db
+area/circuits	1d76db
+area/visualization	1d76db
+area/simulation	1d76db
+area/trial-result	1d76db
+area/gate-compilation	1d76db
+area/gatesets	1d76db
+area/decompose	1d76db
+area/qis	1d76db
+area/google	1d76db
+area/optimizers	1d76db
+area/ci	1d76db
+area/testing	1d76db
+area/dev	1d76db
+area/cleancode	1d76db
+area/tech-debt	1d76db
+complexity/low 	a8f5b0	introduces/modifies 1-2 concepts, should take 1-2 days max for an advanced contributor
+complexity/medium	fbbc04	introduces/modifies 3-5 concepts, takes max up to a month for an advanced contributor
+complexity/high	252525	introduces/modifies 6+ concepts or touches Cirq core concepts or > 1 month for an expert
