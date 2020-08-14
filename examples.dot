@@ -1,0 +1,10 @@
+
+digraph G {
+    concentrate = true;
+
+    rankdir = BT;
+    node [style=filled,fillcolor="#ffffff",fontcolor="#000000",fontname=Helvetica,fontsize=10];
+
+    cirq_ion [fillcolor="#b34c4c",fontcolor="#ffffff",label="cirq.ion"];
+}
+

@@ -19,7 +19,7 @@ import sympy
 
 from cirq import X, Z, XX, CNOT, PhasedXPowGate, Circuit, study, LineQubit
 from cirq.aqt import AQTSampler, AQTSamplerLocalSimulator
-from cirq.aqt.aqt_device import get_aqt_device, get_op_string
+from aqt.aqt_device import get_aqt_device, get_op_string
 
 
 class EngineReturn:

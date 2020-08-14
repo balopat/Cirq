@@ -18,8 +18,8 @@ import cirq
 from cirq import X, Y, Z, XX, Circuit
 
 from cirq.aqt import AQTSimulator
-from cirq.aqt.aqt_device import get_aqt_device
-from cirq.aqt.aqt_device import AQTNoiseModel
+from aqt.aqt_device import get_aqt_device
+from aqt.aqt_device import AQTNoiseModel
 
 
 def test_simulator_no_circ():

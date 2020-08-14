@@ -12,6 +12,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from cirq.aqt.aqt_sampler import AQTSampler, AQTSamplerLocalSimulator
-from cirq.aqt.aqt_device import AQTSimulator
+from aqt.aqt_device import AQTSimulator
 """Types and methods related to the AQT ion trap device"""
