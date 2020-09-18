@@ -48,7 +48,7 @@ if TYPE_CHECKING:
 T_DESIRED_GATE_TYPE = TypeVar('T_DESIRED_GATE_TYPE', bound='ops.Gate')
 
 
-class Circuit:
+class Circuit(ops.Gate):
     """A mutable list of groups of operations to apply to some qubits.
 
     Methods returning information about the circuit:
@@ -130,6 +130,10 @@ class Circuit:
     def device(self) -> devices.Device:
         return self._device
 
+    def on(self, *qubits: ops.Qid) -> 'Operation':
+        return self.transform_qubits(lambda q:
+                                     dict(zip(self.all_qubits(), *qubits))[q])
+
     @device.setter
     def device(self, new_device: 'cirq.Device') -> None:
         new_device.validate_circuit(self)
@@ -170,8 +174,10 @@ class Circuit:
     def __iter__(self) -> Iterator['cirq.Moment']:
         return iter(self._moments)
 
-    def _decompose_(self) -> 'cirq.OP_TREE':
+    def _decompose_(self, qubits=None) -> 'cirq.OP_TREE':
         """See `cirq.SupportsDecompose`."""
+        if qubits is not None:
+            return self.on(qubits).all_operations()
         return self.all_operations()
 
     # pylint: disable=function-redefined

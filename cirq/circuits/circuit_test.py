@@ -241,7 +241,8 @@ def test_radd_op_tree():
     assert [[[cirq.X(a)], []]] + c == cirq.Circuit(cirq.X(a))
     assert (cirq.X(a),) + c == cirq.Circuit(cirq.X(a))
     assert (cirq.X(a) for _ in range(1)) + c == cirq.Circuit(cirq.X(a))
-    with pytest.raises(AttributeError):
+    ## is this fine?
+    with pytest.raises(TypeError):
         _ = cirq.X + c
     with pytest.raises(TypeError):
         _ = 0 + c
