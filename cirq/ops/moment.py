@@ -60,7 +60,7 @@ class Moment:
             ValueError: A qubit appears more than once.
         """
         from cirq.ops import op_tree
-        self._operations = tuple(op_tree.flatten_to_ops(contents))
+        self._operations = tuple(op_tree.flatten_to_ops_or_moments(contents))
 
         # Check that operations don't overlap.
         affected_qubits = [q for op in self.operations for q in op.qubits]

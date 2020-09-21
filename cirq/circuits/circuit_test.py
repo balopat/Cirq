@@ -646,6 +646,27 @@ def test_append_strategies():
     ])
 
 
+def test_init_nested_circuit():
+    q = cirq.LineQubit.range(4)
+    c = cirq.Circuit(
+        [
+            cirq.Moment(
+                cirq.H(q[0]),
+                cirq.X(q[1]),
+                cirq.Circuit(
+                    cirq.Moment(cirq.X(q[0]), cirq.H(q[1])),
+                    cirq.Moment(cirq.CZ(q[0], q[1])),
+                ).on(q[2:]),
+            ),
+            cirq.Moment(cirq.X(q[0]))
+        ]
+    )
+
+    # TODO: better assertions
+    print(c.moments)
+    print(c.final_state_vector())
+
+
 def test_insert_op_tree_new():
     a = cirq.NamedQubit('alice')
     b = cirq.NamedQubit('bob')

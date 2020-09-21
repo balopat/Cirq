@@ -134,6 +134,10 @@ class Circuit(ops.Gate):
         return self.transform_qubits(lambda q:
                                      dict(zip(self.all_qubits(), *qubits))[q])
 
+    @property
+    def qubits(self) -> Sequence[ops.Qid]:
+        return self.all_qubits()
+
     @device.setter
     def device(self, new_device: 'cirq.Device') -> None:
         new_device.validate_circuit(self)

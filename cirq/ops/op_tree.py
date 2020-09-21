@@ -121,7 +121,8 @@ def flatten_to_ops_or_moments(root: OP_TREE
     Raises:
         TypeError: root isn't a valid OP_TREE.
     """
-    if isinstance(root, (Operation, Moment)):
+    from cirq.circuits import Circuit
+    if isinstance(root, (Operation, Moment, Circuit)):
         yield root
     elif isinstance(root, Iterable) and not isinstance(root, str):
         for subtree in root:
