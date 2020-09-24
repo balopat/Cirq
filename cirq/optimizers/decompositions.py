@@ -139,10 +139,15 @@ def single_qubit_op_to_framed_phase_form(
         When M is controlled, the control must be rotated around the Z axis to
         apply g.
     """
-    vals, vecs = linalg.unitary_eig(mat)
+    vals, vecs = np.linalg.eig(mat)
+    np.set_printoptions(suppress=True)
+    print(f"mat: {mat}\n vals: {vals * np.sqrt(2)}\n vecs: {vecs * np.sqrt(2)}")
     u = np.conj(vecs).T
+    print(f"u: {u * np.sqrt(2)}")
     r = vals[1] / vals[0]
+    print(f"r: {r * np.sqrt(2)} <---- {vals[1] * np.sqrt(2)}/{vals[0] * np.sqrt(2)}")
     g = vals[0]
+    print(f"g: {g * np.sqrt(2)}")
     return u, r, g
 
 
