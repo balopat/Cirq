@@ -105,7 +105,7 @@ jobs:
           pip install -r requirements.txt
           pip install -r dev_tools/conf/pip-list-dev-tools.txt
       - name: Pytest check
-        run: pytest  cirq/optimizers/decompositions_test.py  -k test_single_qubit_op_to_framed_phase_form_output_on_example_case
+        run:  pytest cirq/ion/convert_to_ion_gates_test.py -k test_convert_to_ion_gates
 #  build_docs:
 #    name: Build docs
 #    runs-on: ubuntu-16.04
@@ -176,7 +176,7 @@ jobs:
           pip install -r requirements.txt
           pip install -r dev_tools/conf/pip-list-dev-tools.txt
       - name: Pytest Windows
-        run: pytest  cirq/optimizers/decompositions_test.py -k test_single_qubit_op_to_framed_phase_form_output_on_example_case
+        run:  pytest cirq/ion/convert_to_ion_gates_test.py -k test_convert_to_ion_gates
         shell: bash
   macos:
     name: Pytest MacOS
@@ -195,4 +195,4 @@ jobs:
           pip install -r requirements.txt
           pip install -r dev_tools/conf/pip-list-dev-tools.txt
       - name: Pytest check
-        run: pytest  cirq/optimizers/decompositions_test.py -k test_single_qubit_op_to_framed_phase_form_output_on_example_case
+        run:  pytest cirq/ion/convert_to_ion_gates_test.py -k test_convert_to_ion_gates
