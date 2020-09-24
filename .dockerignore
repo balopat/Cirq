@@ -43,3 +43,5 @@ rtd_docs/generated
 
 # pyenv configuration
 .python-version
+
+.git
