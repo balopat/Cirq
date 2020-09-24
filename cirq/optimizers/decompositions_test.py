@@ -174,16 +174,6 @@ def test_single_qubit_matrix_to_gates_tolerance_half_turn_phasing():
         phased_nearly_x, tolerance=0.0001)
     assert len(kept) == 3
 
-
-def test_single_qubit_op_to_framed_phase_form_output_on_example_case():
-    u, r, g = cirq.single_qubit_op_to_framed_phase_form(
-        cirq.unitary(cirq.Y**0.25))
-    np.allclose(cirq.unitary(cirq.Y**0.25),
-                u.conj().T @ np.diag([1,r]) @ u @ np.diag([g,g]))
-    assert abs(r - (1 + 1j) * math.sqrt(0.5)) < 0.00001
-    assert abs(g - 1) < 0.00001
-
-
 @pytest.mark.parametrize('mat', [
     np.eye(2),
     cirq.unitary(cirq.H),
