@@ -1,4 +1,4 @@
-# Copyright 2018 Google LLC
+# Copyright 2018 The Cirq Developers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,9 +21,11 @@ from dev_tools import env_tools, shell_tools
 
 IGNORED_FILE_PATTERNS = [
     r'^dev_tools/.+',  # Environment-heavy code.
+    r'^rtd_docs/.+',  # Environment-heavy code.
     r'^.+_pb2(_grpc)?\.py$',  # Auto-generated protobuf code.
     r'^setup\.py$',  # Installation code.
-    r'^cirq/google/engine/client/.+.py$',  # Generate gRPC client code.
+    r'^cirq/google/engine/client/.+.py$',  # Generated gRPC client code.
+    r'^cirq/google/api/v1/.+.py$',  # deprecated API code
 ]
 IGNORED_LINE_PATTERNS = [
     # Imports often uncovered due to version checks and type checking blocks.
@@ -46,6 +48,8 @@ IGNORED_LINE_PATTERNS = [
     r'plt\.show\(\)',
     r'fig(ure)?\.show\(\)',
     r'=\s*plt.subplots?\(',
+    # Body of mypy Protocol methods.
+    r'\.\.\.',
 ]
 EXPLICIT_OPT_OUT_COMMENT = '#coverage:ignore'
 

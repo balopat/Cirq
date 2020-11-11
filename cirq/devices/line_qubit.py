@@ -23,10 +23,10 @@ from cirq import ops, protocols
 if TYPE_CHECKING:
     import cirq
 
-TSelf = TypeVar('TSelf', bound='_BaseLineQid')
+TSelf = TypeVar('TSelf', bound='_BaseLineQid')  # type: ignore
 
 
-@functools.total_ordering
+@functools.total_ordering  # type: ignore
 class _BaseLineQid(ops.Qid):
     """The base class for `LineQid` and `LineQubit`."""
 
@@ -98,6 +98,15 @@ class _BaseLineQid(ops.Qid):
 
     def __neg__(self: TSelf) -> TSelf:
         return self._with_x(-self.x)
+
+    def __complex__(self) -> complex:
+        return complex(self.x)
+
+    def __float__(self) -> float:
+        return float(self.x)
+
+    def __int__(self) -> int:
+        return int(self.x)
 
 
 class LineQid(_BaseLineQid):

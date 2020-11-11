@@ -145,11 +145,34 @@ def test_run_delegation(create_job, get_results):
                           param_resolver=param_resolver,
                           processor_ids=['mine'])
 
-    assert results == cirq.TrialResult(
-        params=cirq.ParamResolver({'a': 1.0}),
-        measurements={
-            'q': np.array([[False], [True], [True], [False]], dtype=np.bool)
-        })
+    assert results == cirq.Result(params=cirq.ParamResolver({'a': 1.0}),
+                                  measurements={
+                                      'q':
+                                      np.array(
+                                          [[False], [True], [True], [False]],
+                                          dtype=np.bool)
+                                  })
+
+
+@mock.patch('cirq.google.engine.engine_client.EngineClient.list_jobs')
+def test_list_jobs(list_jobs):
+    job1 = qtypes.QuantumJob(name='projects/proj/programs/prog1/jobs/job1')
+    job2 = qtypes.QuantumJob(name='projects/otherproj/programs/prog1/jobs/job2')
+    list_jobs.return_value = [job1, job2]
+
+    ctx = EngineContext()
+    result = cg.EngineProgram(project_id='proj',
+                              program_id='prog1',
+                              context=ctx).list_jobs()
+    list_jobs.assert_called_once_with('proj',
+                                      'prog1',
+                                      created_after=None,
+                                      created_before=None,
+                                      has_labels=None,
+                                      execution_states=None)
+    assert [(j.program_id, j.project_id, j.job_id, j.context, j._job)
+            for j in result] == [('prog1', 'proj', 'job1', ctx, job1),
+                                 ('prog1', 'otherproj', 'job2', ctx, job2)]
 
 
 def test_engine():
@@ -371,6 +394,86 @@ circuit {
     get_program.return_value = qtypes.QuantumProgram(
         code=_to_any(program_proto))
     assert program.get_circuit() == circuit
+    get_program.assert_called_once_with('a', 'b', True)
+
+
+@mock.patch('cirq.google.engine.engine_client.EngineClient.get_program')
+def test_get_circuit_batch(get_program):
+    circuit = cirq.Circuit(
+        cirq.X(cirq.GridQubit(5, 2))**0.5,
+        cirq.measure(cirq.GridQubit(5, 2), key='result'))
+
+    program_proto = Merge(
+        """programs { language {
+  gate_set: "xmon"
+}
+circuit {
+  scheduling_strategy: MOMENT_BY_MOMENT
+  moments {
+    operations {
+      gate {
+        id: "xy"
+      }
+      args {
+        key: "axis_half_turns"
+        value {
+          arg_value {
+            float_value: 0.0
+          }
+        }
+      }
+      args {
+        key: "half_turns"
+        value {
+          arg_value {
+            float_value: 0.5
+          }
+        }
+      }
+      qubits {
+        id: "5_2"
+      }
+    }
+  }
+  moments {
+    operations {
+      gate {
+        id: "meas"
+      }
+      args {
+        key: "invert_mask"
+        value {
+          arg_value {
+            bool_values {
+            }
+          }
+        }
+      }
+      args {
+        key: "key"
+        value {
+          arg_value {
+            string_value: "result"
+          }
+        }
+      }
+      qubits {
+        id: "5_2"
+      }
+    }
+  }
+}
+}
+""", v2.batch_pb2.BatchProgram())
+    program = cg.EngineProgram('a', 'b', EngineContext())
+    get_program.return_value = qtypes.QuantumProgram(
+        code=_to_any(program_proto))
+    with pytest.raises(ValueError, match='A program number must be specified'):
+        program.get_circuit()
+    with pytest.raises(ValueError,
+                       match='Only 1 in the batch but index 1 was specified'):
+        program.get_circuit(1)
+    assert program.get_circuit(0) == circuit
     get_program.assert_called_once_with('a', 'b', True)
 
 

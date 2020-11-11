@@ -11,16 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from typing import Dict, List, Optional, Sequence, TYPE_CHECKING
+
+import datetime
+from typing import Dict, List, Optional, Sequence, Set, TYPE_CHECKING, \
+    Union
 
 from cirq import study
+from cirq.google.engine.client import quantum
 from cirq.google.engine.client.quantum import types as qtypes
 from cirq.google import gate_sets
 from cirq.google.api import v2
 from cirq.google.engine import engine_job
 
 if TYPE_CHECKING:
-    import datetime
     import cirq.google.engine.engine as engine_base
     from cirq import Circuit
 
@@ -141,7 +144,10 @@ class EngineProgram:
 
         Returns:
             An EngineJob. If this is iterated over it returns a list of
-            TrialResults, one for each parameter sweep.
+            TrialResults. All TrialResults for the first circuit are listed
+            first, then the TrialResults for the second, etc. The TrialResults
+            for a circuit are listed in the order imposed by the associated
+            parameter sweep.
         """
         import cirq.google.engine.engine as engine_base
         if not self.batch_mode:
@@ -188,7 +194,7 @@ class EngineProgram:
             processor_ids: Sequence[str] = ('xmonsim',),
             description: Optional[str] = None,
             labels: Optional[Dict[str, str]] = None,
-    ) -> study.TrialResult:
+    ) -> study.Result:
         """Runs the supplied Circuit via Quantum Engine.
 
         Args:
@@ -205,7 +211,7 @@ class EngineProgram:
             labels: Optional set of labels to set on the job.
 
         Returns:
-            A single TrialResult for this run.
+            A single Result for this run.
         """
         return list(
             self.run_sweep(job_id=job_id,
@@ -256,6 +262,52 @@ class EngineProgram:
         """
         return engine_job.EngineJob(self.project_id, self.program_id, job_id,
                                     self.context)
+
+    def list_jobs(self,
+                  created_before: Optional[
+                      Union[datetime.datetime, datetime.date]] = None,
+                  created_after: Optional[
+                      Union[datetime.datetime, datetime.date]] = None,
+                  has_labels: Optional[Dict[str, str]] = None,
+                  execution_states: Optional[Set[
+                      quantum.enums.ExecutionStatus.State]] = None):
+        """Returns the list of jobs for this program.
+
+        Args:
+            project_id: A project_id of the parent Google Cloud Project.
+            program_id: Unique ID of the program within the parent project.
+            created_after: retrieve jobs that were created after this date
+                or time.
+            created_before: retrieve jobs that were created after this date
+                or time.
+            has_labels: retrieve jobs that have labels on them specified by
+                this dict. If the value is set to `*`, filters having the label
+                regardless of the label value will be filtered. For example, to
+                query programs that have the shape label and have the color
+                label with value red can be queried using
+
+                {'color': 'red', 'shape':'*'}
+
+            execution_states: retrieve jobs that have an execution state  that
+                is contained in `execution_states`. See
+                `quantum.enums.ExecutionStatus.State` enum for accepted values.
+        """
+        client = self.context.client
+        response = client.list_jobs(self.project_id,
+                                    self.program_id,
+                                    created_before=created_before,
+                                    created_after=created_after,
+                                    has_labels=has_labels,
+                                    execution_states=execution_states)
+        return [
+            engine_job.EngineJob(
+                project_id=client._ids_from_job_name(j.name)[0],
+                program_id=client._ids_from_job_name(j.name)[1],
+                job_id=client._ids_from_job_name(j.name)[2],
+                context=self.context,
+                _job=j,
+            ) for j in response
+        ]
 
     def _inner_program(self) -> qtypes.QuantumProgram:
         if not self._program:
@@ -335,9 +387,14 @@ class EngineProgram:
             self.project_id, self.program_id, keys)
         return self
 
-    def get_circuit(self) -> 'Circuit':
+    def get_circuit(self, program_num: Optional[int] = None) -> 'Circuit':
         """Returns the cirq Circuit for the Quantum Engine program. This is only
         supported if the program was created with the V2 protos.
+
+        Args:
+            program_num: if this is a batch program, the index of the circuit in
+                the batch.  This argument is zero-indexed. Negative values
+                indexing from the end of the list.
 
         Returns:
             The program's cirq Circuit.
@@ -345,18 +402,31 @@ class EngineProgram:
         if not self._program or not self._program.HasField('code'):
             self._program = self.context.client.get_program(
                 self.project_id, self.program_id, True)
-        return self._deserialize_program(self._program.code)
+        return self._deserialize_program(self._program.code, program_num)
 
     @staticmethod
-    def _deserialize_program(code: qtypes.any_pb2.Any) -> 'Circuit':
+    def _deserialize_program(code: qtypes.any_pb2.Any,
+                             program_num: Optional[int] = None) -> 'Circuit':
         import cirq.google.engine.engine as engine_base
         code_type = code.type_url[len(engine_base.TYPE_PREFIX):]
+        program = None
         if (code_type == 'cirq.google.api.v1.Program' or
                 code_type == 'cirq.api.google.v1.Program'):
             raise ValueError('deserializing a v1 Program is not supported')
-        if (code_type == 'cirq.google.api.v2.Program' or
-                code_type == 'cirq.api.google.v2.Program'):
+        elif (code_type == 'cirq.google.api.v2.Program' or
+              code_type == 'cirq.api.google.v2.Program'):
             program = v2.program_pb2.Program.FromString(code.value)
+        elif code_type == 'cirq.google.api.v2.BatchProgram':
+            if program_num is None:
+                raise ValueError('A program number must be specified when '
+                                 'deserializing a Batch Program')
+            batch = v2.batch_pb2.BatchProgram.FromString(code.value)
+            if abs(program_num) >= len(batch.programs):
+                raise ValueError(f'Only {len(batch.programs)} in the batch but '
+                                 f'index {program_num} was specified')
+
+            program = batch.programs[program_num]
+        if program:
             gate_set_map = {
                 g.gate_set_name: g for g in gate_sets.GOOGLE_GATESETS
             }
@@ -366,6 +436,7 @@ class EngineProgram:
             except KeyError:
                 raise ValueError('unsupported gateset: {}'.format(
                     program.language.gate_set))
+
         raise ValueError('unsupported program type: {}'.format(code_type))
 
     def delete(self, delete_jobs: bool = False) -> None:
