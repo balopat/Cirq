@@ -80,22 +80,12 @@ def main():
         sys.exit(1)
     g = Github(access_token)
     repo = g.get_repo(f"{GITHUB_REPO_ORGANIZATION}/{GITHUB_REPO_NAME}")
-    with open('prs6.csv', newline='', mode="w") as f:
+    with open('all_prs.csv', newline='', mode="w") as f:
         pulls = repo.get_pulls(state='all')
         print(f"catching up to {pulls.totalCount}")
-        for i in range(1243, pulls.totalCount):
+        for i in range(pulls.totalCount):
             print(f"{i};{my_repr(pulls[i])}")
             f.write(f"{i};{my_repr(pulls[i])}\n")
-
-    # with open('prs.csv', newline='',mode="r") as csvfile:
-    #     reader = csv.reader(csvfile, delimiter='\t')
-    #     for row in reader:
-    #         try:
-    #             repo.get_label(row[0])
-    #             print(f"skip: {row[0]}")
-    #         except:
-    #             print(f"create: {row}")
-    #             repo.create_label(name=row[0],color=row[1],description=row[2])
 
 
 if __name__ == '__main__':
