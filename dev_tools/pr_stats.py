@@ -1,6 +1,6 @@
 import dataclasses
 import datetime
-from typing import Optional
+from typing import Optional, Tuple, List
 
 import os
 import sys
@@ -19,6 +19,7 @@ def log(*args):
         print()
     _last_print_was_tick = False
     print(*args)
+
 
 @dataclasses.dataclass()
 class PRInfo():
@@ -43,16 +44,28 @@ class PRInfo():
         return self._val_or_today(self.closed_at) - self.first_review_at
 
     def time_unreviewed(self):
+        if not self.first_review_at and self.state == "closed":
+            return self.lifetime()
         return self._val_or_today(self.first_review_at) - self.created_at
 
     def __repr__(self):
-        return f"{(self.number, self.created_at, self.time_unreviewed(), self.time_in_review(), self.lifetime(), self.state)}"
+        return ";".join([
+            repr(x) for x in [
+                self.number, self.created_at,
+                self.time_unreviewed(),
+                self.time_in_review(),
+                self.lifetime(), self.state
+            ]
+        ])
 
-def repr(pr):
+
+def my_repr(pr):
     first_review_at = None
     reviews = pr.get_reviews()
     if reviews.totalCount > 0:
-        first_review_at = min([rev.submitted_at for rev in reviews])
+        first_review_at = min([
+            rev.submitted_at for rev in reviews if rev.submitted_at is not None
+        ])
     return PRInfo(number=pr.number,
                   created_at=pr.created_at,
                   closed_at=pr.closed_at,
@@ -67,11 +80,12 @@ def main():
         sys.exit(1)
     g = Github(access_token)
     repo = g.get_repo(f"{GITHUB_REPO_ORGANIZATION}/{GITHUB_REPO_NAME}")
-    with open('prs3.csv', newline='',mode="w") as f:
+    with open('prs6.csv', newline='', mode="w") as f:
         pulls = repo.get_pulls(state='all')
-        for i in range(2044, 2045):
-            print(f"{i};{repr(pulls[i])}")
-            f.write(f"{i};{repr(pulls[i])}\n")
+        print(f"catching up to {pulls.totalCount}")
+        for i in range(1243, pulls.totalCount):
+            print(f"{i};{my_repr(pulls[i])}")
+            f.write(f"{i};{my_repr(pulls[i])}\n")
 
     # with open('prs.csv', newline='',mode="r") as csvfile:
     #     reader = csv.reader(csvfile, delimiter='\t')

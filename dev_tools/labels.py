@@ -11,7 +11,6 @@ import csv
 
 from dev_tools.github_repository import GithubRepository
 
-
 GITHUB_REPO_NAME = 'cirq'
 GITHUB_REPO_ORGANIZATION = 'quantumlib'
 ACCESS_TOKEN_ENV_VARIABLE = 'CIRQ_BOT_GITHUB_ACCESS_TOKEN'
@@ -26,6 +25,7 @@ def log(*args):
     _last_print_was_tick = False
     print(*args)
 
+
 def main():
     access_token = os.getenv(ACCESS_TOKEN_ENV_VARIABLE)
     if not access_token:
@@ -38,7 +38,7 @@ def main():
     #     for l in repo.get_labels():
     #         writer.writerow([l.name, l.color,l.description])
 
-    with open('labels.csv', newline='',mode="r") as csvfile:
+    with open('labels.csv', newline='', mode="r") as csvfile:
         reader = csv.reader(csvfile, delimiter='\t')
         for row in reader:
             try:
@@ -46,8 +46,7 @@ def main():
                 print(f"skip: {row[0]}")
             except:
                 print(f"create: {row}")
-                repo.create_label(name=row[0],color=row[1],description=row[2])
-
+                repo.create_label(name=row[0], color=row[1], description=row[2])
 
 
 if __name__ == '__main__':
