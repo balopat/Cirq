@@ -557,11 +557,17 @@ from cirq.work import (
 
 from cirq import (
     contrib,
-    google,
     ionq,
     pasqal,
     testing,
 )
+
+# Optional modules
+
+try:
+    import cirq_google as google
+except:
+    pass
 
 
 def _register_resolver() -> None:

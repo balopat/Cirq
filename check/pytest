@@ -19,13 +19,22 @@ cd "$(git rev-parse --show-toplevel)"
 
 PYTEST_ARGS=()
 ACTUALLY_QUIET=""
+CIRQ_ONLY=""
 for arg in $@; do
     if [[ "${arg}" == "--actually-quiet" ]]; then
         ACTUALLY_QUIET=1
+    elif [[ "${arg}" == "--cirq-only" ]]; then
+        CIRQ_ONLY=1
     else
         PYTEST_ARGS+=("${arg}")
     fi
 done
+
+if [ -z "${CIRQ_ONLY}" ]; then
+  source dev_tools/pypath
+else
+  export PYTHONPATH=.
+fi
 
 if [ -z "${ACTUALLY_QUIET}" ]; then
     pytest "${PYTEST_ARGS[@]}"

@@ -106,7 +106,7 @@ def generate_boixo_2018_supremacy_circuits_v2_grid(
 
 
 def generate_boixo_2018_supremacy_circuits_v2_bristlecone(
-    n_rows: int, cz_depth: int, seed: int
+    n_rows: int, cz_depth: int, seed: int, dev: devices.Device
 ) -> circuits.Circuit:
     """
     Generates Google Random Circuits v2 in Bristlecone.
