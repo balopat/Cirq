@@ -16,7 +16,8 @@ from typing import Iterator, List, Optional, TYPE_CHECKING
 import math
 import numpy as np
 import scipy.linalg
-from cirq import circuits, google, linalg, ops, optimizers, protocols
+import cirq_google as google
+from cirq import circuits, linalg, ops, optimizers, protocols
 from cirq_google.ops import SycamoreGate
 from cirq_google.optimizers.two_qubit_gates.gate_compilation import GateTabulation
 

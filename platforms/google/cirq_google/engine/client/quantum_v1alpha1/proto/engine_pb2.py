@@ -21,10 +21,10 @@ from google.api import client_pb2 as google_dot_api_dot_client__pb2
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='google/cloud/quantum_v1alpha1/proto/engine.proto',
-  package='cirq_google.engine.client.quantum_v1alpha1.proto',
+  package='cirq.google.engine.client.quantum_v1alpha1.proto',
   syntax='proto3',
   serialized_options=b'\n(com.google.cloud.quantum.engine.v1alpha1ZDgoogle.golang.org/genproto/googleapis/cloud/quantum/v1alpha1;quantum',
-  serialized_pb=b'\n0google/cloud/quantum_v1alpha1/proto/engine.proto\x12\x30\x63irq.google.engine.client.quantum_v1alpha1.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x31google/cloud/quantum_v1alpha1/proto/quantum.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x17google/api/client.proto\"\xa4\x01\n\x17\x43reateQuantumJobRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12Q\n\x0bquantum_job\x18\x02 \x01(\x0b\x32<.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumJob\x12&\n\x1eoverwrite_existing_run_context\x18\x03 \x01(\x08\"@\n\x14GetQuantumJobRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x1a\n\x12return_run_context\x18\x02 \x01(\x08\"_\n\x16ListQuantumJobsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"~\n\x17ListQuantumJobsResponse\x12J\n\x04jobs\x18\x01 \x03(\x0b\x32<.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumJob\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"\'\n\x17\x44\x65leteQuantumJobRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\xab\x01\n\x17UpdateQuantumJobRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12Q\n\x0bquantum_job\x18\x02 \x01(\x0b\x32<.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumJob\x12/\n\x0bupdate_mask\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.FieldMask\"\'\n\x17\x43\x61ncelQuantumJobRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"T\n\x1bListQuantumJobEventsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\"\x8a\x01\n\x1cListQuantumJobEventsResponse\x12Q\n\x06\x65vents\x18\x01 \x03(\x0b\x32\x41.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumJobEvent\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\")\n\x17GetQuantumResultRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\"\xb0\x01\n\x1b\x43reateQuantumProgramRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12Y\n\x0fquantum_program\x18\x02 \x01(\x0b\x32@.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumProgram\x12&\n\x1eoverwrite_existing_source_code\x18\x03 \x01(\x08\"=\n\x18GetQuantumProgramRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0breturn_code\x18\x02 \x01(\x08\"c\n\x1aListQuantumProgramsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"\x8a\x01\n\x1bListQuantumProgramsResponse\x12R\n\x08programs\x18\x01 \x03(\x0b\x32@.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumProgram\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"@\n\x1b\x44\x65leteQuantumProgramRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65lete_jobs\x18\x02 \x01(\x08\"\xb7\x01\n\x1bUpdateQuantumProgramRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12Y\n\x0fquantum_program\x18\x02 \x01(\x0b\x32@.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumProgram\x12/\n\x0bupdate_mask\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.FieldMask\"e\n\x1cListQuantumProcessorsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"\x90\x01\n\x1dListQuantumProcessorsResponse\x12V\n\nprocessors\x18\x01 \x03(\x0b\x32\x42.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumProcessor\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"*\n\x1aGetQuantumProcessorRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"g\n\x1eListQuantumCalibrationsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"\x96\x01\n\x1fListQuantumCalibrationsResponse\x12Z\n\x0c\x63\x61librations\x18\x01 \x03(\x0b\x32\x44.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumCalibration\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\",\n\x1cGetQuantumCalibrationRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x94\x01\n\x1f\x43reateQuantumReservationRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x61\n\x13quantum_reservation\x18\x02 \x01(\x0b\x32\x44.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumReservation\"/\n\x1f\x43\x61ncelQuantumReservationRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"/\n\x1f\x44\x65leteQuantumReservationRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\",\n\x1cGetQuantumReservationRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"g\n\x1eListQuantumReservationsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"\x96\x01\n\x1fListQuantumReservationsResponse\x12Z\n\x0creservations\x18\x01 \x03(\x0b\x32\x44.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumReservation\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"\xc3\x01\n\x1fUpdateQuantumReservationRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x61\n\x13quantum_reservation\x18\x02 \x01(\x0b\x32\x44.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumReservation\x12/\n\x0bupdate_mask\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.FieldMask\"\x99\x03\n\x17QuantumRunStreamRequest\x12\x12\n\nmessage_id\x18\x01 \x01(\t\x12\x0e\n\x06parent\x18\x02 \x01(\t\x12}\n\x1e\x63reate_quantum_program_and_job\x18\x03 \x01(\x0b\x32S.cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramAndJobRequestH\x00\x12g\n\x12\x63reate_quantum_job\x18\x04 \x01(\x0b\x32I.cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumJobRequestH\x00\x12g\n\x12get_quantum_result\x18\x05 \x01(\x0b\x32I.cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumResultRequestH\x00\x42\t\n\x07request\"\xe1\x01\n!CreateQuantumProgramAndJobRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12Y\n\x0fquantum_program\x18\x02 \x01(\x0b\x32@.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumProgram\x12Q\n\x0bquantum_job\x18\x03 \x01(\x0b\x32<.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumJob\"\xaa\x02\n\x18QuantumRunStreamResponse\x12\x12\n\nmessage_id\x18\x01 \x01(\t\x12N\n\x05\x65rror\x18\x02 \x01(\x0b\x32=.cirq_google.engine.client.quantum_v1alpha1.proto.StreamErrorH\x00\x12K\n\x03job\x18\x03 \x01(\x0b\x32<.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumJobH\x00\x12Q\n\x06result\x18\x04 \x01(\x0b\x32?.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumResultH\x00\x42\n\n\x08response\"\x89\x03\n\x0bStreamError\x12P\n\x04\x63ode\x18\x01 \x01(\x0e\x32\x42.cirq_google.engine.client.quantum_v1alpha1.proto.StreamError.Code\x12\x0f\n\x07message\x18\x02 \x01(\t\"\x96\x02\n\x04\x43ode\x12\x14\n\x10\x43ODE_UNSPECIFIED\x10\x00\x12\x0c\n\x08INTERNAL\x10\x01\x12\x14\n\x10INVALID_ARGUMENT\x10\x02\x12\x15\n\x11PERMISSION_DENIED\x10\x03\x12\x1a\n\x16PROGRAM_ALREADY_EXISTS\x10\x04\x12\x16\n\x12JOB_ALREADY_EXISTS\x10\x05\x12\x1a\n\x16PROGRAM_DOES_NOT_EXIST\x10\x06\x12\x16\n\x12JOB_DOES_NOT_EXIST\x10\x07\x12\x1c\n\x18PROCESSOR_DOES_NOT_EXIST\x10\x08\x12\x1d\n\x19INVALID_PROCESSOR_FOR_JOB\x10\t\x12\x18\n\x14RESERVATION_REQUIRED\x10\n\"l\n#ListQuantumReservationGrantsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"\xa6\x01\n$ListQuantumReservationGrantsResponse\x12\x65\n\x12reservation_grants\x18\x01 \x03(\x0b\x32I.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumReservationGrant\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"\x9b\x01\n(ReallocateQuantumReservationGrantRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x19\n\x11source_project_id\x18\x02 \x01(\t\x12\x19\n\x11target_project_id\x18\x03 \x01(\t\x12+\n\x08\x64uration\x18\x04 \x01(\x0b\x32\x19.google.protobuf.Duration\"m\n$ListQuantumReservationBudgetsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"\xa9\x01\n%ListQuantumReservationBudgetsResponse\x12g\n\x13reservation_budgets\x18\x01 \x03(\x0b\x32J.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumReservationBudget\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"d\n\x1bListQuantumTimeSlotsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"\x8e\x01\n\x1cListQuantumTimeSlotsResponse\x12U\n\ntime_slots\x18\x01 \x03(\x0b\x32\x41.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumTimeSlot\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t2\xb6\x33\n\x14QuantumEngineService\x12\xe8\x01\n\x14\x43reateQuantumProgram\x12M.cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramRequest\x1a@.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumProgram\"?\x82\xd3\xe4\x93\x02\x39\"&/v1alpha1/{parent=projects/*}/programs:\x0fquantum_program\x12\xd1\x01\n\x11GetQuantumProgram\x12J.cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumProgramRequest\x1a@.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumProgram\".\x82\xd3\xe4\x93\x02(\x12&/v1alpha1/{name=projects/*/programs/*}\x12\xe2\x01\n\x13ListQuantumPrograms\x12L.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsRequest\x1aM.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsResponse\".\x82\xd3\xe4\x93\x02(\x12&/v1alpha1/{parent=projects/*}/programs\x12\xad\x01\n\x14\x44\x65leteQuantumProgram\x12M.cirq_google.engine.client.quantum_v1alpha1.proto.DeleteQuantumProgramRequest\x1a\x16.google.protobuf.Empty\".\x82\xd3\xe4\x93\x02(*&/v1alpha1/{name=projects/*/programs/*}\x12\xe8\x01\n\x14UpdateQuantumProgram\x12M.cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumProgramRequest\x1a@.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumProgram\"?\x82\xd3\xe4\x93\x02\x39\x32&/v1alpha1/{name=projects/*/programs/*}:\x0fquantum_program\x12\xdf\x01\n\x10\x43reateQuantumJob\x12I.cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumJobRequest\x1a<.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumJob\"B\x82\xd3\xe4\x93\x02<\"-/v1alpha1/{parent=projects/*/programs/*}/jobs:\x0bquantum_job\x12\xcc\x01\n\rGetQuantumJob\x12\x46.cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumJobRequest\x1a<.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumJob\"5\x82\xd3\xe4\x93\x02/\x12-/v1alpha1/{name=projects/*/programs/*/jobs/*}\x12\xdd\x01\n\x0fListQuantumJobs\x12H.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsRequest\x1aI.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsResponse\"5\x82\xd3\xe4\x93\x02/\x12-/v1alpha1/{parent=projects/*/programs/*}/jobs\x12\xac\x01\n\x10\x44\x65leteQuantumJob\x12I.cirq_google.engine.client.quantum_v1alpha1.proto.DeleteQuantumJobRequest\x1a\x16.google.protobuf.Empty\"5\x82\xd3\xe4\x93\x02/*-/v1alpha1/{name=projects/*/programs/*/jobs/*}\x12\xdf\x01\n\x10UpdateQuantumJob\x12I.cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumJobRequest\x1a<.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumJob\"B\x82\xd3\xe4\x93\x02<2-/v1alpha1/{name=projects/*/programs/*/jobs/*}:\x0bquantum_job\x12\xb6\x01\n\x10\x43\x61ncelQuantumJob\x12I.cirq_google.engine.client.quantum_v1alpha1.proto.CancelQuantumJobRequest\x1a\x16.google.protobuf.Empty\"?\x82\xd3\xe4\x93\x02\x39\"4/v1alpha1/{name=projects/*/programs/*/jobs/*}:cancel:\x01*\x12\xf5\x01\n\x14ListQuantumJobEvents\x12M.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsRequest\x1aN.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsResponse\">\x82\xd3\xe4\x93\x02\x38\x12\x36/v1alpha1/{parent=projects/*/programs/*/jobs/*}/events\x12\xde\x01\n\x10GetQuantumResult\x12I.cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumResultRequest\x1a?.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumResult\">\x82\xd3\xe4\x93\x02\x38\x12\x36/v1alpha1/{parent=projects/*/programs/*/jobs/*}/result\x12\xea\x01\n\x15ListQuantumProcessors\x12N.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsRequest\x1aO.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsResponse\"0\x82\xd3\xe4\x93\x02*\x12(/v1alpha1/{parent=projects/*}/processors\x12\xd9\x01\n\x13GetQuantumProcessor\x12L.cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumProcessorRequest\x1a\x42.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumProcessor\"0\x82\xd3\xe4\x93\x02*\x12(/v1alpha1/{name=projects/*/processors/*}\x12\xff\x01\n\x17ListQuantumCalibrations\x12P.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsRequest\x1aQ.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsResponse\"?\x82\xd3\xe4\x93\x02\x39\x12\x37/v1alpha1/{parent=projects/*/processors/*}/calibrations\x12\xee\x01\n\x15GetQuantumCalibration\x12N.cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumCalibrationRequest\x1a\x44.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumCalibration\"?\x82\xd3\xe4\x93\x02\x39\x12\x37/v1alpha1/{name=projects/*/processors/*/calibrations/*}\x12\x89\x02\n\x18\x43reateQuantumReservation\x12Q.cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumReservationRequest\x1a\x44.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumReservation\"T\x82\xd3\xe4\x93\x02N\"7/v1alpha1/{parent=projects/*/processors/*}/reservations:\x13quantum_reservation\x12\xfe\x01\n\x18\x43\x61ncelQuantumReservation\x12Q.cirq_google.engine.client.quantum_v1alpha1.proto.CancelQuantumReservationRequest\x1a\x44.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumReservation\"I\x82\xd3\xe4\x93\x02\x43\">/v1alpha1/{name=projects/*/processors/*/reservations/*}:cancel:\x01*\x12\xc6\x01\n\x18\x44\x65leteQuantumReservation\x12Q.cirq_google.engine.client.quantum_v1alpha1.proto.DeleteQuantumReservationRequest\x1a\x16.google.protobuf.Empty\"?\x82\xd3\xe4\x93\x02\x39*7/v1alpha1/{name=projects/*/processors/*/reservations/*}\x12\xee\x01\n\x15GetQuantumReservation\x12N.cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumReservationRequest\x1a\x44.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumReservation\"?\x82\xd3\xe4\x93\x02\x39\x12\x37/v1alpha1/{name=projects/*/processors/*/reservations/*}\x12\xff\x01\n\x17ListQuantumReservations\x12P.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsRequest\x1aQ.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsResponse\"?\x82\xd3\xe4\x93\x02\x39\x12\x37/v1alpha1/{parent=projects/*/processors/*}/reservations\x12\x89\x02\n\x18UpdateQuantumReservation\x12Q.cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumReservationRequest\x1a\x44.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumReservation\"T\x82\xd3\xe4\x93\x02N27/v1alpha1/{name=projects/*/processors/*/reservations/*}:\x13quantum_reservation\x12\xaf\x01\n\x10QuantumRunStream\x12I.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest\x1aJ.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse\"\x00(\x01\x30\x01\x12\x85\x02\n\x1cListQuantumReservationGrants\x12U.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsRequest\x1aV.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsResponse\"6\x82\xd3\xe4\x93\x02\x30\x12./v1alpha1/{parent=projects/*}/reservationGrant\x12\x90\x02\n!ReallocateQuantumReservationGrant\x12Z.cirq_google.engine.client.quantum_v1alpha1.proto.ReallocateQuantumReservationGrantRequest\x1aI.cirq_google.engine.client.quantum_v1alpha1.proto.QuantumReservationGrant\"D\x82\xd3\xe4\x93\x02>\"9/v1alpha1/{name=projects/*/reservationGrant/*}:reallocate:\x01*\x12\x8a\x02\n\x1dListQuantumReservationBudgets\x12V.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsRequest\x1aW.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsResponse\"8\x82\xd3\xe4\x93\x02\x32\x12\x30/v1alpha1/{parent=projects/*}/reservationBudgets\x12\xf3\x01\n\x14ListQuantumTimeSlots\x12M.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsRequest\x1aN.cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsResponse\"<\x82\xd3\xe4\x93\x02\x36\x12\x34/v1alpha1/{parent=projects/*/processors/*}/timeSlots\x1aJ\xca\x41\x16quantum.googleapis.com\xd2\x41.https://www.googleapis.com/auth/cloud-platformBp\n(com.google.cloud.quantum.engine.v1alpha1ZDgoogle.golang.org/genproto/googleapis/cloud/quantum/v1alpha1;quantumb\x06proto3'
+  serialized_pb=b'\n0google/cloud/quantum_v1alpha1/proto/engine.proto\x12\x30\x63irq.google.engine.client.quantum_v1alpha1.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x31google/cloud/quantum_v1alpha1/proto/quantum.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x17google/api/client.proto\"\xa4\x01\n\x17\x43reateQuantumJobRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12Q\n\x0bquantum_job\x18\x02 \x01(\x0b\x32<.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumJob\x12&\n\x1eoverwrite_existing_run_context\x18\x03 \x01(\x08\"@\n\x14GetQuantumJobRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x1a\n\x12return_run_context\x18\x02 \x01(\x08\"_\n\x16ListQuantumJobsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"~\n\x17ListQuantumJobsResponse\x12J\n\x04jobs\x18\x01 \x03(\x0b\x32<.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumJob\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"\'\n\x17\x44\x65leteQuantumJobRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\xab\x01\n\x17UpdateQuantumJobRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12Q\n\x0bquantum_job\x18\x02 \x01(\x0b\x32<.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumJob\x12/\n\x0bupdate_mask\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.FieldMask\"\'\n\x17\x43\x61ncelQuantumJobRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"T\n\x1bListQuantumJobEventsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\"\x8a\x01\n\x1cListQuantumJobEventsResponse\x12Q\n\x06\x65vents\x18\x01 \x03(\x0b\x32\x41.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumJobEvent\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\")\n\x17GetQuantumResultRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\"\xb0\x01\n\x1b\x43reateQuantumProgramRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12Y\n\x0fquantum_program\x18\x02 \x01(\x0b\x32@.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumProgram\x12&\n\x1eoverwrite_existing_source_code\x18\x03 \x01(\x08\"=\n\x18GetQuantumProgramRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0breturn_code\x18\x02 \x01(\x08\"c\n\x1aListQuantumProgramsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"\x8a\x01\n\x1bListQuantumProgramsResponse\x12R\n\x08programs\x18\x01 \x03(\x0b\x32@.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumProgram\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"@\n\x1b\x44\x65leteQuantumProgramRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65lete_jobs\x18\x02 \x01(\x08\"\xb7\x01\n\x1bUpdateQuantumProgramRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12Y\n\x0fquantum_program\x18\x02 \x01(\x0b\x32@.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumProgram\x12/\n\x0bupdate_mask\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.FieldMask\"e\n\x1cListQuantumProcessorsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"\x90\x01\n\x1dListQuantumProcessorsResponse\x12V\n\nprocessors\x18\x01 \x03(\x0b\x32\x42.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumProcessor\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"*\n\x1aGetQuantumProcessorRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"g\n\x1eListQuantumCalibrationsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"\x96\x01\n\x1fListQuantumCalibrationsResponse\x12Z\n\x0c\x63\x61librations\x18\x01 \x03(\x0b\x32\x44.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumCalibration\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\",\n\x1cGetQuantumCalibrationRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x94\x01\n\x1f\x43reateQuantumReservationRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x61\n\x13quantum_reservation\x18\x02 \x01(\x0b\x32\x44.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumReservation\"/\n\x1f\x43\x61ncelQuantumReservationRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"/\n\x1f\x44\x65leteQuantumReservationRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\",\n\x1cGetQuantumReservationRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"g\n\x1eListQuantumReservationsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"\x96\x01\n\x1fListQuantumReservationsResponse\x12Z\n\x0creservations\x18\x01 \x03(\x0b\x32\x44.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumReservation\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"\xc3\x01\n\x1fUpdateQuantumReservationRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x61\n\x13quantum_reservation\x18\x02 \x01(\x0b\x32\x44.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumReservation\x12/\n\x0bupdate_mask\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.FieldMask\"\x99\x03\n\x17QuantumRunStreamRequest\x12\x12\n\nmessage_id\x18\x01 \x01(\t\x12\x0e\n\x06parent\x18\x02 \x01(\t\x12}\n\x1e\x63reate_quantum_program_and_job\x18\x03 \x01(\x0b\x32S.cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramAndJobRequestH\x00\x12g\n\x12\x63reate_quantum_job\x18\x04 \x01(\x0b\x32I.cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumJobRequestH\x00\x12g\n\x12get_quantum_result\x18\x05 \x01(\x0b\x32I.cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumResultRequestH\x00\x42\t\n\x07request\"\xe1\x01\n!CreateQuantumProgramAndJobRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12Y\n\x0fquantum_program\x18\x02 \x01(\x0b\x32@.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumProgram\x12Q\n\x0bquantum_job\x18\x03 \x01(\x0b\x32<.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumJob\"\xaa\x02\n\x18QuantumRunStreamResponse\x12\x12\n\nmessage_id\x18\x01 \x01(\t\x12N\n\x05\x65rror\x18\x02 \x01(\x0b\x32=.cirq.google.engine.client.quantum_v1alpha1.proto.StreamErrorH\x00\x12K\n\x03job\x18\x03 \x01(\x0b\x32<.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumJobH\x00\x12Q\n\x06result\x18\x04 \x01(\x0b\x32?.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumResultH\x00\x42\n\n\x08response\"\x89\x03\n\x0bStreamError\x12P\n\x04\x63ode\x18\x01 \x01(\x0e\x32\x42.cirq.google.engine.client.quantum_v1alpha1.proto.StreamError.Code\x12\x0f\n\x07message\x18\x02 \x01(\t\"\x96\x02\n\x04\x43ode\x12\x14\n\x10\x43ODE_UNSPECIFIED\x10\x00\x12\x0c\n\x08INTERNAL\x10\x01\x12\x14\n\x10INVALID_ARGUMENT\x10\x02\x12\x15\n\x11PERMISSION_DENIED\x10\x03\x12\x1a\n\x16PROGRAM_ALREADY_EXISTS\x10\x04\x12\x16\n\x12JOB_ALREADY_EXISTS\x10\x05\x12\x1a\n\x16PROGRAM_DOES_NOT_EXIST\x10\x06\x12\x16\n\x12JOB_DOES_NOT_EXIST\x10\x07\x12\x1c\n\x18PROCESSOR_DOES_NOT_EXIST\x10\x08\x12\x1d\n\x19INVALID_PROCESSOR_FOR_JOB\x10\t\x12\x18\n\x14RESERVATION_REQUIRED\x10\n\"l\n#ListQuantumReservationGrantsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"\xa6\x01\n$ListQuantumReservationGrantsResponse\x12\x65\n\x12reservation_grants\x18\x01 \x03(\x0b\x32I.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumReservationGrant\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"\x9b\x01\n(ReallocateQuantumReservationGrantRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x19\n\x11source_project_id\x18\x02 \x01(\t\x12\x19\n\x11target_project_id\x18\x03 \x01(\t\x12+\n\x08\x64uration\x18\x04 \x01(\x0b\x32\x19.google.protobuf.Duration\"m\n$ListQuantumReservationBudgetsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"\xa9\x01\n%ListQuantumReservationBudgetsResponse\x12g\n\x13reservation_budgets\x18\x01 \x03(\x0b\x32J.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumReservationBudget\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"d\n\x1bListQuantumTimeSlotsRequest\x12\x0e\n\x06parent\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\x12\x0e\n\x06\x66ilter\x18\x04 \x01(\t\"\x8e\x01\n\x1cListQuantumTimeSlotsResponse\x12U\n\ntime_slots\x18\x01 \x03(\x0b\x32\x41.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumTimeSlot\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t2\xb6\x33\n\x14QuantumEngineService\x12\xe8\x01\n\x14\x43reateQuantumProgram\x12M.cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramRequest\x1a@.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumProgram\"?\x82\xd3\xe4\x93\x02\x39\"&/v1alpha1/{parent=projects/*}/programs:\x0fquantum_program\x12\xd1\x01\n\x11GetQuantumProgram\x12J.cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumProgramRequest\x1a@.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumProgram\".\x82\xd3\xe4\x93\x02(\x12&/v1alpha1/{name=projects/*/programs/*}\x12\xe2\x01\n\x13ListQuantumPrograms\x12L.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsRequest\x1aM.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsResponse\".\x82\xd3\xe4\x93\x02(\x12&/v1alpha1/{parent=projects/*}/programs\x12\xad\x01\n\x14\x44\x65leteQuantumProgram\x12M.cirq.google.engine.client.quantum_v1alpha1.proto.DeleteQuantumProgramRequest\x1a\x16.google.protobuf.Empty\".\x82\xd3\xe4\x93\x02(*&/v1alpha1/{name=projects/*/programs/*}\x12\xe8\x01\n\x14UpdateQuantumProgram\x12M.cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumProgramRequest\x1a@.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumProgram\"?\x82\xd3\xe4\x93\x02\x39\x32&/v1alpha1/{name=projects/*/programs/*}:\x0fquantum_program\x12\xdf\x01\n\x10\x43reateQuantumJob\x12I.cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumJobRequest\x1a<.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumJob\"B\x82\xd3\xe4\x93\x02<\"-/v1alpha1/{parent=projects/*/programs/*}/jobs:\x0bquantum_job\x12\xcc\x01\n\rGetQuantumJob\x12\x46.cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumJobRequest\x1a<.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumJob\"5\x82\xd3\xe4\x93\x02/\x12-/v1alpha1/{name=projects/*/programs/*/jobs/*}\x12\xdd\x01\n\x0fListQuantumJobs\x12H.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsRequest\x1aI.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsResponse\"5\x82\xd3\xe4\x93\x02/\x12-/v1alpha1/{parent=projects/*/programs/*}/jobs\x12\xac\x01\n\x10\x44\x65leteQuantumJob\x12I.cirq.google.engine.client.quantum_v1alpha1.proto.DeleteQuantumJobRequest\x1a\x16.google.protobuf.Empty\"5\x82\xd3\xe4\x93\x02/*-/v1alpha1/{name=projects/*/programs/*/jobs/*}\x12\xdf\x01\n\x10UpdateQuantumJob\x12I.cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumJobRequest\x1a<.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumJob\"B\x82\xd3\xe4\x93\x02<2-/v1alpha1/{name=projects/*/programs/*/jobs/*}:\x0bquantum_job\x12\xb6\x01\n\x10\x43\x61ncelQuantumJob\x12I.cirq.google.engine.client.quantum_v1alpha1.proto.CancelQuantumJobRequest\x1a\x16.google.protobuf.Empty\"?\x82\xd3\xe4\x93\x02\x39\"4/v1alpha1/{name=projects/*/programs/*/jobs/*}:cancel:\x01*\x12\xf5\x01\n\x14ListQuantumJobEvents\x12M.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsRequest\x1aN.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsResponse\">\x82\xd3\xe4\x93\x02\x38\x12\x36/v1alpha1/{parent=projects/*/programs/*/jobs/*}/events\x12\xde\x01\n\x10GetQuantumResult\x12I.cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumResultRequest\x1a?.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumResult\">\x82\xd3\xe4\x93\x02\x38\x12\x36/v1alpha1/{parent=projects/*/programs/*/jobs/*}/result\x12\xea\x01\n\x15ListQuantumProcessors\x12N.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsRequest\x1aO.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsResponse\"0\x82\xd3\xe4\x93\x02*\x12(/v1alpha1/{parent=projects/*}/processors\x12\xd9\x01\n\x13GetQuantumProcessor\x12L.cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumProcessorRequest\x1a\x42.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumProcessor\"0\x82\xd3\xe4\x93\x02*\x12(/v1alpha1/{name=projects/*/processors/*}\x12\xff\x01\n\x17ListQuantumCalibrations\x12P.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsRequest\x1aQ.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsResponse\"?\x82\xd3\xe4\x93\x02\x39\x12\x37/v1alpha1/{parent=projects/*/processors/*}/calibrations\x12\xee\x01\n\x15GetQuantumCalibration\x12N.cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumCalibrationRequest\x1a\x44.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumCalibration\"?\x82\xd3\xe4\x93\x02\x39\x12\x37/v1alpha1/{name=projects/*/processors/*/calibrations/*}\x12\x89\x02\n\x18\x43reateQuantumReservation\x12Q.cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumReservationRequest\x1a\x44.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumReservation\"T\x82\xd3\xe4\x93\x02N\"7/v1alpha1/{parent=projects/*/processors/*}/reservations:\x13quantum_reservation\x12\xfe\x01\n\x18\x43\x61ncelQuantumReservation\x12Q.cirq.google.engine.client.quantum_v1alpha1.proto.CancelQuantumReservationRequest\x1a\x44.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumReservation\"I\x82\xd3\xe4\x93\x02\x43\">/v1alpha1/{name=projects/*/processors/*/reservations/*}:cancel:\x01*\x12\xc6\x01\n\x18\x44\x65leteQuantumReservation\x12Q.cirq.google.engine.client.quantum_v1alpha1.proto.DeleteQuantumReservationRequest\x1a\x16.google.protobuf.Empty\"?\x82\xd3\xe4\x93\x02\x39*7/v1alpha1/{name=projects/*/processors/*/reservations/*}\x12\xee\x01\n\x15GetQuantumReservation\x12N.cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumReservationRequest\x1a\x44.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumReservation\"?\x82\xd3\xe4\x93\x02\x39\x12\x37/v1alpha1/{name=projects/*/processors/*/reservations/*}\x12\xff\x01\n\x17ListQuantumReservations\x12P.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsRequest\x1aQ.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsResponse\"?\x82\xd3\xe4\x93\x02\x39\x12\x37/v1alpha1/{parent=projects/*/processors/*}/reservations\x12\x89\x02\n\x18UpdateQuantumReservation\x12Q.cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumReservationRequest\x1a\x44.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumReservation\"T\x82\xd3\xe4\x93\x02N27/v1alpha1/{name=projects/*/processors/*/reservations/*}:\x13quantum_reservation\x12\xaf\x01\n\x10QuantumRunStream\x12I.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest\x1aJ.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse\"\x00(\x01\x30\x01\x12\x85\x02\n\x1cListQuantumReservationGrants\x12U.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsRequest\x1aV.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsResponse\"6\x82\xd3\xe4\x93\x02\x30\x12./v1alpha1/{parent=projects/*}/reservationGrant\x12\x90\x02\n!ReallocateQuantumReservationGrant\x12Z.cirq.google.engine.client.quantum_v1alpha1.proto.ReallocateQuantumReservationGrantRequest\x1aI.cirq.google.engine.client.quantum_v1alpha1.proto.QuantumReservationGrant\"D\x82\xd3\xe4\x93\x02>\"9/v1alpha1/{name=projects/*/reservationGrant/*}:reallocate:\x01*\x12\x8a\x02\n\x1dListQuantumReservationBudgets\x12V.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsRequest\x1aW.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsResponse\"8\x82\xd3\xe4\x93\x02\x32\x12\x30/v1alpha1/{parent=projects/*}/reservationBudgets\x12\xf3\x01\n\x14ListQuantumTimeSlots\x12M.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsRequest\x1aN.cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsResponse\"<\x82\xd3\xe4\x93\x02\x36\x12\x34/v1alpha1/{parent=projects/*/processors/*}/timeSlots\x1aJ\xca\x41\x16quantum.googleapis.com\xd2\x41.https://www.googleapis.com/auth/cloud-platformBp\n(com.google.cloud.quantum.engine.v1alpha1ZDgoogle.golang.org/genproto/googleapis/cloud/quantum/v1alpha1;quantumb\x06proto3'
   ,
   dependencies=[google_dot_api_dot_annotations__pb2.DESCRIPTOR,google_dot_cloud_dot_quantum__v1alpha1_dot_proto_dot_quantum__pb2.DESCRIPTOR,google_dot_protobuf_dot_duration__pb2.DESCRIPTOR,google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,google_dot_protobuf_dot_field__mask__pb2.DESCRIPTOR,google_dot_api_dot_client__pb2.DESCRIPTOR,])
 
@@ -32,7 +32,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
 
 _STREAMERROR_CODE = _descriptor.EnumDescriptor(
   name='Code',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.StreamError.Code',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.StreamError.Code',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -91,27 +91,27 @@ _sym_db.RegisterEnumDescriptor(_STREAMERROR_CODE)
 
 _CREATEQUANTUMJOBREQUEST = _descriptor.Descriptor(
   name='CreateQuantumJobRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumJobRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumJobRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumJobRequest.parent', index=0,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumJobRequest.parent', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='quantum_job', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumJobRequest.quantum_job', index=1,
+      name='quantum_job', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumJobRequest.quantum_job', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='overwrite_existing_run_context', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumJobRequest.overwrite_existing_run_context', index=2,
+      name='overwrite_existing_run_context', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumJobRequest.overwrite_existing_run_context', index=2,
       number=3, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
@@ -136,20 +136,20 @@ _CREATEQUANTUMJOBREQUEST = _descriptor.Descriptor(
 
 _GETQUANTUMJOBREQUEST = _descriptor.Descriptor(
   name='GetQuantumJobRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumJobRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumJobRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumJobRequest.name', index=0,
+      name='name', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumJobRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='return_run_context', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumJobRequest.return_run_context', index=1,
+      name='return_run_context', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumJobRequest.return_run_context', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
@@ -174,34 +174,34 @@ _GETQUANTUMJOBREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMJOBSREQUEST = _descriptor.Descriptor(
   name='ListQuantumJobsRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsRequest.parent', index=0,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsRequest.parent', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_size', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsRequest.page_size', index=1,
+      name='page_size', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsRequest.page_size', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsRequest.page_token', index=2,
+      name='page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsRequest.page_token', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='filter', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsRequest.filter', index=3,
+      name='filter', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsRequest.filter', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -226,20 +226,20 @@ _LISTQUANTUMJOBSREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMJOBSRESPONSE = _descriptor.Descriptor(
   name='ListQuantumJobsResponse',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsResponse',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='jobs', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsResponse.jobs', index=0,
+      name='jobs', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsResponse.jobs', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='next_page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsResponse.next_page_token', index=1,
+      name='next_page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsResponse.next_page_token', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -264,13 +264,13 @@ _LISTQUANTUMJOBSRESPONSE = _descriptor.Descriptor(
 
 _DELETEQUANTUMJOBREQUEST = _descriptor.Descriptor(
   name='DeleteQuantumJobRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.DeleteQuantumJobRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.DeleteQuantumJobRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.DeleteQuantumJobRequest.name', index=0,
+      name='name', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.DeleteQuantumJobRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -295,27 +295,27 @@ _DELETEQUANTUMJOBREQUEST = _descriptor.Descriptor(
 
 _UPDATEQUANTUMJOBREQUEST = _descriptor.Descriptor(
   name='UpdateQuantumJobRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumJobRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumJobRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumJobRequest.name', index=0,
+      name='name', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumJobRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='quantum_job', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumJobRequest.quantum_job', index=1,
+      name='quantum_job', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumJobRequest.quantum_job', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='update_mask', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumJobRequest.update_mask', index=2,
+      name='update_mask', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumJobRequest.update_mask', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -340,13 +340,13 @@ _UPDATEQUANTUMJOBREQUEST = _descriptor.Descriptor(
 
 _CANCELQUANTUMJOBREQUEST = _descriptor.Descriptor(
   name='CancelQuantumJobRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CancelQuantumJobRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CancelQuantumJobRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CancelQuantumJobRequest.name', index=0,
+      name='name', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CancelQuantumJobRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -371,27 +371,27 @@ _CANCELQUANTUMJOBREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMJOBEVENTSREQUEST = _descriptor.Descriptor(
   name='ListQuantumJobEventsRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsRequest.parent', index=0,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsRequest.parent', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_size', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsRequest.page_size', index=1,
+      name='page_size', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsRequest.page_size', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsRequest.page_token', index=2,
+      name='page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsRequest.page_token', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -416,20 +416,20 @@ _LISTQUANTUMJOBEVENTSREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMJOBEVENTSRESPONSE = _descriptor.Descriptor(
   name='ListQuantumJobEventsResponse',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsResponse',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='events', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsResponse.events', index=0,
+      name='events', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsResponse.events', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='next_page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsResponse.next_page_token', index=1,
+      name='next_page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsResponse.next_page_token', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -454,13 +454,13 @@ _LISTQUANTUMJOBEVENTSRESPONSE = _descriptor.Descriptor(
 
 _GETQUANTUMRESULTREQUEST = _descriptor.Descriptor(
   name='GetQuantumResultRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumResultRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumResultRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumResultRequest.parent', index=0,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumResultRequest.parent', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -485,27 +485,27 @@ _GETQUANTUMRESULTREQUEST = _descriptor.Descriptor(
 
 _CREATEQUANTUMPROGRAMREQUEST = _descriptor.Descriptor(
   name='CreateQuantumProgramRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramRequest.parent', index=0,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramRequest.parent', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='quantum_program', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramRequest.quantum_program', index=1,
+      name='quantum_program', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramRequest.quantum_program', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='overwrite_existing_source_code', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramRequest.overwrite_existing_source_code', index=2,
+      name='overwrite_existing_source_code', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramRequest.overwrite_existing_source_code', index=2,
       number=3, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
@@ -530,20 +530,20 @@ _CREATEQUANTUMPROGRAMREQUEST = _descriptor.Descriptor(
 
 _GETQUANTUMPROGRAMREQUEST = _descriptor.Descriptor(
   name='GetQuantumProgramRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumProgramRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumProgramRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumProgramRequest.name', index=0,
+      name='name', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumProgramRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='return_code', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumProgramRequest.return_code', index=1,
+      name='return_code', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumProgramRequest.return_code', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
@@ -568,34 +568,34 @@ _GETQUANTUMPROGRAMREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMPROGRAMSREQUEST = _descriptor.Descriptor(
   name='ListQuantumProgramsRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsRequest.parent', index=0,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsRequest.parent', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_size', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsRequest.page_size', index=1,
+      name='page_size', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsRequest.page_size', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsRequest.page_token', index=2,
+      name='page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsRequest.page_token', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='filter', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsRequest.filter', index=3,
+      name='filter', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsRequest.filter', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -620,20 +620,20 @@ _LISTQUANTUMPROGRAMSREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMPROGRAMSRESPONSE = _descriptor.Descriptor(
   name='ListQuantumProgramsResponse',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsResponse',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='programs', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsResponse.programs', index=0,
+      name='programs', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsResponse.programs', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='next_page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsResponse.next_page_token', index=1,
+      name='next_page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsResponse.next_page_token', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -658,20 +658,20 @@ _LISTQUANTUMPROGRAMSRESPONSE = _descriptor.Descriptor(
 
 _DELETEQUANTUMPROGRAMREQUEST = _descriptor.Descriptor(
   name='DeleteQuantumProgramRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.DeleteQuantumProgramRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.DeleteQuantumProgramRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.DeleteQuantumProgramRequest.name', index=0,
+      name='name', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.DeleteQuantumProgramRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='delete_jobs', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.DeleteQuantumProgramRequest.delete_jobs', index=1,
+      name='delete_jobs', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.DeleteQuantumProgramRequest.delete_jobs', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
@@ -696,27 +696,27 @@ _DELETEQUANTUMPROGRAMREQUEST = _descriptor.Descriptor(
 
 _UPDATEQUANTUMPROGRAMREQUEST = _descriptor.Descriptor(
   name='UpdateQuantumProgramRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumProgramRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumProgramRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumProgramRequest.name', index=0,
+      name='name', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumProgramRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='quantum_program', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumProgramRequest.quantum_program', index=1,
+      name='quantum_program', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumProgramRequest.quantum_program', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='update_mask', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumProgramRequest.update_mask', index=2,
+      name='update_mask', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumProgramRequest.update_mask', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -741,34 +741,34 @@ _UPDATEQUANTUMPROGRAMREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMPROCESSORSREQUEST = _descriptor.Descriptor(
   name='ListQuantumProcessorsRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsRequest.parent', index=0,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsRequest.parent', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_size', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsRequest.page_size', index=1,
+      name='page_size', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsRequest.page_size', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsRequest.page_token', index=2,
+      name='page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsRequest.page_token', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='filter', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsRequest.filter', index=3,
+      name='filter', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsRequest.filter', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -793,20 +793,20 @@ _LISTQUANTUMPROCESSORSREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMPROCESSORSRESPONSE = _descriptor.Descriptor(
   name='ListQuantumProcessorsResponse',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsResponse',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='processors', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsResponse.processors', index=0,
+      name='processors', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsResponse.processors', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='next_page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsResponse.next_page_token', index=1,
+      name='next_page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsResponse.next_page_token', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -831,13 +831,13 @@ _LISTQUANTUMPROCESSORSRESPONSE = _descriptor.Descriptor(
 
 _GETQUANTUMPROCESSORREQUEST = _descriptor.Descriptor(
   name='GetQuantumProcessorRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumProcessorRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumProcessorRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumProcessorRequest.name', index=0,
+      name='name', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumProcessorRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -862,34 +862,34 @@ _GETQUANTUMPROCESSORREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMCALIBRATIONSREQUEST = _descriptor.Descriptor(
   name='ListQuantumCalibrationsRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsRequest.parent', index=0,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsRequest.parent', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_size', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsRequest.page_size', index=1,
+      name='page_size', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsRequest.page_size', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsRequest.page_token', index=2,
+      name='page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsRequest.page_token', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='filter', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsRequest.filter', index=3,
+      name='filter', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsRequest.filter', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -914,20 +914,20 @@ _LISTQUANTUMCALIBRATIONSREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMCALIBRATIONSRESPONSE = _descriptor.Descriptor(
   name='ListQuantumCalibrationsResponse',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsResponse',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='calibrations', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsResponse.calibrations', index=0,
+      name='calibrations', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsResponse.calibrations', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='next_page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsResponse.next_page_token', index=1,
+      name='next_page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsResponse.next_page_token', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -952,13 +952,13 @@ _LISTQUANTUMCALIBRATIONSRESPONSE = _descriptor.Descriptor(
 
 _GETQUANTUMCALIBRATIONREQUEST = _descriptor.Descriptor(
   name='GetQuantumCalibrationRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumCalibrationRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumCalibrationRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumCalibrationRequest.name', index=0,
+      name='name', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumCalibrationRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -983,20 +983,20 @@ _GETQUANTUMCALIBRATIONREQUEST = _descriptor.Descriptor(
 
 _CREATEQUANTUMRESERVATIONREQUEST = _descriptor.Descriptor(
   name='CreateQuantumReservationRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumReservationRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumReservationRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumReservationRequest.parent', index=0,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumReservationRequest.parent', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='quantum_reservation', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumReservationRequest.quantum_reservation', index=1,
+      name='quantum_reservation', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumReservationRequest.quantum_reservation', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -1021,13 +1021,13 @@ _CREATEQUANTUMRESERVATIONREQUEST = _descriptor.Descriptor(
 
 _CANCELQUANTUMRESERVATIONREQUEST = _descriptor.Descriptor(
   name='CancelQuantumReservationRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CancelQuantumReservationRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CancelQuantumReservationRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CancelQuantumReservationRequest.name', index=0,
+      name='name', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CancelQuantumReservationRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -1052,13 +1052,13 @@ _CANCELQUANTUMRESERVATIONREQUEST = _descriptor.Descriptor(
 
 _DELETEQUANTUMRESERVATIONREQUEST = _descriptor.Descriptor(
   name='DeleteQuantumReservationRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.DeleteQuantumReservationRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.DeleteQuantumReservationRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.DeleteQuantumReservationRequest.name', index=0,
+      name='name', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.DeleteQuantumReservationRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -1083,13 +1083,13 @@ _DELETEQUANTUMRESERVATIONREQUEST = _descriptor.Descriptor(
 
 _GETQUANTUMRESERVATIONREQUEST = _descriptor.Descriptor(
   name='GetQuantumReservationRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumReservationRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumReservationRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumReservationRequest.name', index=0,
+      name='name', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumReservationRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -1114,34 +1114,34 @@ _GETQUANTUMRESERVATIONREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMRESERVATIONSREQUEST = _descriptor.Descriptor(
   name='ListQuantumReservationsRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsRequest.parent', index=0,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsRequest.parent', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_size', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsRequest.page_size', index=1,
+      name='page_size', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsRequest.page_size', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsRequest.page_token', index=2,
+      name='page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsRequest.page_token', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='filter', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsRequest.filter', index=3,
+      name='filter', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsRequest.filter', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -1166,20 +1166,20 @@ _LISTQUANTUMRESERVATIONSREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMRESERVATIONSRESPONSE = _descriptor.Descriptor(
   name='ListQuantumReservationsResponse',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsResponse',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='reservations', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsResponse.reservations', index=0,
+      name='reservations', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsResponse.reservations', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='next_page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsResponse.next_page_token', index=1,
+      name='next_page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsResponse.next_page_token', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -1204,27 +1204,27 @@ _LISTQUANTUMRESERVATIONSRESPONSE = _descriptor.Descriptor(
 
 _UPDATEQUANTUMRESERVATIONREQUEST = _descriptor.Descriptor(
   name='UpdateQuantumReservationRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumReservationRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumReservationRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumReservationRequest.name', index=0,
+      name='name', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumReservationRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='quantum_reservation', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumReservationRequest.quantum_reservation', index=1,
+      name='quantum_reservation', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumReservationRequest.quantum_reservation', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='update_mask', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumReservationRequest.update_mask', index=2,
+      name='update_mask', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumReservationRequest.update_mask', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -1249,41 +1249,41 @@ _UPDATEQUANTUMRESERVATIONREQUEST = _descriptor.Descriptor(
 
 _QUANTUMRUNSTREAMREQUEST = _descriptor.Descriptor(
   name='QuantumRunStreamRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='message_id', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest.message_id', index=0,
+      name='message_id', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest.message_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest.parent', index=1,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest.parent', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='create_quantum_program_and_job', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest.create_quantum_program_and_job', index=2,
+      name='create_quantum_program_and_job', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest.create_quantum_program_and_job', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='create_quantum_job', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest.create_quantum_job', index=3,
+      name='create_quantum_job', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest.create_quantum_job', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='get_quantum_result', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest.get_quantum_result', index=4,
+      name='get_quantum_result', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest.get_quantum_result', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -1301,7 +1301,7 @@ _QUANTUMRUNSTREAMREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='request', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest.request',
+      name='request', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest.request',
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=3373,
@@ -1311,27 +1311,27 @@ _QUANTUMRUNSTREAMREQUEST = _descriptor.Descriptor(
 
 _CREATEQUANTUMPROGRAMANDJOBREQUEST = _descriptor.Descriptor(
   name='CreateQuantumProgramAndJobRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramAndJobRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramAndJobRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramAndJobRequest.parent', index=0,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramAndJobRequest.parent', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='quantum_program', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramAndJobRequest.quantum_program', index=1,
+      name='quantum_program', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramAndJobRequest.quantum_program', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='quantum_job', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramAndJobRequest.quantum_job', index=2,
+      name='quantum_job', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramAndJobRequest.quantum_job', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -1356,34 +1356,34 @@ _CREATEQUANTUMPROGRAMANDJOBREQUEST = _descriptor.Descriptor(
 
 _QUANTUMRUNSTREAMRESPONSE = _descriptor.Descriptor(
   name='QuantumRunStreamResponse',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='message_id', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse.message_id', index=0,
+      name='message_id', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse.message_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='error', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse.error', index=1,
+      name='error', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse.error', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='job', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse.job', index=2,
+      name='job', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse.job', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='result', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse.result', index=3,
+      name='result', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse.result', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -1401,7 +1401,7 @@ _QUANTUMRUNSTREAMRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='response', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse.response',
+      name='response', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse.response',
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=4013,
@@ -1411,20 +1411,20 @@ _QUANTUMRUNSTREAMRESPONSE = _descriptor.Descriptor(
 
 _STREAMERROR = _descriptor.Descriptor(
   name='StreamError',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.StreamError',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.StreamError',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='code', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.StreamError.code', index=0,
+      name='code', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.StreamError.code', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='message', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.StreamError.message', index=1,
+      name='message', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.StreamError.message', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -1450,34 +1450,34 @@ _STREAMERROR = _descriptor.Descriptor(
 
 _LISTQUANTUMRESERVATIONGRANTSREQUEST = _descriptor.Descriptor(
   name='ListQuantumReservationGrantsRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsRequest.parent', index=0,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsRequest.parent', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_size', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsRequest.page_size', index=1,
+      name='page_size', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsRequest.page_size', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsRequest.page_token', index=2,
+      name='page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsRequest.page_token', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='filter', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsRequest.filter', index=3,
+      name='filter', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsRequest.filter', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -1502,20 +1502,20 @@ _LISTQUANTUMRESERVATIONGRANTSREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMRESERVATIONGRANTSRESPONSE = _descriptor.Descriptor(
   name='ListQuantumReservationGrantsResponse',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsResponse',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='reservation_grants', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsResponse.reservation_grants', index=0,
+      name='reservation_grants', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsResponse.reservation_grants', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='next_page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsResponse.next_page_token', index=1,
+      name='next_page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsResponse.next_page_token', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -1540,34 +1540,34 @@ _LISTQUANTUMRESERVATIONGRANTSRESPONSE = _descriptor.Descriptor(
 
 _REALLOCATEQUANTUMRESERVATIONGRANTREQUEST = _descriptor.Descriptor(
   name='ReallocateQuantumReservationGrantRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ReallocateQuantumReservationGrantRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ReallocateQuantumReservationGrantRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ReallocateQuantumReservationGrantRequest.name', index=0,
+      name='name', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ReallocateQuantumReservationGrantRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='source_project_id', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ReallocateQuantumReservationGrantRequest.source_project_id', index=1,
+      name='source_project_id', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ReallocateQuantumReservationGrantRequest.source_project_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='target_project_id', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ReallocateQuantumReservationGrantRequest.target_project_id', index=2,
+      name='target_project_id', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ReallocateQuantumReservationGrantRequest.target_project_id', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='duration', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ReallocateQuantumReservationGrantRequest.duration', index=3,
+      name='duration', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ReallocateQuantumReservationGrantRequest.duration', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -1592,34 +1592,34 @@ _REALLOCATEQUANTUMRESERVATIONGRANTREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMRESERVATIONBUDGETSREQUEST = _descriptor.Descriptor(
   name='ListQuantumReservationBudgetsRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsRequest.parent', index=0,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsRequest.parent', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_size', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsRequest.page_size', index=1,
+      name='page_size', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsRequest.page_size', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsRequest.page_token', index=2,
+      name='page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsRequest.page_token', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='filter', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsRequest.filter', index=3,
+      name='filter', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsRequest.filter', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -1644,20 +1644,20 @@ _LISTQUANTUMRESERVATIONBUDGETSREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMRESERVATIONBUDGETSRESPONSE = _descriptor.Descriptor(
   name='ListQuantumReservationBudgetsResponse',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsResponse',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='reservation_budgets', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsResponse.reservation_budgets', index=0,
+      name='reservation_budgets', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsResponse.reservation_budgets', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='next_page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsResponse.next_page_token', index=1,
+      name='next_page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsResponse.next_page_token', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -1682,34 +1682,34 @@ _LISTQUANTUMRESERVATIONBUDGETSRESPONSE = _descriptor.Descriptor(
 
 _LISTQUANTUMTIMESLOTSREQUEST = _descriptor.Descriptor(
   name='ListQuantumTimeSlotsRequest',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsRequest',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parent', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsRequest.parent', index=0,
+      name='parent', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsRequest.parent', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_size', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsRequest.page_size', index=1,
+      name='page_size', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsRequest.page_size', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsRequest.page_token', index=2,
+      name='page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsRequest.page_token', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='filter', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsRequest.filter', index=3,
+      name='filter', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsRequest.filter', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -1734,20 +1734,20 @@ _LISTQUANTUMTIMESLOTSREQUEST = _descriptor.Descriptor(
 
 _LISTQUANTUMTIMESLOTSRESPONSE = _descriptor.Descriptor(
   name='ListQuantumTimeSlotsResponse',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsResponse',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='time_slots', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsResponse.time_slots', index=0,
+      name='time_slots', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsResponse.time_slots', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='next_page_token', full_name='cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsResponse.next_page_token', index=1,
+      name='next_page_token', full_name='cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsResponse.next_page_token', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -1873,7 +1873,7 @@ CreateQuantumJobRequest = _reflection.GeneratedProtocolMessageType('CreateQuantu
       overwrite_existing_run_context:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumJobRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumJobRequest)
   })
 _sym_db.RegisterMessage(CreateQuantumJobRequest)
 
@@ -1890,7 +1890,7 @@ GetQuantumJobRequest = _reflection.GeneratedProtocolMessageType('GetQuantumJobRe
       return_run_context:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumJobRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumJobRequest)
   })
 _sym_db.RegisterMessage(GetQuantumJobRequest)
 
@@ -1911,7 +1911,7 @@ ListQuantumJobsRequest = _reflection.GeneratedProtocolMessageType('ListQuantumJo
       filter:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsRequest)
   })
 _sym_db.RegisterMessage(ListQuantumJobsRequest)
 
@@ -1928,7 +1928,7 @@ ListQuantumJobsResponse = _reflection.GeneratedProtocolMessageType('ListQuantumJ
       next_page_token:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsResponse)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobsResponse)
   })
 _sym_db.RegisterMessage(ListQuantumJobsResponse)
 
@@ -1943,7 +1943,7 @@ DeleteQuantumJobRequest = _reflection.GeneratedProtocolMessageType('DeleteQuantu
       name:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.DeleteQuantumJobRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.DeleteQuantumJobRequest)
   })
 _sym_db.RegisterMessage(DeleteQuantumJobRequest)
 
@@ -1962,7 +1962,7 @@ UpdateQuantumJobRequest = _reflection.GeneratedProtocolMessageType('UpdateQuantu
       update_mask:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumJobRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumJobRequest)
   })
 _sym_db.RegisterMessage(UpdateQuantumJobRequest)
 
@@ -1977,7 +1977,7 @@ CancelQuantumJobRequest = _reflection.GeneratedProtocolMessageType('CancelQuantu
       name:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.CancelQuantumJobRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.CancelQuantumJobRequest)
   })
 _sym_db.RegisterMessage(CancelQuantumJobRequest)
 
@@ -1996,7 +1996,7 @@ ListQuantumJobEventsRequest = _reflection.GeneratedProtocolMessageType('ListQuan
       page_token:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsRequest)
   })
 _sym_db.RegisterMessage(ListQuantumJobEventsRequest)
 
@@ -2013,7 +2013,7 @@ ListQuantumJobEventsResponse = _reflection.GeneratedProtocolMessageType('ListQua
       next_page_token:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsResponse)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumJobEventsResponse)
   })
 _sym_db.RegisterMessage(ListQuantumJobEventsResponse)
 
@@ -2028,7 +2028,7 @@ GetQuantumResultRequest = _reflection.GeneratedProtocolMessageType('GetQuantumRe
       parent:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumResultRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumResultRequest)
   })
 _sym_db.RegisterMessage(GetQuantumResultRequest)
 
@@ -2047,7 +2047,7 @@ CreateQuantumProgramRequest = _reflection.GeneratedProtocolMessageType('CreateQu
       overwrite_existing_source_code:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramRequest)
   })
 _sym_db.RegisterMessage(CreateQuantumProgramRequest)
 
@@ -2064,7 +2064,7 @@ GetQuantumProgramRequest = _reflection.GeneratedProtocolMessageType('GetQuantumP
       return_code:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumProgramRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumProgramRequest)
   })
 _sym_db.RegisterMessage(GetQuantumProgramRequest)
 
@@ -2085,7 +2085,7 @@ ListQuantumProgramsRequest = _reflection.GeneratedProtocolMessageType('ListQuant
       filter:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsRequest)
   })
 _sym_db.RegisterMessage(ListQuantumProgramsRequest)
 
@@ -2102,7 +2102,7 @@ ListQuantumProgramsResponse = _reflection.GeneratedProtocolMessageType('ListQuan
       next_page_token:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsResponse)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProgramsResponse)
   })
 _sym_db.RegisterMessage(ListQuantumProgramsResponse)
 
@@ -2119,7 +2119,7 @@ DeleteQuantumProgramRequest = _reflection.GeneratedProtocolMessageType('DeleteQu
       delete_jobs:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.DeleteQuantumProgramRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.DeleteQuantumProgramRequest)
   })
 _sym_db.RegisterMessage(DeleteQuantumProgramRequest)
 
@@ -2138,7 +2138,7 @@ UpdateQuantumProgramRequest = _reflection.GeneratedProtocolMessageType('UpdateQu
       update_mask:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumProgramRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumProgramRequest)
   })
 _sym_db.RegisterMessage(UpdateQuantumProgramRequest)
 
@@ -2159,7 +2159,7 @@ ListQuantumProcessorsRequest = _reflection.GeneratedProtocolMessageType('ListQua
       filter:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsRequest)
   })
 _sym_db.RegisterMessage(ListQuantumProcessorsRequest)
 
@@ -2176,7 +2176,7 @@ ListQuantumProcessorsResponse = _reflection.GeneratedProtocolMessageType('ListQu
       next_page_token:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsResponse)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumProcessorsResponse)
   })
 _sym_db.RegisterMessage(ListQuantumProcessorsResponse)
 
@@ -2191,7 +2191,7 @@ GetQuantumProcessorRequest = _reflection.GeneratedProtocolMessageType('GetQuantu
       name:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumProcessorRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumProcessorRequest)
   })
 _sym_db.RegisterMessage(GetQuantumProcessorRequest)
 
@@ -2212,7 +2212,7 @@ ListQuantumCalibrationsRequest = _reflection.GeneratedProtocolMessageType('ListQ
       filter:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsRequest)
   })
 _sym_db.RegisterMessage(ListQuantumCalibrationsRequest)
 
@@ -2229,7 +2229,7 @@ ListQuantumCalibrationsResponse = _reflection.GeneratedProtocolMessageType('List
       next_page_token:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsResponse)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumCalibrationsResponse)
   })
 _sym_db.RegisterMessage(ListQuantumCalibrationsResponse)
 
@@ -2244,7 +2244,7 @@ GetQuantumCalibrationRequest = _reflection.GeneratedProtocolMessageType('GetQuan
       name:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumCalibrationRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumCalibrationRequest)
   })
 _sym_db.RegisterMessage(GetQuantumCalibrationRequest)
 
@@ -2261,7 +2261,7 @@ CreateQuantumReservationRequest = _reflection.GeneratedProtocolMessageType('Crea
       quantum_reservation:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumReservationRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumReservationRequest)
   })
 _sym_db.RegisterMessage(CreateQuantumReservationRequest)
 
@@ -2276,7 +2276,7 @@ CancelQuantumReservationRequest = _reflection.GeneratedProtocolMessageType('Canc
       name:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.CancelQuantumReservationRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.CancelQuantumReservationRequest)
   })
 _sym_db.RegisterMessage(CancelQuantumReservationRequest)
 
@@ -2291,7 +2291,7 @@ DeleteQuantumReservationRequest = _reflection.GeneratedProtocolMessageType('Dele
       name:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.DeleteQuantumReservationRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.DeleteQuantumReservationRequest)
   })
 _sym_db.RegisterMessage(DeleteQuantumReservationRequest)
 
@@ -2306,7 +2306,7 @@ GetQuantumReservationRequest = _reflection.GeneratedProtocolMessageType('GetQuan
       name:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.GetQuantumReservationRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.GetQuantumReservationRequest)
   })
 _sym_db.RegisterMessage(GetQuantumReservationRequest)
 
@@ -2327,7 +2327,7 @@ ListQuantumReservationsRequest = _reflection.GeneratedProtocolMessageType('ListQ
       filter:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsRequest)
   })
 _sym_db.RegisterMessage(ListQuantumReservationsRequest)
 
@@ -2344,7 +2344,7 @@ ListQuantumReservationsResponse = _reflection.GeneratedProtocolMessageType('List
       next_page_token:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsResponse)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationsResponse)
   })
 _sym_db.RegisterMessage(ListQuantumReservationsResponse)
 
@@ -2363,7 +2363,7 @@ UpdateQuantumReservationRequest = _reflection.GeneratedProtocolMessageType('Upda
       update_mask:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.UpdateQuantumReservationRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.UpdateQuantumReservationRequest)
   })
 _sym_db.RegisterMessage(UpdateQuantumReservationRequest)
 
@@ -2388,7 +2388,7 @@ QuantumRunStreamRequest = _reflection.GeneratedProtocolMessageType('QuantumRunSt
       get_quantum_result:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamRequest)
   })
 _sym_db.RegisterMessage(QuantumRunStreamRequest)
 
@@ -2407,7 +2407,7 @@ CreateQuantumProgramAndJobRequest = _reflection.GeneratedProtocolMessageType('Cr
       quantum_job:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramAndJobRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.CreateQuantumProgramAndJobRequest)
   })
 _sym_db.RegisterMessage(CreateQuantumProgramAndJobRequest)
 
@@ -2430,7 +2430,7 @@ QuantumRunStreamResponse = _reflection.GeneratedProtocolMessageType('QuantumRunS
       result:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.QuantumRunStreamResponse)
   })
 _sym_db.RegisterMessage(QuantumRunStreamResponse)
 
@@ -2447,7 +2447,7 @@ StreamError = _reflection.GeneratedProtocolMessageType('StreamError', (_message.
       message:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.StreamError)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.StreamError)
   })
 _sym_db.RegisterMessage(StreamError)
 
@@ -2468,7 +2468,7 @@ ListQuantumReservationGrantsRequest = _reflection.GeneratedProtocolMessageType('
       filter:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsRequest)
   })
 _sym_db.RegisterMessage(ListQuantumReservationGrantsRequest)
 
@@ -2485,7 +2485,7 @@ ListQuantumReservationGrantsResponse = _reflection.GeneratedProtocolMessageType(
       next_page_token:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsResponse)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationGrantsResponse)
   })
 _sym_db.RegisterMessage(ListQuantumReservationGrantsResponse)
 
@@ -2506,7 +2506,7 @@ ReallocateQuantumReservationGrantRequest = _reflection.GeneratedProtocolMessageT
       duration:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ReallocateQuantumReservationGrantRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ReallocateQuantumReservationGrantRequest)
   })
 _sym_db.RegisterMessage(ReallocateQuantumReservationGrantRequest)
 
@@ -2527,7 +2527,7 @@ ListQuantumReservationBudgetsRequest = _reflection.GeneratedProtocolMessageType(
       filter:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsRequest)
   })
 _sym_db.RegisterMessage(ListQuantumReservationBudgetsRequest)
 
@@ -2544,7 +2544,7 @@ ListQuantumReservationBudgetsResponse = _reflection.GeneratedProtocolMessageType
       next_page_token:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsResponse)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumReservationBudgetsResponse)
   })
 _sym_db.RegisterMessage(ListQuantumReservationBudgetsResponse)
 
@@ -2565,7 +2565,7 @@ ListQuantumTimeSlotsRequest = _reflection.GeneratedProtocolMessageType('ListQuan
       filter:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsRequest)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsRequest)
   })
 _sym_db.RegisterMessage(ListQuantumTimeSlotsRequest)
 
@@ -2582,7 +2582,7 @@ ListQuantumTimeSlotsResponse = _reflection.GeneratedProtocolMessageType('ListQua
       next_page_token:
           -
   """,
-  # @@protoc_insertion_point(class_scope:cirq_google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsResponse)
+  # @@protoc_insertion_point(class_scope:cirq.google.engine.client.quantum_v1alpha1.proto.ListQuantumTimeSlotsResponse)
   })
 _sym_db.RegisterMessage(ListQuantumTimeSlotsResponse)
 
@@ -2591,7 +2591,7 @@ DESCRIPTOR._options = None
 
 _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   name='QuantumEngineService',
-  full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService',
+  full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService',
   file=DESCRIPTOR,
   index=0,
   serialized_options=b'\312A\026quantum.googleapis.com\322A.https://www.googleapis.com/auth/cloud-platform',
@@ -2600,7 +2600,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateQuantumProgram',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.CreateQuantumProgram',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.CreateQuantumProgram',
     index=0,
     containing_service=None,
     input_type=_CREATEQUANTUMPROGRAMREQUEST,
@@ -2609,7 +2609,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='GetQuantumProgram',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.GetQuantumProgram',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.GetQuantumProgram',
     index=1,
     containing_service=None,
     input_type=_GETQUANTUMPROGRAMREQUEST,
@@ -2618,7 +2618,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ListQuantumPrograms',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumPrograms',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumPrograms',
     index=2,
     containing_service=None,
     input_type=_LISTQUANTUMPROGRAMSREQUEST,
@@ -2627,7 +2627,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='DeleteQuantumProgram',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.DeleteQuantumProgram',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.DeleteQuantumProgram',
     index=3,
     containing_service=None,
     input_type=_DELETEQUANTUMPROGRAMREQUEST,
@@ -2636,7 +2636,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='UpdateQuantumProgram',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.UpdateQuantumProgram',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.UpdateQuantumProgram',
     index=4,
     containing_service=None,
     input_type=_UPDATEQUANTUMPROGRAMREQUEST,
@@ -2645,7 +2645,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='CreateQuantumJob',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.CreateQuantumJob',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.CreateQuantumJob',
     index=5,
     containing_service=None,
     input_type=_CREATEQUANTUMJOBREQUEST,
@@ -2654,7 +2654,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='GetQuantumJob',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.GetQuantumJob',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.GetQuantumJob',
     index=6,
     containing_service=None,
     input_type=_GETQUANTUMJOBREQUEST,
@@ -2663,7 +2663,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ListQuantumJobs',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumJobs',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumJobs',
     index=7,
     containing_service=None,
     input_type=_LISTQUANTUMJOBSREQUEST,
@@ -2672,7 +2672,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='DeleteQuantumJob',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.DeleteQuantumJob',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.DeleteQuantumJob',
     index=8,
     containing_service=None,
     input_type=_DELETEQUANTUMJOBREQUEST,
@@ -2681,7 +2681,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='UpdateQuantumJob',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.UpdateQuantumJob',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.UpdateQuantumJob',
     index=9,
     containing_service=None,
     input_type=_UPDATEQUANTUMJOBREQUEST,
@@ -2690,7 +2690,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='CancelQuantumJob',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.CancelQuantumJob',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.CancelQuantumJob',
     index=10,
     containing_service=None,
     input_type=_CANCELQUANTUMJOBREQUEST,
@@ -2699,7 +2699,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ListQuantumJobEvents',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumJobEvents',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumJobEvents',
     index=11,
     containing_service=None,
     input_type=_LISTQUANTUMJOBEVENTSREQUEST,
@@ -2708,7 +2708,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='GetQuantumResult',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.GetQuantumResult',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.GetQuantumResult',
     index=12,
     containing_service=None,
     input_type=_GETQUANTUMRESULTREQUEST,
@@ -2717,7 +2717,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ListQuantumProcessors',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumProcessors',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumProcessors',
     index=13,
     containing_service=None,
     input_type=_LISTQUANTUMPROCESSORSREQUEST,
@@ -2726,7 +2726,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='GetQuantumProcessor',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.GetQuantumProcessor',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.GetQuantumProcessor',
     index=14,
     containing_service=None,
     input_type=_GETQUANTUMPROCESSORREQUEST,
@@ -2735,7 +2735,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ListQuantumCalibrations',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumCalibrations',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumCalibrations',
     index=15,
     containing_service=None,
     input_type=_LISTQUANTUMCALIBRATIONSREQUEST,
@@ -2744,7 +2744,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='GetQuantumCalibration',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.GetQuantumCalibration',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.GetQuantumCalibration',
     index=16,
     containing_service=None,
     input_type=_GETQUANTUMCALIBRATIONREQUEST,
@@ -2753,7 +2753,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='CreateQuantumReservation',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.CreateQuantumReservation',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.CreateQuantumReservation',
     index=17,
     containing_service=None,
     input_type=_CREATEQUANTUMRESERVATIONREQUEST,
@@ -2762,7 +2762,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='CancelQuantumReservation',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.CancelQuantumReservation',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.CancelQuantumReservation',
     index=18,
     containing_service=None,
     input_type=_CANCELQUANTUMRESERVATIONREQUEST,
@@ -2771,7 +2771,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='DeleteQuantumReservation',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.DeleteQuantumReservation',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.DeleteQuantumReservation',
     index=19,
     containing_service=None,
     input_type=_DELETEQUANTUMRESERVATIONREQUEST,
@@ -2780,7 +2780,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='GetQuantumReservation',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.GetQuantumReservation',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.GetQuantumReservation',
     index=20,
     containing_service=None,
     input_type=_GETQUANTUMRESERVATIONREQUEST,
@@ -2789,7 +2789,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ListQuantumReservations',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumReservations',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumReservations',
     index=21,
     containing_service=None,
     input_type=_LISTQUANTUMRESERVATIONSREQUEST,
@@ -2798,7 +2798,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='UpdateQuantumReservation',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.UpdateQuantumReservation',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.UpdateQuantumReservation',
     index=22,
     containing_service=None,
     input_type=_UPDATEQUANTUMRESERVATIONREQUEST,
@@ -2807,7 +2807,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='QuantumRunStream',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.QuantumRunStream',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.QuantumRunStream',
     index=23,
     containing_service=None,
     input_type=_QUANTUMRUNSTREAMREQUEST,
@@ -2816,7 +2816,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ListQuantumReservationGrants',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumReservationGrants',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumReservationGrants',
     index=24,
     containing_service=None,
     input_type=_LISTQUANTUMRESERVATIONGRANTSREQUEST,
@@ -2825,7 +2825,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ReallocateQuantumReservationGrant',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ReallocateQuantumReservationGrant',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ReallocateQuantumReservationGrant',
     index=25,
     containing_service=None,
     input_type=_REALLOCATEQUANTUMRESERVATIONGRANTREQUEST,
@@ -2834,7 +2834,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ListQuantumReservationBudgets',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumReservationBudgets',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumReservationBudgets',
     index=26,
     containing_service=None,
     input_type=_LISTQUANTUMRESERVATIONBUDGETSREQUEST,
@@ -2843,7 +2843,7 @@ _QUANTUMENGINESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ListQuantumTimeSlots',
-    full_name='cirq_google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumTimeSlots',
+    full_name='cirq.google.engine.client.quantum_v1alpha1.proto.QuantumEngineService.ListQuantumTimeSlots',
     index=27,
     containing_service=None,
     input_type=_LISTQUANTUMTIMESLOTSREQUEST,

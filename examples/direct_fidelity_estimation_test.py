@@ -1,7 +1,6 @@
 import numpy as np
 import pytest
 import cirq
-import cirq.google as cg
 import examples.direct_fidelity_estimation as dfe
 
 
@@ -63,9 +62,10 @@ def test_incorrect_sampler_raises_exception():
     qubits = cirq.LineQubit.range(1)
     circuit = cirq.Circuit(cirq.X(qubits[0]))
 
-    sampler_incorrect_type = cg.QuantumEngineSampler(
-        engine=None, processor_id='dummy_id', gate_set=[]
-    )
+    class DummySampler(cirq.Sampler):
+        ...
+
+    sampler_incorrect_type = DummySampler()
 
     with pytest.raises(TypeError):
         dfe.direct_fidelity_estimation(

@@ -28,7 +28,7 @@ from typing import (
 
 import dataclasses
 
-from cirq import circuits, devices, google, ops, protocols, value
+from cirq import circuits, devices, ops, protocols, value
 from cirq._doc import document
 
 if TYPE_CHECKING:
@@ -161,7 +161,7 @@ def random_rotations_between_grid_interaction_layers_circuit(
     *,  # forces keyword arguments
     two_qubit_op_factory: Callable[
         ['cirq.GridQubit', 'cirq.GridQubit', 'np.random.RandomState'], 'cirq.OP_TREE'
-    ] = lambda a, b, _: google.SYC(a, b),
+    ],
     pattern: Sequence[GridInteractionLayer] = GRID_STAGGERED_PATTERN,
     single_qubit_gates: Sequence['cirq.Gate'] = (
         ops.X ** 0.5,

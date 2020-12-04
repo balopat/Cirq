@@ -167,7 +167,7 @@ def circuit_as_schedule_to_protos(circuit: 'cirq.Circuit') -> Iterator[operation
 
 
 def circuit_from_schedule_from_protos(
-    device: 'cirq_google.XmonDevice',
+    device: 'cirq.google.XmonDevice',
     ops: Iterable[operations_pb2.Operation],
 ) -> 'cirq.Circuit':
     """Convert protos into a Circuit for the given device."""

@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import cirq
+import cirq_google
 
 
 def test_equality():

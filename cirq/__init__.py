@@ -48,7 +48,6 @@ from cirq import (
     # Hardware specific
     ion,
     neutral_atoms,
-    google,
     interop,
     # Applications
     experiments,

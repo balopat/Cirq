@@ -16,11 +16,11 @@ from cirq_google.api.v2 import program_pb2 as cirq_dot_google_dot_api_dot_v2_dot
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='cirq/google/api/v2/result.proto',
-  package='cirq_google.api.v2',
+  package='cirq.google.api.v2',
   syntax='proto3',
-  serialized_options=b'\n\035com.google.cirq_google.api.v2B\013ResultProtoP\001',
+  serialized_options=b'\n\035com.google.cirq.google.api.v2B\013ResultProtoP\001',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x1f\x63irq/google/api/v2/result.proto\x12\x12\x63irq.google.api.v2\x1a cirq/google/api/v2/program.proto\"@\n\x06Result\x12\x36\n\rsweep_results\x18\x01 \x03(\x0b\x32\x1f.cirq_google.api.v2.SweepResult\"j\n\x0bSweepResult\x12\x13\n\x0brepetitions\x18\x01 \x01(\x05\x12\x46\n\x15parameterized_results\x18\x02 \x03(\x0b\x32\'.cirq_google.api.v2.ParameterizedResult\"\x8c\x01\n\x13ParameterizedResult\x12\x31\n\x06params\x18\x01 \x01(\x0b\x32!.cirq_google.api.v2.ParameterDict\x12\x42\n\x13measurement_results\x18\x02 \x03(\x0b\x32%.cirq_google.api.v2.MeasurementResult\"o\n\x11MeasurementResult\x12\x0b\n\x03key\x18\x01 \x01(\t\x12M\n\x19qubit_measurement_results\x18\x02 \x03(\x0b\x32*.cirq_google.api.v2.QubitMeasurementResult\"S\n\x16QubitMeasurementResult\x12(\n\x05qubit\x18\x01 \x01(\x0b\x32\x19.cirq_google.api.v2.Qubit\x12\x0f\n\x07results\x18\x02 \x01(\x0c\"\x8c\x01\n\rParameterDict\x12G\n\x0b\x61ssignments\x18\x01 \x03(\x0b\x32\x32.cirq_google.api.v2.ParameterDict.AssignmentsEntry\x1a\x32\n\x10\x41ssignmentsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x02:\x02\x38\x01\x42.\n\x1d\x63om.google.cirq_google.api.v2B\x0bResultProtoP\x01\x62\x06proto3'
+  serialized_pb=b'\n\x1f\x63irq/google/api/v2/result.proto\x12\x12\x63irq.google.api.v2\x1a cirq/google/api/v2/program.proto\"@\n\x06Result\x12\x36\n\rsweep_results\x18\x01 \x03(\x0b\x32\x1f.cirq.google.api.v2.SweepResult\"j\n\x0bSweepResult\x12\x13\n\x0brepetitions\x18\x01 \x01(\x05\x12\x46\n\x15parameterized_results\x18\x02 \x03(\x0b\x32\'.cirq.google.api.v2.ParameterizedResult\"\x8c\x01\n\x13ParameterizedResult\x12\x31\n\x06params\x18\x01 \x01(\x0b\x32!.cirq.google.api.v2.ParameterDict\x12\x42\n\x13measurement_results\x18\x02 \x03(\x0b\x32%.cirq.google.api.v2.MeasurementResult\"o\n\x11MeasurementResult\x12\x0b\n\x03key\x18\x01 \x01(\t\x12M\n\x19qubit_measurement_results\x18\x02 \x03(\x0b\x32*.cirq.google.api.v2.QubitMeasurementResult\"S\n\x16QubitMeasurementResult\x12(\n\x05qubit\x18\x01 \x01(\x0b\x32\x19.cirq.google.api.v2.Qubit\x12\x0f\n\x07results\x18\x02 \x01(\x0c\"\x8c\x01\n\rParameterDict\x12G\n\x0b\x61ssignments\x18\x01 \x03(\x0b\x32\x32.cirq.google.api.v2.ParameterDict.AssignmentsEntry\x1a\x32\n\x10\x41ssignmentsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x02:\x02\x38\x01\x42.\n\x1d\x63om.google.cirq.google.api.v2B\x0bResultProtoP\x01\x62\x06proto3'
   ,
   dependencies=[cirq_dot_google_dot_api_dot_v2_dot_program__pb2.DESCRIPTOR,])
 
@@ -29,14 +29,14 @@ DESCRIPTOR = _descriptor.FileDescriptor(
 
 _RESULT = _descriptor.Descriptor(
   name='Result',
-  full_name='cirq_google.api.v2.Result',
+  full_name='cirq.google.api.v2.Result',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='sweep_results', full_name='cirq_google.api.v2.Result.sweep_results', index=0,
+      name='sweep_results', full_name='cirq.google.api.v2.Result.sweep_results', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -61,21 +61,21 @@ _RESULT = _descriptor.Descriptor(
 
 _SWEEPRESULT = _descriptor.Descriptor(
   name='SweepResult',
-  full_name='cirq_google.api.v2.SweepResult',
+  full_name='cirq.google.api.v2.SweepResult',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='repetitions', full_name='cirq_google.api.v2.SweepResult.repetitions', index=0,
+      name='repetitions', full_name='cirq.google.api.v2.SweepResult.repetitions', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='parameterized_results', full_name='cirq_google.api.v2.SweepResult.parameterized_results', index=1,
+      name='parameterized_results', full_name='cirq.google.api.v2.SweepResult.parameterized_results', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -100,21 +100,21 @@ _SWEEPRESULT = _descriptor.Descriptor(
 
 _PARAMETERIZEDRESULT = _descriptor.Descriptor(
   name='ParameterizedResult',
-  full_name='cirq_google.api.v2.ParameterizedResult',
+  full_name='cirq.google.api.v2.ParameterizedResult',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='params', full_name='cirq_google.api.v2.ParameterizedResult.params', index=0,
+      name='params', full_name='cirq.google.api.v2.ParameterizedResult.params', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='measurement_results', full_name='cirq_google.api.v2.ParameterizedResult.measurement_results', index=1,
+      name='measurement_results', full_name='cirq.google.api.v2.ParameterizedResult.measurement_results', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -139,21 +139,21 @@ _PARAMETERIZEDRESULT = _descriptor.Descriptor(
 
 _MEASUREMENTRESULT = _descriptor.Descriptor(
   name='MeasurementResult',
-  full_name='cirq_google.api.v2.MeasurementResult',
+  full_name='cirq.google.api.v2.MeasurementResult',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='key', full_name='cirq_google.api.v2.MeasurementResult.key', index=0,
+      name='key', full_name='cirq.google.api.v2.MeasurementResult.key', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='qubit_measurement_results', full_name='cirq_google.api.v2.MeasurementResult.qubit_measurement_results', index=1,
+      name='qubit_measurement_results', full_name='cirq.google.api.v2.MeasurementResult.qubit_measurement_results', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -178,21 +178,21 @@ _MEASUREMENTRESULT = _descriptor.Descriptor(
 
 _QUBITMEASUREMENTRESULT = _descriptor.Descriptor(
   name='QubitMeasurementResult',
-  full_name='cirq_google.api.v2.QubitMeasurementResult',
+  full_name='cirq.google.api.v2.QubitMeasurementResult',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='qubit', full_name='cirq_google.api.v2.QubitMeasurementResult.qubit', index=0,
+      name='qubit', full_name='cirq.google.api.v2.QubitMeasurementResult.qubit', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='results', full_name='cirq_google.api.v2.QubitMeasurementResult.results', index=1,
+      name='results', full_name='cirq.google.api.v2.QubitMeasurementResult.results', index=1,
       number=2, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=b"",
       message_type=None, enum_type=None, containing_type=None,
@@ -217,21 +217,21 @@ _QUBITMEASUREMENTRESULT = _descriptor.Descriptor(
 
 _PARAMETERDICT_ASSIGNMENTSENTRY = _descriptor.Descriptor(
   name='AssignmentsEntry',
-  full_name='cirq_google.api.v2.ParameterDict.AssignmentsEntry',
+  full_name='cirq.google.api.v2.ParameterDict.AssignmentsEntry',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='key', full_name='cirq_google.api.v2.ParameterDict.AssignmentsEntry.key', index=0,
+      name='key', full_name='cirq.google.api.v2.ParameterDict.AssignmentsEntry.key', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='value', full_name='cirq_google.api.v2.ParameterDict.AssignmentsEntry.value', index=1,
+      name='value', full_name='cirq.google.api.v2.ParameterDict.AssignmentsEntry.value', index=1,
       number=2, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
@@ -255,14 +255,14 @@ _PARAMETERDICT_ASSIGNMENTSENTRY = _descriptor.Descriptor(
 
 _PARAMETERDICT = _descriptor.Descriptor(
   name='ParameterDict',
-  full_name='cirq_google.api.v2.ParameterDict',
+  full_name='cirq.google.api.v2.ParameterDict',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='assignments', full_name='cirq_google.api.v2.ParameterDict.assignments', index=0,
+      name='assignments', full_name='cirq.google.api.v2.ParameterDict.assignments', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -302,36 +302,36 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Result = _reflection.GeneratedProtocolMessageType('Result', (_message.Message,), {
   'DESCRIPTOR' : _RESULT,
-  '__module__' : 'cirq_google.api.v2.result_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.Result)
+  '__module__' : 'cirq.google.api.v2.result_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.Result)
   })
 _sym_db.RegisterMessage(Result)
 
 SweepResult = _reflection.GeneratedProtocolMessageType('SweepResult', (_message.Message,), {
   'DESCRIPTOR' : _SWEEPRESULT,
-  '__module__' : 'cirq_google.api.v2.result_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.SweepResult)
+  '__module__' : 'cirq.google.api.v2.result_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.SweepResult)
   })
 _sym_db.RegisterMessage(SweepResult)
 
 ParameterizedResult = _reflection.GeneratedProtocolMessageType('ParameterizedResult', (_message.Message,), {
   'DESCRIPTOR' : _PARAMETERIZEDRESULT,
-  '__module__' : 'cirq_google.api.v2.result_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.ParameterizedResult)
+  '__module__' : 'cirq.google.api.v2.result_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.ParameterizedResult)
   })
 _sym_db.RegisterMessage(ParameterizedResult)
 
 MeasurementResult = _reflection.GeneratedProtocolMessageType('MeasurementResult', (_message.Message,), {
   'DESCRIPTOR' : _MEASUREMENTRESULT,
-  '__module__' : 'cirq_google.api.v2.result_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.MeasurementResult)
+  '__module__' : 'cirq.google.api.v2.result_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.MeasurementResult)
   })
 _sym_db.RegisterMessage(MeasurementResult)
 
 QubitMeasurementResult = _reflection.GeneratedProtocolMessageType('QubitMeasurementResult', (_message.Message,), {
   'DESCRIPTOR' : _QUBITMEASUREMENTRESULT,
-  '__module__' : 'cirq_google.api.v2.result_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.QubitMeasurementResult)
+  '__module__' : 'cirq.google.api.v2.result_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.QubitMeasurementResult)
   })
 _sym_db.RegisterMessage(QubitMeasurementResult)
 
@@ -339,13 +339,13 @@ ParameterDict = _reflection.GeneratedProtocolMessageType('ParameterDict', (_mess
 
   'AssignmentsEntry' : _reflection.GeneratedProtocolMessageType('AssignmentsEntry', (_message.Message,), {
     'DESCRIPTOR' : _PARAMETERDICT_ASSIGNMENTSENTRY,
-    '__module__' : 'cirq_google.api.v2.result_pb2'
-    # @@protoc_insertion_point(class_scope:cirq_google.api.v2.ParameterDict.AssignmentsEntry)
+    '__module__' : 'cirq.google.api.v2.result_pb2'
+    # @@protoc_insertion_point(class_scope:cirq.google.api.v2.ParameterDict.AssignmentsEntry)
     })
   ,
   'DESCRIPTOR' : _PARAMETERDICT,
-  '__module__' : 'cirq_google.api.v2.result_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.ParameterDict)
+  '__module__' : 'cirq.google.api.v2.result_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.ParameterDict)
   })
 _sym_db.RegisterMessage(ParameterDict)
 _sym_db.RegisterMessage(ParameterDict.AssignmentsEntry)

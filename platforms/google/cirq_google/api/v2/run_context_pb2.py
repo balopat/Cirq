@@ -15,18 +15,18 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='cirq/google/api/v2/run_context.proto',
-  package='cirq_google.api.v2',
+  package='cirq.google.api.v2',
   syntax='proto3',
-  serialized_options=b'\n\035com.google.cirq_google.api.v2B\017RunContextProtoP\001',
+  serialized_options=b'\n\035com.google.cirq.google.api.v2B\017RunContextProtoP\001',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n$cirq/google/api/v2/run_context.proto\x12\x12\x63irq.google.api.v2\"J\n\nRunContext\x12<\n\x10parameter_sweeps\x18\x01 \x03(\x0b\x32\".cirq_google.api.v2.ParameterSweep\"O\n\x0eParameterSweep\x12\x13\n\x0brepetitions\x18\x01 \x01(\x05\x12(\n\x05sweep\x18\x02 \x01(\x0b\x32\x19.cirq_google.api.v2.Sweep\"\x86\x01\n\x05Sweep\x12;\n\x0esweep_function\x18\x01 \x01(\x0b\x32!.cirq_google.api.v2.SweepFunctionH\x00\x12\x37\n\x0csingle_sweep\x18\x02 \x01(\x0b\x32\x1f.cirq_google.api.v2.SingleSweepH\x00\x42\x07\n\x05sweep\"\xc6\x01\n\rSweepFunction\x12\x45\n\rfunction_type\x18\x01 \x01(\x0e\x32..cirq_google.api.v2.SweepFunction.FunctionType\x12)\n\x06sweeps\x18\x02 \x03(\x0b\x32\x19.cirq_google.api.v2.Sweep\"C\n\x0c\x46unctionType\x12\x1d\n\x19\x46UNCTION_TYPE_UNSPECIFIED\x10\x00\x12\x0b\n\x07PRODUCT\x10\x01\x12\x07\n\x03ZIP\x10\x02\"\x8d\x01\n\x0bSingleSweep\x12\x15\n\rparameter_key\x18\x01 \x01(\t\x12,\n\x06points\x18\x02 \x01(\x0b\x32\x1a.cirq_google.api.v2.PointsH\x00\x12\x30\n\x08linspace\x18\x03 \x01(\x0b\x32\x1c.cirq_google.api.v2.LinspaceH\x00\x42\x07\n\x05sweep\"\x18\n\x06Points\x12\x0e\n\x06points\x18\x01 \x03(\x02\"G\n\x08Linspace\x12\x13\n\x0b\x66irst_point\x18\x01 \x01(\x02\x12\x12\n\nlast_point\x18\x02 \x01(\x02\x12\x12\n\nnum_points\x18\x03 \x01(\x03\x42\x32\n\x1d\x63om.google.cirq_google.api.v2B\x0fRunContextProtoP\x01\x62\x06proto3'
+  serialized_pb=b'\n$cirq/google/api/v2/run_context.proto\x12\x12\x63irq.google.api.v2\"J\n\nRunContext\x12<\n\x10parameter_sweeps\x18\x01 \x03(\x0b\x32\".cirq.google.api.v2.ParameterSweep\"O\n\x0eParameterSweep\x12\x13\n\x0brepetitions\x18\x01 \x01(\x05\x12(\n\x05sweep\x18\x02 \x01(\x0b\x32\x19.cirq.google.api.v2.Sweep\"\x86\x01\n\x05Sweep\x12;\n\x0esweep_function\x18\x01 \x01(\x0b\x32!.cirq.google.api.v2.SweepFunctionH\x00\x12\x37\n\x0csingle_sweep\x18\x02 \x01(\x0b\x32\x1f.cirq.google.api.v2.SingleSweepH\x00\x42\x07\n\x05sweep\"\xc6\x01\n\rSweepFunction\x12\x45\n\rfunction_type\x18\x01 \x01(\x0e\x32..cirq.google.api.v2.SweepFunction.FunctionType\x12)\n\x06sweeps\x18\x02 \x03(\x0b\x32\x19.cirq.google.api.v2.Sweep\"C\n\x0c\x46unctionType\x12\x1d\n\x19\x46UNCTION_TYPE_UNSPECIFIED\x10\x00\x12\x0b\n\x07PRODUCT\x10\x01\x12\x07\n\x03ZIP\x10\x02\"\x8d\x01\n\x0bSingleSweep\x12\x15\n\rparameter_key\x18\x01 \x01(\t\x12,\n\x06points\x18\x02 \x01(\x0b\x32\x1a.cirq.google.api.v2.PointsH\x00\x12\x30\n\x08linspace\x18\x03 \x01(\x0b\x32\x1c.cirq.google.api.v2.LinspaceH\x00\x42\x07\n\x05sweep\"\x18\n\x06Points\x12\x0e\n\x06points\x18\x01 \x03(\x02\"G\n\x08Linspace\x12\x13\n\x0b\x66irst_point\x18\x01 \x01(\x02\x12\x12\n\nlast_point\x18\x02 \x01(\x02\x12\x12\n\nnum_points\x18\x03 \x01(\x03\x42\x32\n\x1d\x63om.google.cirq.google.api.v2B\x0fRunContextProtoP\x01\x62\x06proto3'
 )
 
 
 
 _SWEEPFUNCTION_FUNCTIONTYPE = _descriptor.EnumDescriptor(
   name='FunctionType',
-  full_name='cirq_google.api.v2.SweepFunction.FunctionType',
+  full_name='cirq.google.api.v2.SweepFunction.FunctionType',
   filename=None,
   file=DESCRIPTOR,
   create_key=_descriptor._internal_create_key,
@@ -57,14 +57,14 @@ _sym_db.RegisterEnumDescriptor(_SWEEPFUNCTION_FUNCTIONTYPE)
 
 _RUNCONTEXT = _descriptor.Descriptor(
   name='RunContext',
-  full_name='cirq_google.api.v2.RunContext',
+  full_name='cirq.google.api.v2.RunContext',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parameter_sweeps', full_name='cirq_google.api.v2.RunContext.parameter_sweeps', index=0,
+      name='parameter_sweeps', full_name='cirq.google.api.v2.RunContext.parameter_sweeps', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -89,21 +89,21 @@ _RUNCONTEXT = _descriptor.Descriptor(
 
 _PARAMETERSWEEP = _descriptor.Descriptor(
   name='ParameterSweep',
-  full_name='cirq_google.api.v2.ParameterSweep',
+  full_name='cirq.google.api.v2.ParameterSweep',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='repetitions', full_name='cirq_google.api.v2.ParameterSweep.repetitions', index=0,
+      name='repetitions', full_name='cirq.google.api.v2.ParameterSweep.repetitions', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='sweep', full_name='cirq_google.api.v2.ParameterSweep.sweep', index=1,
+      name='sweep', full_name='cirq.google.api.v2.ParameterSweep.sweep', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -128,21 +128,21 @@ _PARAMETERSWEEP = _descriptor.Descriptor(
 
 _SWEEP = _descriptor.Descriptor(
   name='Sweep',
-  full_name='cirq_google.api.v2.Sweep',
+  full_name='cirq.google.api.v2.Sweep',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='sweep_function', full_name='cirq_google.api.v2.Sweep.sweep_function', index=0,
+      name='sweep_function', full_name='cirq.google.api.v2.Sweep.sweep_function', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='single_sweep', full_name='cirq_google.api.v2.Sweep.single_sweep', index=1,
+      name='single_sweep', full_name='cirq.google.api.v2.Sweep.single_sweep', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -160,7 +160,7 @@ _SWEEP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='sweep', full_name='cirq_google.api.v2.Sweep.sweep',
+      name='sweep', full_name='cirq.google.api.v2.Sweep.sweep',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
@@ -172,21 +172,21 @@ _SWEEP = _descriptor.Descriptor(
 
 _SWEEPFUNCTION = _descriptor.Descriptor(
   name='SweepFunction',
-  full_name='cirq_google.api.v2.SweepFunction',
+  full_name='cirq.google.api.v2.SweepFunction',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='function_type', full_name='cirq_google.api.v2.SweepFunction.function_type', index=0,
+      name='function_type', full_name='cirq.google.api.v2.SweepFunction.function_type', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='sweeps', full_name='cirq_google.api.v2.SweepFunction.sweeps', index=1,
+      name='sweeps', full_name='cirq.google.api.v2.SweepFunction.sweeps', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -212,28 +212,28 @@ _SWEEPFUNCTION = _descriptor.Descriptor(
 
 _SINGLESWEEP = _descriptor.Descriptor(
   name='SingleSweep',
-  full_name='cirq_google.api.v2.SingleSweep',
+  full_name='cirq.google.api.v2.SingleSweep',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parameter_key', full_name='cirq_google.api.v2.SingleSweep.parameter_key', index=0,
+      name='parameter_key', full_name='cirq.google.api.v2.SingleSweep.parameter_key', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='points', full_name='cirq_google.api.v2.SingleSweep.points', index=1,
+      name='points', full_name='cirq.google.api.v2.SingleSweep.points', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='linspace', full_name='cirq_google.api.v2.SingleSweep.linspace', index=2,
+      name='linspace', full_name='cirq.google.api.v2.SingleSweep.linspace', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -251,7 +251,7 @@ _SINGLESWEEP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='sweep', full_name='cirq_google.api.v2.SingleSweep.sweep',
+      name='sweep', full_name='cirq.google.api.v2.SingleSweep.sweep',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
@@ -263,14 +263,14 @@ _SINGLESWEEP = _descriptor.Descriptor(
 
 _POINTS = _descriptor.Descriptor(
   name='Points',
-  full_name='cirq_google.api.v2.Points',
+  full_name='cirq.google.api.v2.Points',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='points', full_name='cirq_google.api.v2.Points.points', index=0,
+      name='points', full_name='cirq.google.api.v2.Points.points', index=0,
       number=1, type=2, cpp_type=6, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -295,28 +295,28 @@ _POINTS = _descriptor.Descriptor(
 
 _LINSPACE = _descriptor.Descriptor(
   name='Linspace',
-  full_name='cirq_google.api.v2.Linspace',
+  full_name='cirq.google.api.v2.Linspace',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='first_point', full_name='cirq_google.api.v2.Linspace.first_point', index=0,
+      name='first_point', full_name='cirq.google.api.v2.Linspace.first_point', index=0,
       number=1, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='last_point', full_name='cirq_google.api.v2.Linspace.last_point', index=1,
+      name='last_point', full_name='cirq.google.api.v2.Linspace.last_point', index=1,
       number=2, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='num_points', full_name='cirq_google.api.v2.Linspace.num_points', index=2,
+      name='num_points', full_name='cirq.google.api.v2.Linspace.num_points', index=2,
       number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -370,50 +370,50 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 RunContext = _reflection.GeneratedProtocolMessageType('RunContext', (_message.Message,), {
   'DESCRIPTOR' : _RUNCONTEXT,
-  '__module__' : 'cirq_google.api.v2.run_context_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.RunContext)
+  '__module__' : 'cirq.google.api.v2.run_context_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.RunContext)
   })
 _sym_db.RegisterMessage(RunContext)
 
 ParameterSweep = _reflection.GeneratedProtocolMessageType('ParameterSweep', (_message.Message,), {
   'DESCRIPTOR' : _PARAMETERSWEEP,
-  '__module__' : 'cirq_google.api.v2.run_context_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.ParameterSweep)
+  '__module__' : 'cirq.google.api.v2.run_context_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.ParameterSweep)
   })
 _sym_db.RegisterMessage(ParameterSweep)
 
 Sweep = _reflection.GeneratedProtocolMessageType('Sweep', (_message.Message,), {
   'DESCRIPTOR' : _SWEEP,
-  '__module__' : 'cirq_google.api.v2.run_context_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.Sweep)
+  '__module__' : 'cirq.google.api.v2.run_context_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.Sweep)
   })
 _sym_db.RegisterMessage(Sweep)
 
 SweepFunction = _reflection.GeneratedProtocolMessageType('SweepFunction', (_message.Message,), {
   'DESCRIPTOR' : _SWEEPFUNCTION,
-  '__module__' : 'cirq_google.api.v2.run_context_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.SweepFunction)
+  '__module__' : 'cirq.google.api.v2.run_context_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.SweepFunction)
   })
 _sym_db.RegisterMessage(SweepFunction)
 
 SingleSweep = _reflection.GeneratedProtocolMessageType('SingleSweep', (_message.Message,), {
   'DESCRIPTOR' : _SINGLESWEEP,
-  '__module__' : 'cirq_google.api.v2.run_context_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.SingleSweep)
+  '__module__' : 'cirq.google.api.v2.run_context_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.SingleSweep)
   })
 _sym_db.RegisterMessage(SingleSweep)
 
 Points = _reflection.GeneratedProtocolMessageType('Points', (_message.Message,), {
   'DESCRIPTOR' : _POINTS,
-  '__module__' : 'cirq_google.api.v2.run_context_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.Points)
+  '__module__' : 'cirq.google.api.v2.run_context_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.Points)
   })
 _sym_db.RegisterMessage(Points)
 
 Linspace = _reflection.GeneratedProtocolMessageType('Linspace', (_message.Message,), {
   'DESCRIPTOR' : _LINSPACE,
-  '__module__' : 'cirq_google.api.v2.run_context_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.Linspace)
+  '__module__' : 'cirq.google.api.v2.run_context_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.Linspace)
   })
 _sym_db.RegisterMessage(Linspace)
 

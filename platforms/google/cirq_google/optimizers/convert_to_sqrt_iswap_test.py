@@ -4,7 +4,7 @@ import pytest
 import sympy
 
 import cirq
-import google.optimizers.convert_to_sqrt_iswap as cgoc
+import cirq_google.optimizers.convert_to_sqrt_iswap as cgoc
 import cirq_google as cig
 
 

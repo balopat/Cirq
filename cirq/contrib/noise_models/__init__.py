@@ -18,6 +18,5 @@ from cirq.contrib.noise_models.noise_models import (
     DampedReadoutNoiseModel,
     DepolarizingWithReadoutNoiseModel,
     DepolarizingWithDampedReadoutNoiseModel,
-    simple_noise_from_calibration_metrics,
     PerQubitDepolarizingWithDampedReadoutNoiseModel,
 )

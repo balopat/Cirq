@@ -18,11 +18,11 @@ from cirq_google.api.v2 import run_context_pb2 as cirq_dot_google_dot_api_dot_v2
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='cirq/google/api/v2/batch.proto',
-  package='cirq_google.api.v2',
+  package='cirq.google.api.v2',
   syntax='proto3',
-  serialized_options=b'\n\035com.google.cirq_google.api.v2B\nBatchProtoP\001',
+  serialized_options=b'\n\035com.google.cirq.google.api.v2B\nBatchProtoP\001',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x1e\x63irq/google/api/v2/batch.proto\x12\x12\x63irq.google.api.v2\x1a cirq/google/api/v2/program.proto\x1a\x1f\x63irq/google/api/v2/result.proto\x1a$cirq/google/api/v2/run_context.proto\"=\n\x0c\x42\x61tchProgram\x12-\n\x08programs\x18\x01 \x03(\x0b\x32\x1b.cirq_google.api.v2.Program\"G\n\x0f\x42\x61tchRunContext\x12\x34\n\x0crun_contexts\x18\x01 \x03(\x0b\x32\x1e.cirq_google.api.v2.RunContext\":\n\x0b\x42\x61tchResult\x12+\n\x07results\x18\x01 \x03(\x0b\x32\x1a.cirq_google.api.v2.ResultB-\n\x1d\x63om.google.cirq_google.api.v2B\nBatchProtoP\x01\x62\x06proto3'
+  serialized_pb=b'\n\x1e\x63irq/google/api/v2/batch.proto\x12\x12\x63irq.google.api.v2\x1a cirq/google/api/v2/program.proto\x1a\x1f\x63irq/google/api/v2/result.proto\x1a$cirq/google/api/v2/run_context.proto\"=\n\x0c\x42\x61tchProgram\x12-\n\x08programs\x18\x01 \x03(\x0b\x32\x1b.cirq.google.api.v2.Program\"G\n\x0f\x42\x61tchRunContext\x12\x34\n\x0crun_contexts\x18\x01 \x03(\x0b\x32\x1e.cirq.google.api.v2.RunContext\":\n\x0b\x42\x61tchResult\x12+\n\x07results\x18\x01 \x03(\x0b\x32\x1a.cirq.google.api.v2.ResultB-\n\x1d\x63om.google.cirq.google.api.v2B\nBatchProtoP\x01\x62\x06proto3'
   ,
   dependencies=[cirq_dot_google_dot_api_dot_v2_dot_program__pb2.DESCRIPTOR,cirq_dot_google_dot_api_dot_v2_dot_result__pb2.DESCRIPTOR,cirq_dot_google_dot_api_dot_v2_dot_run__context__pb2.DESCRIPTOR,])
 
@@ -31,14 +31,14 @@ DESCRIPTOR = _descriptor.FileDescriptor(
 
 _BATCHPROGRAM = _descriptor.Descriptor(
   name='BatchProgram',
-  full_name='cirq_google.api.v2.BatchProgram',
+  full_name='cirq.google.api.v2.BatchProgram',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='programs', full_name='cirq_google.api.v2.BatchProgram.programs', index=0,
+      name='programs', full_name='cirq.google.api.v2.BatchProgram.programs', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -63,14 +63,14 @@ _BATCHPROGRAM = _descriptor.Descriptor(
 
 _BATCHRUNCONTEXT = _descriptor.Descriptor(
   name='BatchRunContext',
-  full_name='cirq_google.api.v2.BatchRunContext',
+  full_name='cirq.google.api.v2.BatchRunContext',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='run_contexts', full_name='cirq_google.api.v2.BatchRunContext.run_contexts', index=0,
+      name='run_contexts', full_name='cirq.google.api.v2.BatchRunContext.run_contexts', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -95,14 +95,14 @@ _BATCHRUNCONTEXT = _descriptor.Descriptor(
 
 _BATCHRESULT = _descriptor.Descriptor(
   name='BatchResult',
-  full_name='cirq_google.api.v2.BatchResult',
+  full_name='cirq.google.api.v2.BatchResult',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='results', full_name='cirq_google.api.v2.BatchResult.results', index=0,
+      name='results', full_name='cirq.google.api.v2.BatchResult.results', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -134,22 +134,22 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 BatchProgram = _reflection.GeneratedProtocolMessageType('BatchProgram', (_message.Message,), {
   'DESCRIPTOR' : _BATCHPROGRAM,
-  '__module__' : 'cirq_google.api.v2.batch_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.BatchProgram)
+  '__module__' : 'cirq.google.api.v2.batch_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.BatchProgram)
   })
 _sym_db.RegisterMessage(BatchProgram)
 
 BatchRunContext = _reflection.GeneratedProtocolMessageType('BatchRunContext', (_message.Message,), {
   'DESCRIPTOR' : _BATCHRUNCONTEXT,
-  '__module__' : 'cirq_google.api.v2.batch_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.BatchRunContext)
+  '__module__' : 'cirq.google.api.v2.batch_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.BatchRunContext)
   })
 _sym_db.RegisterMessage(BatchRunContext)
 
 BatchResult = _reflection.GeneratedProtocolMessageType('BatchResult', (_message.Message,), {
   'DESCRIPTOR' : _BATCHRESULT,
-  '__module__' : 'cirq_google.api.v2.batch_pb2'
-  # @@protoc_insertion_point(class_scope:cirq_google.api.v2.BatchResult)
+  '__module__' : 'cirq.google.api.v2.batch_pb2'
+  # @@protoc_insertion_point(class_scope:cirq.google.api.v2.BatchResult)
   })
 _sym_db.RegisterMessage(BatchResult)
 

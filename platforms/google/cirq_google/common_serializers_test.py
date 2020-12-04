@@ -21,6 +21,7 @@ import sympy
 from google.protobuf import json_format
 
 import cirq
+import cirq_google
 import cirq_google as cg
 import cirq_google.common_serializers as cgc
 from cirq_google.api import v2
