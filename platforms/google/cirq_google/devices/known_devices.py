@@ -211,7 +211,7 @@ class _NamedConstantXmonDevice(XmonDevice):
 
 
 Foxtail = _NamedConstantXmonDevice(
-    'cirq_google.Foxtail',
+    'cirq.google.Foxtail',
     measurement_duration=Duration(nanos=4000),
     exp_w_duration=Duration(nanos=20),
     exp_11_duration=Duration(nanos=50),
@@ -255,7 +255,7 @@ ABCDEFGHIJKL
 """
 
 Bristlecone = _NamedConstantXmonDevice(
-    'cirq_google.Bristlecone',
+    'cirq.google.Bristlecone',
     measurement_duration=Duration(nanos=4000),
     exp_w_duration=Duration(nanos=20),
     exp_11_duration=Duration(nanos=50),

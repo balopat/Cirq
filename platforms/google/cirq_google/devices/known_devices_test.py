@@ -452,12 +452,12 @@ valid_targets {
 def test_json_dict():
     assert cg.Foxtail._json_dict_() == {
         'cirq_type': '_NamedConstantXmonDevice',
-        'constant': 'cirq_google.Foxtail',
+        'constant': 'cirq.google.Foxtail',
     }
 
     assert cirq_google.Bristlecone._json_dict_() == {
         'cirq_type': '_NamedConstantXmonDevice',
-        'constant': 'cirq_google.Bristlecone',
+        'constant': 'cirq.google.Bristlecone',
     }
 
     with pytest.raises(ValueError, match='xmon device name'):

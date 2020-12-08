@@ -1,6 +1,6 @@
 {
   "cirq_type": "_NamedConstantXmonDevice",
-  "constant": "cirq_google.Foxtail",
+  "constant": "cirq.google.Foxtail",
   "measurement_duration": {
     "cirq_type": "Duration",
     "picos": 1000000

@@ -1,7 +1,7 @@
 [
   {
     "cirq_type": "_NamedConstantXmonDevice",
-    "constant": "cirq_google.Foxtail",
+    "constant": "cirq.google.Foxtail",
     "measurement_duration": {
       "cirq_type": "Duration",
       "picos": 4000000
@@ -129,7 +129,7 @@
   },
   {
     "cirq_type": "_NamedConstantXmonDevice",
-    "constant": "cirq_google.Bristlecone",
+    "constant": "cirq.google.Bristlecone",
     "measurement_duration": {
       "cirq_type": "Duration",
       "picos": 4000000
