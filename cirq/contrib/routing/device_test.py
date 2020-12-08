@@ -20,28 +20,12 @@ import cirq
 import cirq.contrib.routing as ccr
 
 
-def test_xmon_device_to_graph():
-    foxtail_graph = ccr.xmon_device_to_graph(cirq.google.Foxtail)
-    two_by_eleven_grid_graph = ccr.get_grid_device_graph(2, 11)
-    assert foxtail_graph.nodes == two_by_eleven_grid_graph.nodes
-    assert foxtail_graph.edges() == two_by_eleven_grid_graph.edges()
-
-
 @pytest.mark.parametrize('n_qubits', (2, 5, 11))
 def test_get_linear_device_graph(n_qubits):
     graph = ccr.get_linear_device_graph(n_qubits)
     assert sorted(graph) == cirq.LineQubit.range(n_qubits)
     assert len(graph.edges()) == n_qubits - 1
     assert all(abs(a.x - b.x) == 1 for a, b in graph.edges())
-
-
-def test_nx_qubit_layout():
-    foxtail_graph = ccr.xmon_device_to_graph(cirq.google.Foxtail)
-    pos = ccr.nx_qubit_layout(foxtail_graph)
-    assert len(pos) == len(foxtail_graph)
-    for k, (x, y) in pos.items():
-        assert x == k.col
-        assert y == -k.row
 
 
 def test_nx_qubit_layout_2():

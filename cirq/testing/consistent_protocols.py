@@ -51,7 +51,7 @@ def assert_implements_consistent_protocols(
     exponents: Sequence[Any] = (0, 1, -1, 0.25, -0.5, 0.1, sympy.Symbol('s')),
     qubit_count: Optional[int] = None,
     ignoring_global_phase: bool = False,
-    setup_code: str = 'import cirq\nimport numpy as np\nimport sympy',
+    setup_code: str = 'import cirq\nimport numpy as np\nimport sympy\nimport cirq_google',
     global_vals: Optional[Dict[str, Any]] = None,
     local_vals: Optional[Dict[str, Any]] = None,
 ) -> None:
@@ -86,7 +86,7 @@ def assert_eigengate_implements_consistent_protocols(
     global_shifts: Sequence[float] = (0, -0.5, 0.1),
     qubit_count: Optional[int] = None,
     ignoring_global_phase: bool = False,
-    setup_code: str = 'import cirq\nimport numpy as np\nimport sympy',
+    setup_code: str = 'import cirq\nimport numpy as np\nimport sympy\nimport cirq_google',
     global_vals: Optional[Dict[str, Any]] = None,
     local_vals: Optional[Dict[str, Any]] = None,
 ) -> None:

@@ -15,6 +15,7 @@ import numpy as np
 import pytest
 
 import cirq
+import cirq_google
 import cirq_google as cg
 import cirq_google.common_serializers as cgc
 import cirq_google.devices.known_devices as known_devices

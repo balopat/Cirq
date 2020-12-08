@@ -489,7 +489,7 @@ def test_get_batch_size(get_program):
         program = cg.EngineProgram('a', 'b', EngineContext(), result_type=ResultType.Program)
         _ = program.batch_size()
 
-    with pytest.raises(ValueError, match='cirq_google.api.v2.Program'):
+    with pytest.raises(ValueError, match='cirq.google.api.v2.Program'):
         get_program.return_value = qtypes.QuantumProgram(code=_PROGRAM_V2)
         program = cg.EngineProgram('a', 'b', EngineContext(), result_type=ResultType.Batch)
         _ = program.batch_size()

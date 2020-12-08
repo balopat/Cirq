@@ -20,11 +20,6 @@ import networkx as nx
 import cirq
 
 
-def xmon_device_to_graph(device: cirq.google.XmonDevice) -> nx.Graph:
-    """Gets the graph of an XmonDevice."""
-    return gridqubits_to_graph_device(device.qubits)
-
-
 def get_linear_device_graph(n_qubits: int) -> nx.Graph:
     """Gets the graph of a linearly connected device."""
     qubits = cirq.LineQubit.range(n_qubits)
@@ -57,14 +52,15 @@ def nx_qubit_layout(graph: nx.Graph) -> Dict[cirq.Qid, Tuple[float, float]]:
     GridQubits are positioned according to their row/col. LineQubits are
     positioned in a line.
 
-    >>> import cirq.contrib.routing as ccr
-    >>> import networkx as nx
-    >>> import matplotlib.pyplot as plt
-    >>> # Clear plot state to prevent issues with pyplot dimensionality.
-    >>> plt.clf()
-    >>> g = ccr.xmon_device_to_graph(cirq.google.Foxtail)
-    >>> pos = ccr.nx_qubit_layout(g)
-    >>> nx.draw_networkx(g, pos=pos)
+    # TODO(balintp): update this
+    # >>> import cirq.contrib.routing as ccr
+    # >>> import networkx as nx
+    # >>> import matplotlib.pyplot as plt
+    # >>> # Clear plot state to prevent issues with pyplot dimensionality.
+    # >>> plt.clf()
+    # >>> g = ccr.xmon_device_to_graph(cirq.google.Foxtail)
+    # >>> pos = ccr.nx_qubit_layout(g)
+    # >>> nx.draw_networkx(g, pos=pos)
 
     """
     pos: Dict[cirq.Qid, Tuple[float, float]] = {}

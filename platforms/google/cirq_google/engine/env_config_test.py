@@ -18,6 +18,7 @@ import warnings
 import pytest
 
 import cirq
+import cirq_google
 
 
 @mock.patch('cirq_google.engine.client.quantum.QuantumEngineServiceClient')

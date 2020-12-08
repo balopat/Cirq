@@ -17,6 +17,7 @@ import pytest
 from google.protobuf import json_format
 
 import cirq
+import cirq_google
 import cirq_google as cg
 from cirq_google.api import v2
 

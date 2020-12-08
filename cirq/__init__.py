@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import sys
 
 from cirq import _import
 
@@ -565,8 +566,10 @@ from cirq import (
 
 try:
     import cirq_google as google
-except:
-    pass
+
+    sys.modules['cirq.google'] = google
+except Exception as ex:
+    raise ex
 
 
 def _register_resolver() -> None:

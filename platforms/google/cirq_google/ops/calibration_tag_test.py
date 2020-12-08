@@ -25,4 +25,4 @@ def test_str_repr():
     example_tag = cirq_google.CalibrationTag('foo')
     assert str(example_tag) == 'CalibrationTag(\'foo\')'
     assert repr(example_tag) == 'cirq_google.CalibrationTag(\'foo\')'
-    cirq.testing.assert_equivalent_repr(example_tag, setup_code=('import cirq\n'))
+    cirq.testing.assert_equivalent_repr(example_tag, setup_code=('import cirq_google\n'))

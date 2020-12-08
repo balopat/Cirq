@@ -356,14 +356,25 @@ def test_to_from_strings():
 
 
 def _eval_repr_data_file(path: pathlib.Path):
+
+    modules = {
+        'cirq': cirq,
+        'pd': pd,
+        'sympy': sympy,
+        'np': np,
+    }
+    import importlib
+
+    for m in TESTED_MODULES:
+        try:
+            mod = importlib.import_module(m)
+            modules[mod.__name__] = mod
+        except ModuleNotFoundError:
+            # for optional modules it is okay to skip
+            pass
     return eval(
         path.read_text(),
-        {
-            'cirq': cirq,
-            'pd': pd,
-            'sympy': sympy,
-            'np': np,
-        },
+        modules,
         {},
     )
 
@@ -393,7 +404,7 @@ def assert_repr_and_json_test_data_agree(
                 f"for {mod_spec.name}?"
             ) from ex
         else:
-            raise ValueError
+            raise ex
     except Exception as ex:  # coverage: ignore
         # coverage: ignore
         raise IOError(f'Failed to parse test json data from {rel_json_path}.') from ex

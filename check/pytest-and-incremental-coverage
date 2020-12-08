@@ -54,7 +54,7 @@ fi
 source dev_tools/pypath
 
 # Run tests while producing coverage files.
-check/pytest cirq platforms/pasqal \
+check/pytest cirq platforms/google \
     --actually-quiet \
     --cov \
     --cov-report=annotate \

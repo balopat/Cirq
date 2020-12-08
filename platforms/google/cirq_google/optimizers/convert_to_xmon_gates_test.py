@@ -15,6 +15,7 @@ import numpy as np
 import pytest
 
 import cirq
+import cirq_google
 
 
 class OtherX(cirq.SingleQubitGate):

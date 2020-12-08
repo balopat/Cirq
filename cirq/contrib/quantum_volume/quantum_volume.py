@@ -427,7 +427,7 @@ def calculate_quantum_volume(
     num_qubits: int,
     depth: int,
     num_circuits: int,
-    device_or_qubits: Union[cirq.google.XmonDevice, List[cirq.GridQubit]],
+    device_or_qubits: Union[cirq.devices.Device, List[cirq.GridQubit]],
     samplers: List[cirq.Sampler],
     random_state: 'cirq.RANDOM_STATE_OR_SEED_LIKE' = None,
     compiler: Callable[[cirq.Circuit], cirq.Circuit] = None,

@@ -12,18 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from math import exp
 import pytest
-
-from google.protobuf.text_format import Merge
 
 import cirq
 import cirq.contrib.noise_models as ccn
+from cirq import ops
 from cirq.contrib.noise_models.noise_models import (
     _homogeneous_moment_is_measurements,
 )
 from cirq.devices.noise_model_test import _assert_equivalent_op_tree
-from cirq import ops
 
 
 def test_moment_is_measurements():

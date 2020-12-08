@@ -1,12 +1,12 @@
 import pathlib
 
-import cirq
+import cirq_google
 from cirq_google.json_resolver_cache import _class_resolver_dictionary
 
 from cirq.testing.json import ModuleJsonTestSpec
 
 TestSpec = ModuleJsonTestSpec(
-    name="cirq_google",
+    name="cirq.google",
     packages=[cirq_google],
     test_data_path=pathlib.Path(__file__).parent,
     not_yet_serializable=[

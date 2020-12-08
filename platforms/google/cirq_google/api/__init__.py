@@ -14,3 +14,5 @@
 """Helpers for converting to/from api data formats."""
 
 from cirq_google.api import v2
+
+print("ran api")
