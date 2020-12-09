@@ -266,6 +266,9 @@ class AliasingFinder(importlib.abc.MetaPathFinder):
         if spec is not None and fullname.startswith(self.alias):
             unaliased_module_name = fullname.replace(self.alias, self.module_name)
             spec.loader = AliasingLoader(spec.loader, fullname, unaliased_module_name)
+        if spec is not None and fullname.startswith(self.module_name):
+            unaliased_module_name = fullname.replace(self.module_name, self.alias)
+            spec.loader = AliasingLoader(spec.loader, fullname, unaliased_module_name)
 
         return spec
 
