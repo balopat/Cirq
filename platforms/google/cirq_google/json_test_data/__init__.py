@@ -20,3 +20,5 @@
 from cirq_google.json_test_data.spec import (
     TestSpec,
 )
+
+print("JSON TEST DATA executed")

@@ -184,7 +184,7 @@ def verify_import_tree(depth: int = 1, track_others: bool = False, timeit: bool 
 
     sys.path.append(project_dir)  # Ensure the cirq package is in the path.
 
-    with wrap_module_executions('' if track_others else 'cirq', wrap_module, after_exec):
+    with wrap_module_executions('' if track_others else 'cirq', wrap_module, after_exec, False):
         # Import cirq with instrumentation
         import cirq  # pylint: disable=unused-import
 

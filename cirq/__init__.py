@@ -567,7 +567,7 @@ from cirq import (
 try:
     import cirq_google as google
 
-    sys.modules['cirq.google'] = google
+    _import.deep_alias('cirq_google', 'cirq.google')
 except Exception as ex:
     raise ex
 

@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-print("hello from cirq_google! ")
-
 from cirq_google import api
 
 from cirq_google.arg_func_langs import (
@@ -92,10 +90,6 @@ from cirq_google.serializable_gate_set import (
     SerializableGateSet,
 )
 
-from cirq_google.json_test_data import (
-    TestSpec as _JSON_TEST_SPEC,
-)
-
 
 def _register_resolver() -> None:
     """Registers the cirq_google's public classes for JSON serialization."""
@@ -106,3 +100,5 @@ def _register_resolver() -> None:
 
 
 _register_resolver()
+
+print("cirq_google executed")

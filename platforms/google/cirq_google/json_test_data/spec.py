@@ -5,6 +5,8 @@ from cirq_google.json_resolver_cache import _class_resolver_dictionary
 
 from cirq.testing.json import ModuleJsonTestSpec
 
+print("spec executed")
+
 TestSpec = ModuleJsonTestSpec(
     name="cirq.google",
     packages=[cirq_google],
