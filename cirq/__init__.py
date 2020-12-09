@@ -569,7 +569,7 @@ try:
 
     _import.deep_alias('cirq_google', 'cirq.google')
 except Exception as ex:
-    raise ex
+    pass
 
 
 def _register_resolver() -> None:
