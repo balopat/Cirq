@@ -20,22 +20,23 @@ import timeit
 
 import numpy as np
 
-import cirq
-
 _UNITARY = 'unitary'
 _DENSITY = 'density_matrix'
 
 
-test_device = cirq.google.XmonDevice(
-    measurement_duration=cirq.Duration(nanos=1000),
-    exp_w_duration=cirq.Duration(nanos=20),
-    exp_11_duration=cirq.Duration(nanos=50),
-    qubits=[cirq.GridQubit(0, k) for k in range(100)],
-)
-
-
 def simulate(sim_type: str, num_qubits: int, num_gates: int) -> None:
     """"Runs the simulator."""
+    try:
+        import cirq.google
+    except:
+        print("please install cirq-google for this test")
+        exit(0)
+    test_device = cirq.google.XmonDevice(
+        measurement_duration=cirq.Duration(nanos=1000),
+        exp_w_duration=cirq.Duration(nanos=20),
+        exp_11_duration=cirq.Duration(nanos=50),
+        qubits=[cirq.GridQubit(0, k) for k in range(100)],
+    )
     circuit = cirq.Circuit(device=test_device)
 
     for _ in range(num_gates):

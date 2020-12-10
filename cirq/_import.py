@@ -276,8 +276,8 @@ class AliasingFinder(importlib.abc.MetaPathFinder):
 def deep_alias(module_name: str, alias: str):
     """Creates an alias for a module and all of its submodules in the Python module cache.
 
-    For `module_name` (e.g. cirq_google) creates an alias (e.g cirq.google) in Python's module cache. It also
-    recursively checks for the already imported submodules (e.g. cirq_google.api) and creates the alias for them too
+    For `module_name` (e.g. google) creates an alias (e.g cirq.google) in Python's module cache. It also
+    recursively checks for the already imported submodules (e.g. google.api) and creates the alias for them too
     (e.g. cirq.google.api). With this method it is possible to create an alias that really looks like a module, e.g you
     can do things like `from cirq.google import api` - which would be otherwise impossible.
 

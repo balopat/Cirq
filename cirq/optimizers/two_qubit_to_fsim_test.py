@@ -24,30 +24,45 @@ UNITARY_OBJS = [
     cirq.FSimGate(theta=np.pi / 6, phi=np.pi / 6),
 ] + [cirq.testing.random_unitary(4) for _ in range(5)]
 
-FEASIBLE_FSIM_GATES = [
-    cirq.ISWAP,
-    cirq.google.SYC,
-    cirq.FSimGate(np.pi / 2, 0),
-    cirq.FSimGate(-np.pi / 2, 0),
-    cirq.FSimGate(np.pi / 2, np.pi / 6),
-    cirq.FSimGate(np.pi / 2, -np.pi / 6),
-    cirq.FSimGate(5 * np.pi / 9, -np.pi / 6),
-    cirq.FSimGate(5 * np.pi / 9, 0),
-    cirq.FSimGate(4 * np.pi / 9, -np.pi / 6),
-    cirq.FSimGate(4 * np.pi / 9, 0),
-    cirq.FSimGate(-4 * np.pi / 9, 0),
-    # Extreme points.
-    cirq.FSimGate(np.pi * 3 / 8, -np.pi / 4),
-    cirq.FSimGate(np.pi * 5 / 8, -np.pi / 4),
-    cirq.FSimGate(np.pi * 3 / 8, +np.pi / 4),
-    cirq.FSimGate(np.pi * 5 / 8, +np.pi / 4),
-] + [
-    cirq.FSimGate(
-        theta=random.uniform(np.pi * 3 / 8, np.pi * 5 / 8),
-        phi=random.uniform(-np.pi / 4, np.pi / 4),
-    )
-    for _ in range(5)
-]
+
+def google_gates():
+    try:
+        import cirq.google
+
+        return [
+            cirq.google.SYC,
+        ]
+    except:
+        return []
+
+
+FEASIBLE_FSIM_GATES = (
+    [
+        cirq.ISWAP,
+        cirq.FSimGate(np.pi / 2, 0),
+        cirq.FSimGate(-np.pi / 2, 0),
+        cirq.FSimGate(np.pi / 2, np.pi / 6),
+        cirq.FSimGate(np.pi / 2, -np.pi / 6),
+        cirq.FSimGate(5 * np.pi / 9, -np.pi / 6),
+        cirq.FSimGate(5 * np.pi / 9, 0),
+        cirq.FSimGate(4 * np.pi / 9, -np.pi / 6),
+        cirq.FSimGate(4 * np.pi / 9, 0),
+        cirq.FSimGate(-4 * np.pi / 9, 0),
+        # Extreme points.
+        cirq.FSimGate(np.pi * 3 / 8, -np.pi / 4),
+        cirq.FSimGate(np.pi * 5 / 8, -np.pi / 4),
+        cirq.FSimGate(np.pi * 3 / 8, +np.pi / 4),
+        cirq.FSimGate(np.pi * 5 / 8, +np.pi / 4),
+    ]
+    + [
+        cirq.FSimGate(
+            theta=random.uniform(np.pi * 3 / 8, np.pi * 5 / 8),
+            phi=random.uniform(-np.pi / 4, np.pi / 4),
+        )
+        for _ in range(5)
+    ]
+    + google_gates()
+)
 
 
 @pytest.mark.parametrize('obj', UNITARY_OBJS)

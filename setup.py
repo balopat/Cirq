@@ -51,7 +51,9 @@ contrib_requirements = [r.strip() for r in contrib_requirements]
 dev_requirements = open('dev_tools/conf/pip-list-dev-tools.txt').readlines()
 dev_requirements = [r.strip() for r in dev_requirements]
 
-cirq_packages = ['cirq'] + ['cirq.' + package for package in find_packages(where='cirq')]
+cirq_packages = ['cirq'] + [
+    'cirq.' + package for package in find_packages(where='cirq', exclude=['google', 'google.*'])
+]
 
 # Sanity check
 assert __version__, 'Version string cannot be empty'
@@ -74,8 +76,6 @@ setup(
     packages=cirq_packages,
     package_data={
         'cirq': ['py.typed'],
-        'cirq.google.api.v1': ['*.proto', '*.pyi'],
-        'cirq.google.api.v2': ['*.proto', '*.pyi'],
-        'cirq.protocols.json_test_data': ['*'],
+        'cirq.json_test_data': ['*'],
     },
 )
