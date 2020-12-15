@@ -4,9 +4,9 @@ import "platforms/google/cirq_google/api/v2/program.proto";
 import "platforms/google/cirq_google/api/v2/result.proto";
 import "platforms/google/cirq_google/api/v2/run_context.proto";
 
-package cirq.google.api.v2;
+package cirq_google.api.v2;
 
-option java_package = "com.google.cirq.google.api.v2";
+option java_package = "com.google.cirq_google.api.v2";
 option java_outer_classname = "BatchProto";
 option java_multiple_files = true;
 

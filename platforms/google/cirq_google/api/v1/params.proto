@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package cirq_google.api.v1;
 
-option java_package = "com.google.cirq.google.api.v1";
+option java_package = "com.google.cirq_google.api.v1";
 option java_outer_classname = "ParamsProto";
 option java_multiple_files = true;
 

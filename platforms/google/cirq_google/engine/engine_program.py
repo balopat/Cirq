@@ -504,7 +504,7 @@ class EngineProgram:
             self._program = self.context.client.get_program(self.project_id, self.program_id, True)
         code = self._program.code
         code_type = code.type_url[len(engine_base.TYPE_PREFIX) :]
-        if code_type == 'cirq.google.api.v2.BatchProgram':
+        if code_type == 'cirq_google.api.v2.BatchProgram':
             batch = v2.batch_pb2.BatchProgram.FromString(code.value)
             return len(batch.programs)
         raise ValueError(f'Program was not a batch program but instead was of type {code_type}.')
@@ -517,11 +517,11 @@ class EngineProgram:
 
         code_type = code.type_url[len(engine_base.TYPE_PREFIX) :]
         program = None
-        if code_type == 'cirq.google.api.v1.Program' or code_type == 'cirq.api.google.v1.Program':
+        if code_type == 'cirq_google.api.v1.Program' or code_type == 'cirq.api.google.v1.Program':
             raise ValueError('deserializing a v1 Program is not supported')
-        elif code_type == 'cirq.google.api.v2.Program' or code_type == 'cirq.api.google.v2.Program':
+        elif code_type == 'cirq_google.api.v2.Program' or code_type == 'cirq.api.google.v2.Program':
             program = v2.program_pb2.Program.FromString(code.value)
-        elif code_type == 'cirq.google.api.v2.BatchProgram':
+        elif code_type == 'cirq_google.api.v2.BatchProgram':
             if program_num is None:
                 raise ValueError(
                     'A program number must be specified when deserializing a Batch Program'
