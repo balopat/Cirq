@@ -95,7 +95,7 @@ do
     bazel build "${base}_py_proto"; \
     bazel build "${base}_cc_proto")
 
-    python -m grpc_tools.protoc -I=. --python_out=. --mypy_out=. ${base}.proto
+    python -m grpc_tools.protoc -I=platforms/google --python_out=platforms/google --mypy_out=platforms/google ${base}.proto
 done
 
 # Filenames with spaces will be ugly (each part will be listed separately)

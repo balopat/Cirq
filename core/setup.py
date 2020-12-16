@@ -20,7 +20,7 @@ from setuptools import find_packages, setup
 __version__ = ''
 exec(open('cirq/_version.py').read())
 
-name = 'cirq'
+name = 'cirq-core'
 
 description = (
     'A framework for creating, editing, and invoking '
@@ -46,10 +46,6 @@ if 'CIRQ_PRE_RELEASE_VERSION' in os.environ:
 # Read in requirements
 requirements = open('requirements.txt').readlines()
 requirements = [r.strip() for r in requirements]
-
-## This would be the
-## TODO generate requirements for all submodules!!!
-
 contrib_requirements = open('cirq/contrib/contrib-requirements.txt').readlines()
 contrib_requirements = [r.strip() for r in contrib_requirements]
 dev_requirements = open('dev_tools/conf/pip-list-dev-tools.txt').readlines()
