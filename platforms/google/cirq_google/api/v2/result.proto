@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-import "cirq_google/api/v2/program.proto";
+import "cirq/google/api/v2/program.proto";
 
-package cirq_google.api.v2;
+package cirq.google.api.v2;
 
 option java_package = "com.google.cirq_google.api.v2";
 option java_outer_classname = "ResultProto";

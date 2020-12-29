@@ -28,10 +28,17 @@ trap "{ echo -e '\033[31mFAILED\033[0m'; }" ERR
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$(git rev-parse --show-toplevel)"
 
-cd platforms/google
+gdir=$(pwd)/platforms/google/cirq_google
+
+tmpdir=$(mktemp -d)
+mkdir $tmpdir/cirq
+ln -s $gdir $tmpdir/cirq/google
+echo $tmpdir
+
+cd $tmpdir
 
 # Build protos for each protobuf package.
-for package in cirq_google/api/v1 cirq_google/api/v2
+for package in cirq/google/api/v1 cirq/google/api/v2
 do
   python -m grpc_tools.protoc -I=. --python_out=. --mypy_out=. ${package}/*.proto
 done

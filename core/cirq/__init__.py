@@ -566,13 +566,13 @@ from cirq import (
 
 # Optional modules
 
-try:
-    import cirq_google as google
+# try:
+import cirq_google as google
 
-    _import.deep_alias('cirq_google', 'cirq.google')
-except Exception as ex:
-    print(ex)
-    pass
+_import.deep_alias('cirq_google', 'cirq.google')
+# except Exception as ex:
+#     print(ex)
+#     pass
 
 
 def _register_resolver() -> None:
