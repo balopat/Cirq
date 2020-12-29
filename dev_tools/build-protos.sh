@@ -42,3 +42,7 @@ for package in cirq/google/api/v1 cirq/google/api/v2
 do
   python -m grpc_tools.protoc -I=. --python_out=. --mypy_out=. ${package}/*.proto
 done
+
+# until this is not merged https://github.com/protocolbuffers/protobuf/pull/7470
+# we manually switch to relative import
+sed -i -E 's/^from cirq.google.api.* import (.*)$/from . import \1/' cirq/google/api/v*/*_pb2.py
