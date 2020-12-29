@@ -289,7 +289,7 @@ def deep_alias(module_name: str, alias: str):
     >>> from np import linalg # which would otherwise fail!
 
     """
-
+    print(f"DEEP alias: {module_name} -> {alias}")
     def wrap(finder: Any) -> Any:
         if not hasattr(finder, 'find_spec'):
             return finder
@@ -298,11 +298,13 @@ def deep_alias(module_name: str, alias: str):
     sys.meta_path = [wrap(finder) for finder in sys.meta_path]
 
     def replace_descendants(mod):
+        print(f"{mod} in sys.modules: {mod in sys.modules}")
         if mod not in sys.modules:
             # when a module imports a module as an alias it will also live on the module's namespace, even if it's not a
             # true submodule
             return
         aliased_key = mod.replace(module_name, alias)
+        print(f"replacing {mod} -> {aliased_key}")
         sys.modules[aliased_key] = sys.modules[mod]
         for child in inspect.getmembers(sys.modules[mod], inspect.ismodule):
             replace_descendants(mod + "." + child[0])

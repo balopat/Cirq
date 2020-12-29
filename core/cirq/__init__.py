@@ -27,6 +27,8 @@ from cirq import (
     type_workarounds,
 )
 
+print("Hello from cirq")
+
 with _import.delay_import('cirq.protocols'):
     from cirq import (
         # Core
@@ -569,6 +571,7 @@ try:
 
     _import.deep_alias('cirq_google', 'cirq.google')
 except Exception as ex:
+    print(ex)
     pass
 
 
