@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='cirq/google/api/v2/batch.proto',
   package='cirq.google.api.v2',
   syntax='proto3',
-  serialized_options=b'\n\035com.google.cirq_google.api.v2B\nBatchProtoP\001',
+  serialized_options=b'\n\035com.google.cirq.google.api.v2B\nBatchProtoP\001',
   create_key=_descriptor._internal_create_key,
   serialized_pb=b'\n\x1e\x63irq/google/api/v2/batch.proto\x12\x12\x63irq.google.api.v2\x1a cirq/google/api/v2/program.proto\x1a\x1f\x63irq/google/api/v2/result.proto\x1a$cirq/google/api/v2/run_context.proto\"=\n\x0c\x42\x61tchProgram\x12-\n\x08programs\x18\x01 \x03(\x0b\x32\x1b.cirq.google.api.v2.Program\"G\n\x0f\x42\x61tchRunContext\x12\x34\n\x0crun_contexts\x18\x01 \x03(\x0b\x32\x1e.cirq.google.api.v2.RunContext\":\n\x0b\x42\x61tchResult\x12+\n\x07results\x18\x01 \x03(\x0b\x32\x1a.cirq.google.api.v2.ResultB-\n\x1d\x63om.google.cirq_google.api.v2B\nBatchProtoP\x01\x62\x06proto3'
   ,

@@ -14,5 +14,5 @@
 
 #!/usr/bin/bash
 
-export PYTHONPATH="$(pwd)"
+export PYTHONPATH="$(pwd)/core"
 export PYTHONPATH="$PYTHONPATH:$(pwd)/platforms/google"

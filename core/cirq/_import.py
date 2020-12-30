@@ -262,6 +262,7 @@ class AliasingFinder(importlib.abc.MetaPathFinder):
         self.alias = alias
 
     def find_spec(self, fullname: str, path: Any = None, target: Any = None) -> Any:
+        print(f"finding module {fullname}, {path}, {target} - wrapped: {self.finder}")
         spec = self.finder.find_spec(fullname, path=path, target=target)
         if spec is not None and fullname.startswith(self.alias):
             unaliased_module_name = fullname.replace(self.alias, self.module_name)
@@ -269,7 +270,7 @@ class AliasingFinder(importlib.abc.MetaPathFinder):
         if spec is not None and fullname.startswith(self.module_name):
             unaliased_module_name = fullname.replace(self.module_name, self.alias)
             spec.loader = AliasingLoader(spec.loader, fullname, unaliased_module_name)
-
+        print(f"result: {spec}")
         return spec
 
 
@@ -290,23 +291,22 @@ def deep_alias(module_name: str, alias: str):
 
     """
     print(f"DEEP alias: {module_name} -> {alias}")
-    def wrap(finder: Any) -> Any:
-        if not hasattr(finder, 'find_spec'):
-            return finder
-        return AliasingFinder(finder, module_name, alias)
-
-    sys.meta_path = [wrap(finder) for finder in sys.meta_path]
+    # def wrap(finder: Any) -> Any:
+    #     if not hasattr(finder, 'find_spec'):
+    #         return finder
+    #     return AliasingFinder(finder, module_name, alias)
+    #
+    # sys.meta_path = [wrap(finder) for finder in sys.meta_path]
 
     def replace_descendants(mod):
-        print(f"{mod} in sys.modules: {mod in sys.modules}")
         if mod not in sys.modules:
             # when a module imports a module as an alias it will also live on the module's namespace, even if it's not a
             # true submodule
             return
         aliased_key = mod.replace(module_name, alias)
-        print(f"replacing {mod} -> {aliased_key}")
         sys.modules[aliased_key] = sys.modules[mod]
         for child in inspect.getmembers(sys.modules[mod], inspect.ismodule):
             replace_descendants(mod + "." + child[0])
 
     replace_descendants(module_name)
+    print(f"DEEP alias: {module_name} -> {alias} DONE")

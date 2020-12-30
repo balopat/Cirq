@@ -18,7 +18,7 @@ from setuptools import find_packages, setup
 
 # This reads the __version__ variable from cirq/_version.py
 __version__ = ''
-exec(open('../../cirq/_version.py').read())
+exec(open('cirq_google/_version.py').read())
 
 name = 'cirq-google'
 
@@ -64,6 +64,7 @@ setup(
     long_description=long_description,
     packages=packs,
     package_data={
-        'cirq_google.json_test_data': ['*'],
+        'cirq_google.api.v2': ['*'],
+        'cirq_google.api.v1': ['*'],
     },
 )

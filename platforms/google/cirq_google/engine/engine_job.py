@@ -228,12 +228,12 @@ class EngineJob:
 
         run_context_type = run_context.type_url[len(engine_base.TYPE_PREFIX) :]
         if (
-            run_context_type == 'cirq_google.api.v1.RunContext'
+            run_context_type == 'cirq.google.api.v1.RunContext'
             or run_context_type == 'cirq.api.google.v1.RunContext'
         ):
             raise ValueError('deserializing a v1 RunContext is not supported')
         if (
-            run_context_type == 'cirq_google.api.v2.RunContext'
+            run_context_type == 'cirq.google.api.v2.RunContext'
             or run_context_type == 'cirq.api.google.v2.RunContext'
         ):
             v2_run_context = v2.run_context_pb2.RunContext.FromString(run_context.value)
@@ -310,14 +310,12 @@ class EngineJob:
             result = self._wait_for_result()
             result_type = result.type_url[len(engine_base.TYPE_PREFIX) :]
             if (
-                result_type == 'cirq_google.api.v1.Result'
-                or result_type == 'cirq.api.google.v1.Result'
+                result_type in ['cirq.api.google.v1.Result', 'cirq.google.api.v1.Result']
             ):
                 v1_parsed_result = v1.program_pb2.Result.FromString(result.value)
                 self._results = self._get_job_results_v1(v1_parsed_result)
             elif (
-                result_type == 'cirq_google.api.v2.Result'
-                or result_type == 'cirq.api.google.v2.Result'
+                result_type in ['cirq.api.google.v2.Result', 'cirq.google.api.v2.Result']
             ):
                 v2_parsed_result = v2.result_pb2.Result.FromString(result.value)
                 self._results = self._get_job_results_v2(v2_parsed_result)
@@ -340,7 +338,7 @@ class EngineJob:
         if not self._calibration_results:
             result = self._wait_for_result()
             result_type = result.type_url[len(engine_base.TYPE_PREFIX) :]
-            if result_type != 'cirq_google.api.v2.FocusedCalibrationResult':
+            if result_type != 'cirq.google.api.v2.FocusedCalibrationResult':
                 raise ValueError(
                     'Did not find calibration results, instead found: {}'.format(result_type)
                 )

@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='cirq/google/api/v2/result.proto',
   package='cirq.google.api.v2',
   syntax='proto3',
-  serialized_options=b'\n\035com.google.cirq_google.api.v2B\013ResultProtoP\001',
+  serialized_options=b'\n\035com.google.cirq.google.api.v2B\013ResultProtoP\001',
   create_key=_descriptor._internal_create_key,
   serialized_pb=b'\n\x1f\x63irq/google/api/v2/result.proto\x12\x12\x63irq.google.api.v2\x1a cirq/google/api/v2/program.proto\"@\n\x06Result\x12\x36\n\rsweep_results\x18\x01 \x03(\x0b\x32\x1f.cirq.google.api.v2.SweepResult\"j\n\x0bSweepResult\x12\x13\n\x0brepetitions\x18\x01 \x01(\x05\x12\x46\n\x15parameterized_results\x18\x02 \x03(\x0b\x32\'.cirq.google.api.v2.ParameterizedResult\"\x8c\x01\n\x13ParameterizedResult\x12\x31\n\x06params\x18\x01 \x01(\x0b\x32!.cirq.google.api.v2.ParameterDict\x12\x42\n\x13measurement_results\x18\x02 \x03(\x0b\x32%.cirq.google.api.v2.MeasurementResult\"o\n\x11MeasurementResult\x12\x0b\n\x03key\x18\x01 \x01(\t\x12M\n\x19qubit_measurement_results\x18\x02 \x03(\x0b\x32*.cirq.google.api.v2.QubitMeasurementResult\"S\n\x16QubitMeasurementResult\x12(\n\x05qubit\x18\x01 \x01(\x0b\x32\x19.cirq.google.api.v2.Qubit\x12\x0f\n\x07results\x18\x02 \x01(\x0c\"\x8c\x01\n\rParameterDict\x12G\n\x0b\x61ssignments\x18\x01 \x03(\x0b\x32\x32.cirq.google.api.v2.ParameterDict.AssignmentsEntry\x1a\x32\n\x10\x41ssignmentsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x02:\x02\x38\x01\x42.\n\x1d\x63om.google.cirq_google.api.v2B\x0bResultProtoP\x01\x62\x06proto3'
   ,

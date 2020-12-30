@@ -17,7 +17,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='cirq/google/api/v1/params.proto',
   package='cirq.google.api.v1',
   syntax='proto3',
-  serialized_options=b'\n\035com.google.cirq_google.api.v1B\013ParamsProtoP\001',
+  serialized_options=b'\n\035com.google.cirq.google.api.v1B\013ParamsProtoP\001',
   create_key=_descriptor._internal_create_key,
   serialized_pb=b'\n\x1f\x63irq/google/api/v1/params.proto\x12\x12\x63irq.google.api.v1\"V\n\x0eParameterSweep\x12\x13\n\x0brepetitions\x18\x01 \x01(\x05\x12/\n\x05sweep\x18\x02 \x01(\x0b\x32 .cirq.google.api.v1.ProductSweep\"=\n\x0cProductSweep\x12-\n\x07\x66\x61\x63tors\x18\x01 \x03(\x0b\x32\x1c.cirq.google.api.v1.ZipSweep\";\n\x08ZipSweep\x12/\n\x06sweeps\x18\x01 \x03(\x0b\x32\x1f.cirq.google.api.v1.SingleSweep\"\x8d\x01\n\x0bSingleSweep\x12\x15\n\rparameter_key\x18\x01 \x01(\t\x12,\n\x06points\x18\x02 \x01(\x0b\x32\x1a.cirq.google.api.v1.PointsH\x00\x12\x30\n\x08linspace\x18\x03 \x01(\x0b\x32\x1c.cirq.google.api.v1.LinspaceH\x00\x42\x07\n\x05sweep\"\x18\n\x06Points\x12\x0e\n\x06points\x18\x01 \x03(\x02\"G\n\x08Linspace\x12\x13\n\x0b\x66irst_point\x18\x01 \x01(\x02\x12\x12\n\nlast_point\x18\x02 \x01(\x02\x12\x12\n\nnum_points\x18\x03 \x01(\x03\"\x8c\x01\n\rParameterDict\x12G\n\x0b\x61ssignments\x18\x01 \x03(\x0b\x32\x32.cirq.google.api.v1.ParameterDict.AssignmentsEntry\x1a\x32\n\x10\x41ssignmentsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x02:\x02\x38\x01\x42.\n\x1d\x63om.google.cirq_google.api.v1B\x0bParamsProtoP\x01\x62\x06proto3'
 )
