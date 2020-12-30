@@ -260,6 +260,10 @@ class AliasingFinder(importlib.abc.MetaPathFinder):
         self.finder = finder
         self.module_name = module_name
         self.alias = alias
+        # to cater for metadata path finders
+        # https://docs.python.org/3/library/importlib.metadata.html#extending-the-search-algorithm
+        if hasattr(finder, "find_distributions"):
+            self.find_distributions = getattr(finder, "find_distributions")
 
     def find_spec(self, fullname: str, path: Any = None, target: Any = None) -> Any:
         print(f"finding module {fullname}, {path}, {target} - wrapped: {self.finder}")
@@ -291,12 +295,12 @@ def deep_alias(module_name: str, alias: str):
 
     """
     print(f"DEEP alias: {module_name} -> {alias}")
-    # def wrap(finder: Any) -> Any:
-    #     if not hasattr(finder, 'find_spec'):
-    #         return finder
-    #     return AliasingFinder(finder, module_name, alias)
-    #
-    # sys.meta_path = [wrap(finder) for finder in sys.meta_path]
+    def wrap(finder: Any) -> Any:
+        if not hasattr(finder, 'find_spec'):
+            return finder
+        return AliasingFinder(finder, module_name, alias)
+
+    sys.meta_path = [wrap(finder) for finder in sys.meta_path]
 
     def replace_descendants(mod):
         if mod not in sys.modules:
